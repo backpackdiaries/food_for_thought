@@ -61,7 +61,7 @@ function terrain(x,y){
     let r=rand(x,y);
 
     if(r<0.08) return "⚚";      // forest
-    if(r<0.12) return "~";      // water
+    if(r<0.12) return " ";      // water
     if(r<0.14) return "*";      // seed
     return " ";                 // dirt
 }
@@ -73,11 +73,11 @@ function updatePlants(){
         let p=plants[id];
         p.age++;
 
-        if(p.age<20)p.char=",";
-        else if(p.age<50)p.char="i";
-        else if(p.age<90)p.char="Y";
-        else if(p.age<140)p.char="T";
-        else p.char="o";
+        if(p.age<20)p.char=".";
+        else if(p.age<50)p.char=" ༘";
+        else if(p.age<90)p.char="୭";
+        else if(p.age<140)p.char=" ᭄";
+        else p.char="𖤣";
     }
 
 }
@@ -103,7 +103,7 @@ function draw(){
             if(plants[id]) c=plants[id].char;
 
             if(wx==player.x && wy==player.y)
-                c="@";
+                c="𓃠";
 
             out+=c;
         }
