@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ASCII Farm</title>
+<style>
+body{
+    margin:0;
+    background:#111;
+    color:#7f7;
+    font-family:monospace;
+    overflow:hidden;
+}
+pre{
+    margin:0;
+    font-size:16px;
+    line-height:16px;
+}
+#ui{
+    position:fixed;
+    top:5px;
+    left:5px;
+    color:#fff;
+}
+</style>
+</head>
+<body>
+
+<div id="ui"></div>
+<pre id="game"></pre>
+
+<script>
+
+const WIDTH=60;
+const HEIGHT=30;
+
+const game=document.getElementById("game");
+const ui=document.getElementById("ui");
+
+let player={
+    x:0,
+    y:0,
+    seeds:0
+};
+
+const plants={};
+
+function key(x,y){
+    return x+","+y;
+}
+
+// deterministic random terrain
+function rand(x,y){
+    let n=x*374761393+y*668265263;
+    n=(n^(n>>13))*1274126177;
+    return ((n^(n>>16))>>>0)/4294967295;
+}
+
+function terrain(x,y){
+
+    let r=rand(x,y);
+
+    if(r<0.08) return "#";      // forest
+    if(r<0.12) return "~";      // water
+    if(r<0.14) return "*";      // seed
+    return ".";                 // dirt
+}
+
+function updatePlants(){
+
+    for(let id in plants){
+
+        let p=plants[id];
+        p.age++;
+
+        if(p.age<20)p.char=",";
+        else if(p.age<50)p.char="i";
+        else if(p.age<90)p.char="Y";
+        else if(p.age<140)p.char="T";
+        else p.char="o";
+    }
+
+}
+
+function draw(){
+
+    let out="";
+
+    let left=player.x-Math.floor(WIDTH/2);
+    let top=player.y-Math.floor(HEIGHT/2);
+
+    for(let y=0;y<HEIGHT;y++){
+
+        for(let x=0;x<WIDTH;x++){
+
+            let wx=left+x;
+            let wy=top+y;
+
+            let c=terrain(wx,wy);
+
+            let id=key(wx,wy);
+
+            if(plants[id]) c=plants[id].char;
+
+            if(wx==player.x && wy==player.y)
+                c="@";
+
+            out+=c;
+        }
+
+        out+="\n";
+    }
+
+    game.textContent=out;
+
+    ui.innerHTML=
+    "Seeds: "+player.seeds+
+    "<br>Move: WASD / Arrows"+
+    "<br>Plant: SPACE"+
+    "<br>@ You   * Seed   o Fruit";
+
+}
+
+function collect(){
+
+    let t=terrain(player.x,player.y);
+
+    if(t=="*"){
+        player.seeds++;
+    }
+
+    // remove collected seed by overriding terrain
+    if(t=="*"){
+        plants[key(player.x,player.y)]={age:-999,char:"."};
+    }
+
+    let id=key(player.x,player.y);
+
+    if(plants[id] && plants[id].char=="o"){
+
+        delete plants[id];
+
+        player.seeds+=3;
+    }
+
+}
+
+function move(dx,dy){
+
+    let nx=player.x+dx;
+    let ny=player.y+dy;
+
+    if(terrain(nx,ny)=="~")
+        return;
+
+    player.x=nx;
+    player.y=ny;
+
+    collect();
+
+}
+
+window.addEventListener("keydown",e=>{
+
+    switch(e.key){
+
+        case "ArrowUp":
+        case "w":
+        case "W":
+            move(0,-1);
+            break;
+
+        case "ArrowDown":
+        case "s":
+        case "S":
+            move(0,1);
+            break;
+
+        case "ArrowLeft":
+        case "a":
+        case "A":
+            move(-1,0);
+            break;
+
+        case "ArrowRight":
+        case "d":
+        case "D":
+            move(1,0);
+            break;
+
+        case " ":
+
+            if(player.seeds>0){
+
+                let id=key(player.x,player.y);
+
+                if(!plants[id] && terrain(player.x,player.y)=="."){
+
+                    plants[id]={
+                        age:0,
+                        char:","
+                    };
+
+                    player.seeds--;
+                }
+            }
+
+            break;
+    }
+
+    draw();
+
+});
+
+setInterval(()=>{
+    updatePlants();
+    draw();
+},250);
+
+draw();
+
+</script>
+
+</body>
+</html>
