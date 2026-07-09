@@ -61,7 +61,7 @@ function terrain(x,y){
     let r=rand(x,y);
 
     if(r<0.006) return "⚚";      // forest     // water
-    if(r<0.14) return "*";      // seed
+    if(r<0.06) return "*";      // seed
     return " ";                 // dirt
 }
 
@@ -124,9 +124,9 @@ function collect(){
 
     let t=terrain(player.x,player.y);
 
-    if(t=="*"){
-        player.seeds++;
-    }
+    // if(t=="*"){
+    //     player.seeds++;
+    // }
 
     // remove collected seed by overriding terrain
     if(t=="*"){
