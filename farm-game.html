@@ -7,7 +7,7 @@
 body{
     margin:0;
     background:#111;
-    color:green;
+    color:#00e326;
     font-family:monospace;
     /* overflow:hidden; */
 }
@@ -20,7 +20,7 @@ pre{
     /* position:fixed; */
     top:5px;
     left:5px;
-    color:yellow;
+    color:#ff70f1;
 }
 </style>
 </head>
@@ -61,7 +61,7 @@ function terrain(x,y){
     let r=rand(x,y);
 
     if(r<0.006) return "⚚";      // forest     // water
-    if(r<0.06) return "*";      // seed
+    if(r<0.005) return "*";      // seed
     return " ";                 // dirt
 }
 
@@ -130,7 +130,7 @@ function collect(){
 
     // remove collected seed by overriding terrain
     if(t=="*"){
-        plants[key(player.x,player.y)]={age:-999,char:"."};
+        plants[key(player.x,player.y)]={age:-999,char:" "};
     }
 
     let id=key(player.x,player.y);
