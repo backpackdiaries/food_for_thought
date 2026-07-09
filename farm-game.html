@@ -9,7 +9,7 @@ body{
     background:#111;
     color:#7f7;
     font-family:monospace;
-    overflow:hidden;
+    /* overflow:hidden; */
 }
 pre{
     margin:0;
@@ -17,7 +17,7 @@ pre{
     line-height:16px;
 }
 #ui{
-    position:fixed;
+    /* position:fixed; */
     top:5px;
     left:5px;
     color:#fff;
@@ -60,10 +60,10 @@ function terrain(x,y){
 
     let r=rand(x,y);
 
-    if(r<0.08) return "#";      // forest
+    if(r<0.08) return "⚚";      // forest
     if(r<0.12) return "~";      // water
     if(r<0.14) return "*";      // seed
-    return ".";                 // dirt
+    return " ";                 // dirt
 }
 
 function updatePlants(){
@@ -150,8 +150,8 @@ function move(dx,dy){
     let nx=player.x+dx;
     let ny=player.y+dy;
 
-    if(terrain(nx,ny)=="~")
-        return;
+    // if(terrain(nx,ny)=="~")
+    //     return;
 
     player.x=nx;
     player.y=ny;
