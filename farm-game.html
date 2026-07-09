@@ -124,13 +124,13 @@ function collect(){
 
     let t=terrain(player.x,player.y);
 
-    // if(t=="*"){
-    //     player.seeds++;
-    // }
+    if(t=="*"){
+        player.seeds++;
+    }
 
     // remove collected seed by overriding terrain
     if(t=="*"){
-        plants[key(player.x,player.y)]={age:-999,char:" "};
+        plants[key(player.x,player.y)]={age:-999,char:"."};
     }
 
     let id=key(player.x,player.y);
