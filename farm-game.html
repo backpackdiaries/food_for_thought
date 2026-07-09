@@ -117,7 +117,7 @@ function draw(){
     "Seeds: "+player.seeds+
     "<br>Move: WASD / Arrows"+
     "<br>Plant: SPACE"+
-    "<br>@ You   * Seed   o Fruit";
+    "<br>𓃠 You   * Seed   𖤣 Fruit";
 
 }
 
@@ -136,7 +136,7 @@ function collect(){
 
     let id=key(player.x,player.y);
 
-    if(plants[id] && plants[id].char=="o"){
+    if(plants[id] && plants[id].char=="𖤣"){
 
         delete plants[id];
 
@@ -198,7 +198,7 @@ window.addEventListener("keydown",e=>{
 
                     plants[id]={
                         age:0,
-                        char:","
+                        char:"."
                     };
 
                     player.seeds--;
