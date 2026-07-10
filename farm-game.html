@@ -28,7 +28,7 @@ pre{
 
 <div id="ui"></div>
 <pre id="game"></pre>
-<audio controls loop autoplay>
+<audio loop autoplay >
   <source src="farm-game.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
@@ -69,7 +69,7 @@ function terrain(x, y) {
     let r = rand(x, y);
 
     if (r < 0.03) return "｡";
-    if (r < 0.04) return "𖧧";
+    // if (r < 0.04) return "𖧧";
     if (r < 0.04) return "↟";
     return " ";
 }
