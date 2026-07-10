@@ -28,10 +28,24 @@ pre{
 
 <div id="ui"></div>
 <pre id="game"></pre>
-<audio loop autoplay >
+<audio id="bgm" loop>
   <source src="farm-game.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+
+<script>
+const bgm = document.getElementById("bgm");
+let musicStarted = false;
+
+window.addEventListener("keydown", () => {
+    if (!musicStarted) {
+        bgm.play();
+        musicStarted = true;
+    }
+}, { once: true });
+</script>
+
+    
 <script>
 const tiles = {};
 const WIDTH=30;
@@ -224,6 +238,6 @@ setInterval(()=>{
 draw();
 
 </script>
-<a href="index.html">Back to Index</a>
+<a href="/food_for_thought/">Back to Index</a>
 </body>
 </html>
