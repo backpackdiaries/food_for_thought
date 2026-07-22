@@ -18,7 +18,13 @@ img {
 
 /* Phone */
 @media (max-width: 768px) {
-    .container {
+    /* .container {
         flex-direction: column;
+    } */
+    body{
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
     }
+    
 }
