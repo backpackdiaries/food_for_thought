@@ -5,40 +5,51 @@
     </head>
     <style>
     
-    body {font-family: "Courier New" , Courier , monospace; 
-    font-size: 12px; 
-    color: fuchsia; 
+   body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    color: fuchsia;
     background-color: black;
     padding: 10px;
+    margin: 0;
 }
-        
-    a {color: rgb(105, 255, 150);}
 
-    .about-text {
+
+   a {
+    color: rgb(105, 255, 150);
+}
+
+
+   .about-text {
     max-width: 600px;
-    margin: auto;
     line-height: 1.5;
     text-align: left;
 }
 
-/* Phone */
-@media (max-width:768px) {
+  @media (max-width:768px) {
+
+    body {
+        padding: 5px;
+    }
 
     .about-text {
         width: 100%;
         max-width: none;
-        padding: 10px;
-        box-sizing: border-box;
-    }    
-}
+        padding: 0;
+        font-size: 18px;
+        white-space: pre-line;
+    }
 
-        
+}      
     </style>
+
+    
     <body>
-        <div class="about-text">
-        <pre>
+<br>
 <a href="index.html">╾━╤デ╦︻ 𝖍𝖔𝖒𝖊 𝖕𝖆𝖌𝖊</a> <br>
 
+
+            <div class="about-text">
 Analisa is a Los Angeles-raised artist <br>
 who studied fine art at <a href="https://en.wikipedia.org/wiki/Cooper_Union">The Cooper Union</a> <br>
 in New York City. Her practice spans <br>
@@ -55,9 +66,8 @@ working in Los Angeles, California.
             
             
 𝔞𝔫𝔞𝔩𝔦𝔰𝔞𝔪𝔠𝔣𝔞𝔯𝔩𝔞𝔫𝔢@𝔤𝔪𝔞𝔦𝔩.𝔠𝔬𝔪
-
-        </pre>
-        </div>
+</div>
+        
     </body>
 </html>
       
