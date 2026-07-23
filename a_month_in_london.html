@@ -15,6 +15,7 @@
     background-color: black;
     padding: 5px;
     margin: 0px;
+	overflow-x:hidden;
 }
 
 a {
@@ -23,11 +24,23 @@ a {
 }
 
 img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0;
-    padding: 0px;
+    width:100%;
+    height:auto;
+    display:block;
+}
+
+
+.image-stack {
+    width:100%;
+    max-width:600px;
+    margin:auto;
+    line-height:0;
+}
+
+
+.image-stack img {
+    width:100%;
+    display:block;
 }
 
 
@@ -39,22 +52,9 @@ img {
 		padding: 10px;
 	}
 
-/* image stack */
-
-.image-stack {
-    width: 400px;
-    margin: auto;
-    line-height: 0;
-}
-
-
-.image-stack img {
-    width: 100%;
-}
 
 
 
-/* Phone */
 
 @media (max-width:768px) {
 
@@ -97,22 +97,28 @@ img {
   <body> 
 	  <br>
 <a href="food_for_thought.html">╾━╤デ╦︻</a> <br> <br>
+
+	  
 	  <div class="description">
 ⊹﹏𓊝﹏𓂁﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏⊹<br>
 	  </div>
-	  <div class="description">
-<img src="images/img20260713_21560079_1.png" width="400">
-<img src="images/img20260713_22023239.png" width="400">
-<img src="images/img20260713_22054566.png" width="400">
-<img src="images/img20260713_22122832.png" width="400">
-<img src="images/img20260713_22070613.png" width="400">
-<img src="images/img20260713_22102930.png" width="400">
-<img src="images/img20260713_22011348.png" width="400">
-<img src="images/img20260713_22113233.png" width="400">
-<img src="images/img20260713_22042883.png" width="400">
-<img src="images/img20260713_21573783.png" width="400">
-<img src="images/img20260713_22221852.png" width="400">
+
+	  
+	  <div class="image-stack">
+<img src="images/img20260713_21560079_1.png">
+<img src="images/img20260713_22023239.png">
+<img src="images/img20260713_22054566.png">
+<img src="images/img20260713_22122832.png">
+<img src="images/img20260713_22070613.png">
+<img src="images/img20260713_22102930.png">
+<img src="images/img20260713_22011348.png">
+<img src="images/img20260713_22113233.png">
+<img src="images/img20260713_22042883.png">
+<img src="images/img20260713_21573783.png">
+<img src="images/img20260713_22221852.png">
 	  </div>
+
+	  
 	  <div class="text">
 𝘴ₒᗰₑ 𝚌ₒₒᄂ 𝚝𝓱ᵢ𝚗g𝘴 ᵢ 𝚌ₒᄂᄂₑ𝚌𝚝ₑ𝚍... <br> <br>
 	  </div>
