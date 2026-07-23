@@ -24,43 +24,44 @@ img { display: block;
 .container {
     display: flex;
 }
-        .piece {
-    width: fit-content;
-    max-width: 100%;
-}
 
-.piece img {
-    display: block;
+.piece {
+    width: 600px;
     max-width: 100%;
-    height: auto;
+    margin: auto;
 }
 
 .description {
     width: 100%;
     margin-top: 15px;
     line-height: 1.5;
+    box-sizing: border-box;
 }
 
 /* Phone */
-@media (max-width: 768px) {
-    /* .container {
-        flex-direction: column;
-    } */
-    body{
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
+@media (max-width:768px) {
+
+    body {
+        width:100%;
+        padding:5px;
     }
-    
-.description {
-    font-size: 10px;
+
+    .piece {
+        width:90%;
+        margin:auto;
+    }
+
+    .description {
+        font-size:14px;
+    }
+
 }
     </style>
   <body>
 <a href="food_for_thought.html">╾━╤デ╦︻</a> <br> <br> <br>
       <div class="piece">
       
-    <img src="images/heart_2.png" width="600"> 
+    <img src="images/heart_2.png"> 
       <br>
       <br>
           <div class="description">
