@@ -14,59 +14,59 @@ body {font-family: "Courier New" , Courier , monospace;
     background-color: black;
     padding: 15px;
 }
-a {color: rgb(105, 255, 150);}
-img { display: block;
-    max-width: 100%;
-    height: auto;
-}
+        
+a {color: rgb(105, 255, 150);
+  }
 
-/* Desktop */
-.container {
-    display: flex;
-}
-
-.piece {
+        .image-container {
     width: 600px;
     max-width: 100%;
     margin: auto;
 }
 
-.description {
+.image-container img {
     width: 100%;
-    margin-top: 15px;
+    height: auto;
+    display: block;
+}
+
+
+.description {
+    width: 600px;
+    max-width: 100%;
+    margin: 15px auto 0;
     line-height: 1.5;
-    box-sizing: border-box;
+    font-size: 16px;
 }
 
 /* Phone */
 @media (max-width:768px) {
 
-    body {
-        width:100%;
-        padding:5px;
+    .image-container {
+        width: 90%;
     }
 
-    .piece {
-        width:90%;
-        margin:auto;
-    }
 
     .description {
-        font-size:14px;
+        width: 90%;
+        font-size: 14px;
     }
 
 }
     </style>
   <body>
 <a href="food_for_thought.html">╾━╤デ╦︻</a> <br> <br> <br>
-      <div class="piece">
       
-    <img src="images/heart_2.png"> 
+    <div class="image-container">
+      <img src="images/heart_2.png"> 
+    </div>
+      
       <br>
       <br>
+          
           <div class="description">
 𝟡" 𝕩 𝟙𝟚".˳˳.⋅ॱ˙˙ॱ⋅.˳˳.⋅ॱ˙˙ॱᐧ.˳˳.𝖌𝖗𝖆𝖕𝖍𝖎𝖙𝖊 𝖔𝖓 𝖕𝖆𝖕𝖊𝖗.˳˳.⋅ॱ˙˙ॱ⋅.˳˳.⋅ॱ˙˙ॱᐧ.˳˳.₂₀₂₅
           </div> 
-      </div>
+      
   </body>
 </html>
