@@ -6,57 +6,82 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <style>
-		body {font-family: "Courier New" , Courier , monospace; 
-    font-size: 14px; 
-    color: fuchsia; 
+	body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    color: fuchsia;
     background-color: black;
     padding: 5px;
+    margin: 0;
 }
-a {color: rgb(105, 255, 150);}
-li {list-style: none;}
+
+a {
+    color: rgb(105, 255, 150);
+}
+
 img {
     max-width: 100%;
     height: auto;
-	display: block;
-	margin: 0;
-	padding: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
+
+
+.description {
+    font-size: 16px;
+}
+
+
+/* image stack */
+
+.image-stack {
+    width: 400px;
+    margin: auto;
+    line-height: 0;
+}
+
+
+.image-stack img {
+    width: 100%;
+}
+
 
 
 /* Phone */
-@media (max-width: 768px) {
-    /* .container {
-        flex-direction: column;
-    } */
-    body{ width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-	 .container {
 
-        display: block;
+@media (max-width:768px) {
+
+    body {
+        width: 100%;
+        padding: 0;
+    }
+
+
+    .image-stack {
+
         width: 100%;
 
     }
-	 img {
+
+
+    .image-stack img {
 
         width: 100%;
-        height: auto;
-		margin: 0;
-		padding: 0;
 
     }
-a {
 
+
+    a {
         font-size: 12px;
-
     }
-    .description {
-    font-size: 18px;
-}
 
-		
-        
+
+    .description {
+        font-size:18px;
+    }
+
+}   
     </style>
   <body>
 <a href="food_for_thought.html">╾━╤デ╦︻</a> <br> <br> <br>
