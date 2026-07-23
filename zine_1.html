@@ -8,62 +8,79 @@
     
     <style>
         
-    body {font-family: "Courier New" , Courier , monospace; 
-    font-size: 14px; 
-    color: fuchsia; 
+    body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    color: fuchsia;
     background-color: black;
     padding: 15px;
-}
-
-a {color: rgb(105, 255, 150);}
-
-img {
-    max-width: 768px;
-    height: auto;
-    display: block;
     margin: 0;
-    padding: 10px;
+    overflow-x: hidden;
 }
-        
+
+
+a {
+    color: rgb(105, 255, 150);
+}
+
+
 .image-stack {
+
     width: 768px;
+    max-width: 100%;
     margin: auto;
     line-height: 0;
+
 }
 
 
 .image-stack img {
+
     width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+
 }
-        
+
+
 @media (max-width:768px) {
 
     body {
-        width: 100%;
-        padding: 0;
+        padding:0;
     }
 
 
     .image-stack {
 
-        width: 100%;
+        width:100%;
 
     }
 
 
     .image-stack img {
 
-        width: 100%;
+        width:100vw;
 
     }
-    
+
 }
     </style>
     
     <body>
         
 <a href="food_for_thought.html">╾━╤デ╦︻</a> <br> <br> <br>
-        <img src="images/zine_cover_1.png"alt="cover">
+        
+        <div class="image-stack">
+
+    <img src="images/zine_cover_1.png" alt="cover">
+    <!-- add future pages here -->
+    <!-- <img src="images/zine_page_2.png"> -->
+    <!-- <img src="images/zine_page_3.png"> -->
+
+</div>
+
         
     </body>
 </html>
