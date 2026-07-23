@@ -18,15 +18,11 @@
         
 a {color: rgb(105, 255, 150);}
         
-audio {
+.audio-player {
+    width: 100%;
+    max-width: 600px;
     display: block;
-    overflow: visible;
-    max-width: 40%;
-}
-        
-.container {
-    display: flex;
-    overflow: visible;
+    margin: auto;
 }
 
 @media (max-width: 768px) {
@@ -43,6 +39,13 @@ audio {
     overflow-y: visible;
     white-space: pre;
     max-width: 100%;
+}
+
+.audio-player {
+        width: 95%;
+        margin: auto;
+    }
+
 }
     </style>
     <body>
@@ -101,7 +104,7 @@ audio {
                                                   
                                                   </pre>
         
-         <audio controls>
+       <audio controls class="audio-player">
                   <source src="audio/20260601.wav" type="audio/wav">   
                     </audio>
                                                   <br>
@@ -134,7 +137,7 @@ audio {
 ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 ░░▒▒░▒▒▒▒▒▒▒▒▒▒░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</pre>                                          
 
-<audio controls>
+<audio controls class="audio-player">
     <source src="audio/20260602_rain.wav" type="audio/wav"> 
   </audio>.•*¨*•.¸¸♪
         <br>
@@ -324,7 +327,7 @@ audio {
  
 
 
- <audio controls>
+<audio controls class="audio-player">
 <source src="audio/chimes.wav" type="audio/wav">   
 </audio>
 
