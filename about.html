@@ -4,39 +4,37 @@
         <title> food for thought </title>
     </head>
     <style>
-        body {font-family: "Courier New" , Courier , monospace; 
+    
+    body {font-family: "Courier New" , Courier , monospace; 
     font-size: 12px; 
     color: fuchsia; 
     background-color: black;
     padding: 20px;
 }
-a {color: rgb(105, 255, 150);}
-li {list-style: none;}
-img {
-    max-width: 100%;
-    height: auto;
-}
+        
+    a {color: rgb(105, 255, 150);}
 
-/* Desktop */
-.container {
-    display: flex;
+    .about-text {
+    max-width: 600px;
+    margin: auto;
+    line-height: 1.5;
 }
 
 /* Phone */
-@media (max-width: 768px) {
-    /* .container {
-        flex-direction: column;
-    } */
-    body{
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
+@media (max-width:768px) {
+
+    .about-text {
+        width: 100%;
+        max-width: none;
+        padding: 10px;
+        box-sizing: border-box;
+    }    
 }
+
+        
     </style>
     <body>
-        
+        <div class="about-text">
         <pre>
 <a href="index.html">╾━╤デ╦︻ 𝖍𝖔𝖒𝖊 𝖕𝖆𝖌𝖊</a> <br>
 
@@ -58,4 +56,5 @@ working in Los Angeles, California.
 𝔞𝔫𝔞𝔩𝔦𝔰𝔞𝔪𝔠𝔣𝔞𝔯𝔩𝔞𝔫𝔢@𝔤𝔪𝔞𝔦𝔩.𝔠𝔬𝔪
 
         </pre>
+        </div>
       
