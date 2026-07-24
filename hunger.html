@@ -2,24 +2,86 @@
 <html>
   <head>
     <title>hunger</title>
+	  
     <meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  
   </head>
 	<style>
 		
-body {font-family: "Courier New" , Courier , monospace; 
-    font-size: 14px; 
-    color: fuchsia; 
+body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    color: fuchsia;
     background-color: black;
-    padding: 10px;
+    padding: 15px;
+    margin: 0;
+    overflow-x: hidden;
 }
-a {color: rgb(105, 255, 150);}
 
-		
-		
 
+a {
+    color: rgb(105, 255, 150);
+}
+
+
+.image-stack {
+
+    width: 768px;
+    max-width: 100%;
+    margin: auto;
+    line-height: 0;
+
+}
+
+
+.image-stack img {
+
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+
+}
+
+
+@media (max-width:768px) {
+
+    body {
+        padding:0;
+    }
+
+
+    .image-stack {
+
+        width:100%;
+
+    }
+
+
+    .image-stack img {
+
+        width:100vw;
+
+    }
+
+}
 	</style>
 	<body>
-		<img src=images/img20260714_13292072.png">
-	</body>
+		<div class="image-stack">
+		<img src="images/img20260714_13292072.png">
+		<img src="img20260714_13310995.png">
+	<br>
+	<br>
+	(1) graphite on printer paper, spirited away stamps.
+	<br>
+	(2) crayon on charcoal paper. 
+	<br>
+	<br>
+	②⓪②④ 
+	<br>
+	<br>
 </html>
+	</body>
+
