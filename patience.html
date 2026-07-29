@@ -29,11 +29,15 @@ a {
 }
 
 .ascii {
-    white-space: pre;
-    line-height: 1.2;
     margin-bottom: 40px;
+    text-align: center;
 }
 
+.ascii pre {
+    display: inline-block;
+    margin: 0;
+    text-align: left;
+}
 audio {
     width: 100%;
     max-width: 500px;
@@ -43,11 +47,18 @@ audio {
 
     .content {
         width: 90%;
-        font-size: 8px;
+    }
+
+    .ascii pre {
+        font-size: 4px;
+        line-height: 1;
     }
 
     audio {
         width: 100%;
+        max-width: 350px;
+        display: block;
+        margin: 20px auto 0 auto;
     }
 
 }
