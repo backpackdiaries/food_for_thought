@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Island</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body {
+    margin: 0;
+    background: black;
+    color: fuchsia;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+}
+
+/* Back button */
+
+.back {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: rgb(105,255,150);
+    text-decoration: none;
+    z-index: 10;
+}
+
+/* Sky */
+
+.sky {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Stars */
+
+.star {
+    position: absolute;
+    color: white;
+    animation: twinkle infinite ease-in-out;
+    user-select: none;
+}
+
+/* Different sizes */
+
+.small { font-size: 12px; }
+
+.medium { font-size: 18px; }
+
+.large { font-size: 24px; }
+
+/* Different animation speeds */
+
+.slow {
+    animation-duration: 4s;
+}
+
+.normal {
+    animation-duration: 2.8s;
+}
+
+.fast {
+    animation-duration: 1.5s;
+}
+
+@keyframes twinkle {
+
+    0% {
+        opacity: .2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .2;
+    }
+
+}
+
+/* Island area */
+
+.island {
+
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+}
+
+/* If using an image */
+
+.island img {
+
+    width: 250px;
+    max-width: 70vw;
+
+}
+
+/* If using ASCII art */
+
+.island pre {
+
+    color: fuchsia;
+    font-size: 14px;
+    line-height: 1;
+    margin: 0;
+
+}
+
+@media (max-width:768px){
+
+.island img{
+
+    width:200px;
+
+}
+
+.island pre{
+
+    font-size:10px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a class="back" href="food_for_thought.html">╾━╤デ╦︻</a>
+
+<div class="sky">
+
+    <div class="star small slow" style="top:8%; left:10%;">*</div>
+
+    <div class="star medium normal" style="top:18%; left:70%;">+</div>
+
+    <div class="star large fast" style="top:12%; left:42%;">✦</div>
+
+    <div class="star small normal" style="top:35%; left:82%;">.</div>
+
+    <div class="star medium slow" style="top:28%; left:25%;">*</div>
+
+    <div class="star large normal" style="top:55%; left:60%;">+</div>
+
+    <div class="star small fast" style="top:48%; left:15%;">·</div>
+
+    <div class="star medium slow" style="top:65%; left:88%;">✦</div>
+
+    <div class="star small normal" style="top:72%; left:35%;">*</div>
+
+    <div class="star medium fast" style="top:6%; left:90%;">+</div>
+
+    <div class="island">
+
+        <!-- Put your island image here -->
+
+        <!--
+        <img src="images/island.png">
+        -->
+
+        <!-- OR your ASCII island -->
+
+<pre>
+
+          🌴
+
+      /\/\/\/\/\
+
+~~~~~~~~~~~~~~~~~~~~~~
+
+</pre>
+
+    </div>
+
+</div>
+
+</body>
+</html>
