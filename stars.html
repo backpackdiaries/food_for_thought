@@ -84,13 +84,11 @@ body {
 /* Island area */
 
 .island {
-
     position: absolute;
     bottom: 3%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-
 }
 
 /* If using an image */
@@ -105,23 +103,20 @@ body {
 /* If using ASCII art */
 
 .island pre {
-
-    color: fuchsia;
-    font-size: clamp(4px, 0.8vw, 14px);
-     line-height: 1;
-    margin: 0;
-
+    font-size: 14px;
+    line-height: 1;
 }
 
-@media (max-width:768px){
+@media (max-width:768px) {
 
- .island {
-        left: 50%;
-        bottom: 2%;
-        transform: translateX(-50%) scale(0.55);
-        transform-origin: bottom center;
+    .island {
+        bottom: 3%;
     }
 
+    .island pre {
+        font-size: 8px;   /* try 8px first */
+        line-height: 1;
+    }
 
 }
 
