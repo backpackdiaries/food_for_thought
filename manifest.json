@@ -1,0 +1,15 @@
+{
+  "name": "Food for Thought",
+  "short_name": "Food",
+  "start_url": "food_for_thought.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "images/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
