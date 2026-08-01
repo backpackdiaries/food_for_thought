@@ -1,7 +1,7 @@
 {
   "name": "Food for Thought",
   "short_name": "Food",
-  "start_url": "food_for_thought.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
