@@ -7,45 +7,51 @@
 <link rel="apple-touch-icon" href="images/icon.png">
     </head>
     <style>
-        body {font-family: "Courier New" , Courier , monospace; 
-    font-size: 12px; 
-    color: fuchsia; 
+    
+   body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    color: fuchsia;
     background-color: black;
     padding: 50px 0;
+    margin: 0;
+    overflow-x: hidden;
 }
-a {color: rgb(105, 255, 150);}
-li {list-style: none;}
+
+a {
+    color: rgb(105, 255, 150);
+}
+
 img {
     max-width: 100%;
     height: auto;
 }
 
-/* Desktop */
-.container {
-    display: flex;
-}
-
-        pre {
+pre {
     width: fit-content;
     margin: 0 auto;
 }
 
-/* Phone */
+
+/* PHONE */
 @media (max-width: 768px) {
-    /* .container {
-        flex-direction: column;
-    } */
-    body{
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
+
+    body {
+        width: 100%;
+        padding: 30px 0;
+        margin: 0;
+        overflow-x: hidden;
     }
 
-     pre {
+    pre {
         width: fit-content;
+        max-width: 100%;
         margin: 0 auto;
+        padding: 0;
+        font-size: 7px;
+        line-height: 1.1;
     }
-    
+
 }
     </style>
 <body>
