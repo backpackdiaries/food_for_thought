@@ -14,63 +14,71 @@
     color: fuchsia;
     background-color: black;
     margin: 0;
-    padding: 50px 0;
+    padding: 0;
+    min-height: 100vh;
     overflow-x: hidden;
+
+    /* CENTER EVERYTHING */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+
+/* LINKS */
 
 a {
     color: rgb(105, 255, 150);
 }
+
+
+/* IMAGES */
 
 img {
     max-width: 100%;
     height: auto;
 }
 
-/* CENTER THE WHOLE ASCII COMPOSITION */
-pre {
-    width: max-content;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-    .ascii-container {
+/* ASCII CONTAINER */
+
+.ascii-container {
     width: 100%;
     display: flex;
     justify-content: center;
     overflow: hidden;
 }
 
-    .ascii-container pre {
-    margin: 0;
+.ascii-container pre {
     width: max-content;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
 /* PHONE */
+
 @media (max-width: 768px) {
 
     body {
         width: 100%;
-        padding: 30px 0;
+        min-height: 100vh;
+        padding: 0;
         margin: 0;
         overflow-x: hidden;
     }
 
-    pre {
-        width: max-content;
-        max-width: 100%;
-        margin: 0 auto;
-        font-size: 7px;
-        line-height: 1.1;
-        overflow: hidden;
+    .ascii-container {
+        width: 100%;
     }
 
-        .ascii-container pre {
+    .ascii-container pre {
         font-size: 7px;
         line-height: 1.1;
+        max-width: 100%;
+        overflow: hidden;
     }
 
 }
