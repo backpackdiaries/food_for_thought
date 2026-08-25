@@ -53,6 +53,37 @@ a {
     padding: 0;
 }
 
+
+.rainbow {
+    background: linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        green,
+        cyan,
+        blue,
+        violet,
+        red
+    );
+
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    animation: rainbow-text 6s linear infinite;
+}
+
+@keyframes rainbow-text {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+
 /* PHONE */
 
 @media (max-width: 768px) {
@@ -101,7 +132,8 @@ a {
 <br>
         A 24 page zine with drawings and collected writings I made with a typewriter, a pencil, and my phone.<br> <br>
 			⬂ I present to you ⬃ <br>
-			"𝓭𝓸 𝔂𝓸𝓾 𝓫𝓮𝓵𝓲𝓮𝓿𝓮 𝓲𝓷 𝓽𝓱𝓮 𝓲𝓷𝓼𝓲𝓭𝓮 𝓸𝓻 𝓽𝓱𝓮 𝓸𝓾𝓽𝓼𝓲𝓭𝓮?" <br> <br>
+			<span class="rainbow">"𝓭𝓸 𝔂𝓸𝓾 𝓫𝓮𝓵𝓲𝓮𝓿𝓮 𝓲𝓷 𝓽𝓱𝓮 𝓲𝓷𝓼𝓲𝓭𝓮 𝓸𝓻 𝓽𝓱𝓮 𝓸𝓾𝓽𝓼𝓲𝓭𝓮?"</span>
+			 <br> <br>
 			 This zine is inspired by one of my favorite movies, 
 			<a href=https://en.wikipedia.org/wiki/The_Cruise_(1998_film)>"The Cruise"</a> !!
         <br>
