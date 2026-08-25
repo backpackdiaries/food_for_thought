@@ -18,17 +18,29 @@ body {
     background-color: #ff98ba;
     margin: 0;
     padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-a {
-    color: rgb(105,255,150);
-    text-decoration: none;
+
+/* BACK BUTTON */
+
+body > a {
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
+
+
+/* IMAGE */
 
 .image-single {
-    width: 60%;
-    max-width: 500px;
-    margin: 40px auto 0 auto;
+    width: 45%;
+    max-width: 450px;
+    margin: 0 auto;
 }
 
 .image-single img {
@@ -37,23 +49,43 @@ a {
     display: block;
 }
 
+
+/* CAPTION */
+
 .caption {
-    width: 60%;
-    max-width: 700px;
-    margin: 20px auto 0 auto;
+    width: 45%;
+    max-width: 600px;
+    margin: 15px auto 0;
     text-align: center;
     line-height: 1.5;
 }
 
-@media (max-width:768px) {
+	.composition {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+/* PHONE */
+
+@media (max-width: 768px) {
 
     body {
         padding: 10px;
     }
 
-    .image-single,
+    .image-single {
+        width: 75%;
+        max-width: 350px;
+    }
+
     .caption {
-        width: 80%;
+        width: 75%;
+        max-width: 350px;
+        margin-top: 15px;
     }
 
 }
@@ -66,12 +98,17 @@ a {
 
 <a href="food_for_thought.html">╾━╤デ╦︻</a>
 
-<div class="image-single">
-    <img src="images/img20260726_17231238.jpg" alt="birthday card">
-</div>
+<div class="composition">
 
-<div class="caption">
-    birthday card for little e in collaboration with <a href="https://wnoadiarwb.us/">otto benson</a>.
+    <div class="image-single">
+        <img src="images/img20260726_17231238.jpg" alt="birthday card">
+    </div>
+
+    <div class="caption">
+        birthday card for little e in collaboration with
+        <a href="https://wnoadiarwb.us/">otto benson</a>.
+    </div>
+
 </div>
 
 </body>
