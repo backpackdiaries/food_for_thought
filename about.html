@@ -31,6 +31,36 @@
     text-align: left;
 }
 
+        .rainbow {
+    background: linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        green,
+        cyan,
+        blue,
+        violet,
+        red
+    );
+
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    animation: rainbow-text 6s linear infinite;
+}
+
+@keyframes rainbow-text {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+
   @media (max-width:768px) {
 
     body {
@@ -60,7 +90,7 @@ Recent graduate from <a href="https://en.wikipedia.org/wiki/Cooper_Union">The Co
 This website was built using html and css. <br>
 
 𝙞𝙣𝙦𝙪𝙞𝙧𝙚 𝙬𝙞𝙩𝙝𝙞𝙣 
-ׂ╰┈➤ 𝔞𝔫𝔞𝔩𝔦𝔰𝔞𝔪𝔠𝔣𝔞𝔯𝔩𝔞𝔫𝔢@𝔤𝔪𝔞𝔦𝔩.𝔠𝔬𝔪
+ׂ╰┈➤ <span class="rainbow">𝔞𝔫𝔞𝔩𝔦𝔰𝔞𝔪𝔠𝔣𝔞𝔯𝔩𝔞𝔫𝔢@𝔤𝔪𝔞𝔦𝔩.𝔠𝔬𝔪</span>
 
 </pre>
 </div>
