@@ -28,6 +28,18 @@
             text-decoration: none;
         }
 
+
+        /* CENTERED IMAGE + CAPTION */
+
+        .composition {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
         /* IMAGE */
 
         .image-stack {
@@ -45,18 +57,36 @@
             padding: 0;
         }
 
+
+        /* CAPTION */
+
+        .caption {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+
         /* PHONE */
 
         @media (max-width: 768px) {
 
+            .composition {
+                min-height: calc(100vh - 70px);
+            }
+
             .image-stack {
                 width: 80%;
+                max-width: none;
                 margin-left: auto;
                 margin-right: auto;
             }
 
             .image-stack img {
                 width: 100%;
+            }
+
+            .caption {
+                font-size: 14px;
             }
 
         }
@@ -66,32 +96,21 @@
 
 <body>
 
-    <br>
-
     <a href="food_for_thought.html">╾━╤デ╦︻</a>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <div class="composition">
 
-    <div class="image-stack">
+        <div class="image-stack">
 
-        <img src="images/img20260714_13322899.jpg">
+            <img src="images/img20260714_13322899.jpg">
+
+        </div>
+
+        <div class="caption">
+            3" x 2" ✎ᝰ. acrylic paint
+        </div>
 
     </div>
-
-    <br>
-    <br>
-
-    3" x 2" ✎ᝰ. acrylic paint
-
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
 
 </body>
 </html>
