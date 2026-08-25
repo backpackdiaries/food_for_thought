@@ -1,31 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        
+<head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="manifest" href="manifest.json">
-        <link rel="icon" href="images/icon.png" type="image/png">
-        <link rel="apple-touch-icon" href="images/icon.png">
-        
-        <title>heart</title>
-    </head>
-    <style>
-body {font-family: "Courier New" , Courier , monospace; 
-    font-size: 14px; 
-    color: fuchsia; 
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+    <title>heart</title>
+
+<style>
+
+body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 14px;
+    color: fuchsia;
     background-color: #02010f;
+    margin: 0;
     padding: 15px;
+    box-sizing: border-box;
 }
-        
-a {color: rgb(105, 255, 150);
-  }
+
+a {
+    color: rgb(105, 255, 150);
+}
+
+
+/* BACK BUTTON */
+
+.back {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+
+/* CENTERED IMAGE + CAPTION */
+
+.composition {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* IMAGE */
 
 .image-container {
     width: 80%;
     max-width: 768px;
-    margin: 0 auto;
 }
 
 .image-container img {
@@ -36,6 +63,8 @@ a {color: rgb(105, 255, 150);
 }
 
 
+/* CAPTION */
+
 .description {
     width: 90%;
     max-width: 700px;
@@ -45,12 +74,21 @@ a {color: rgb(105, 255, 150);
     font-size: 14.5px;
 }
 
-/* Phone */
-   @media (max-width:768px) {
 
- .image-container {
+/* PHONE */
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .composition {
+        min-height: calc(100vh - 60px);
+    }
+
+    .image-container {
         width: 90%;
-        margin: 0 auto;
     }
 
     .description {
@@ -62,24 +100,26 @@ a {color: rgb(105, 255, 150);
     }
 
 }
-    </style>
-  <body>
-<a href="food_for_thought.html">╾━╤デ╦︻</a> <br> <br> <br>
-      
-    <div class="image-container">
-      <img src="images/heart_2.png"> 
-    </div>
-      
-          <div class="description">
-𝟡" 𝕩 𝟙𝟚".˳˳.⋅ॱ˙˙ॱ⋅.˳˳.⋅ॱ˙˙ॱᐧ.˳˳.𝖌𝖗𝖆𝖕𝖍𝖎𝖙𝖊 𝖔𝖓 𝖕𝖆𝖕𝖊𝖗.˳˳.⋅ॱ˙˙ॱ⋅.˳˳.⋅ॱ˙˙ॱᐧ.˳˳.₂₀₂₅
-          </div> 
 
-<br>
-<br>
-      <br>
-      <br>
-      <br>
-      <br>
-      
-  </body>
+</style>
+
+</head>
+
+<body>
+
+<a class="back" href="food_for_thought.html">╾━╤デ╦︻</a>
+
+<div class="composition">
+
+    <div class="image-container">
+        <img src="images/heart_2.png">
+    </div>
+
+    <div class="description">
+        𝟡" 𝕩 𝟙𝟚".˳˳.⋅ॱ˙˙ॱ⋅.˳˳.⋅ॱ˙˙ॱᐧ.˳˳.𝖌𝖗𝖆𝖕𝖍𝖎𝖙𝖊 𝖔𝖓 𝖕𝖆𝖕𝖊𝖗.˳˳.⋅ॱ˙˙ॱ⋅.˳˳.⋅ॱ˙˙ॱᐧ.˳˳.₂₀₂₅
+    </div>
+
+</div>
+
+</body>
 </html>
