@@ -17,10 +17,11 @@
             font-size: 14px;
             color: black;
             background-color: #3fa9ed;
-            padding: 0;
             margin: 0;
+            padding: 20px;
             overflow-x: hidden;
             text-align: center;
+            box-sizing: border-box;
         }
 
         a {
@@ -29,22 +30,31 @@
         }
 
 
-        /* CENTERED IMAGE + CAPTION */
+        /* BACK BUTTON */
+
+        .back {
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+
+        /* IMAGE + CAPTION */
 
         .composition {
-            min-height: calc(100vh - 90px);
+            min-height: calc(100vh - 120px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            box-sizing: border-box;
         }
 
 
         /* IMAGE */
 
         .image-stack {
-            width: 40%;
-            max-width: 500px;
+            width: 30%;
+            max-width: 350px;
             margin: 0 auto;
             line-height: 0;
         }
@@ -54,7 +64,6 @@
             height: auto;
             display: block;
             margin: 0 auto;
-            padding: 0;
         }
 
 
@@ -70,15 +79,21 @@
 
         @media (max-width: 768px) {
 
+            body {
+                padding: 10px;
+            }
+
+            .back {
+                margin-bottom: 20px;
+            }
+
             .composition {
-                min-height: calc(100vh - 70px);
+                min-height: calc(100vh - 80px);
             }
 
             .image-stack {
                 width: 80%;
                 max-width: none;
-                margin-left: auto;
-                margin-right: auto;
             }
 
             .image-stack img {
@@ -86,6 +101,7 @@
             }
 
             .caption {
+                margin-top: 15px;
                 font-size: 14px;
             }
 
@@ -95,11 +111,8 @@
 </head>
 
 <body>
-    <br>
-    <br>
-    
 
-    <a href="food_for_thought.html">╾━╤デ╦︻</a>
+    <a class="back" href="food_for_thought.html">╾━╤デ╦︻</a>
 
     <div class="composition">
 
