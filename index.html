@@ -62,6 +62,8 @@ img {
 
 /* PHONE */
 
+/* PHONE */
+
 @media (max-width: 768px) {
 
     body {
@@ -74,13 +76,34 @@ img {
 
     .ascii-container {
         width: 100%;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
     }
 
     .ascii-container pre {
         font-size: 7px;
         line-height: 1.1;
-        max-width: 100%;
-        overflow: hidden;
+
+        /* Make the ASCII as large as possible */
+        width: max-content;
+        max-width: none;
+
+        /* Center the whole composition */
+        margin: 0 auto;
+
+        /* Slightly shift it to the right */
+        transform: translateX(3px);
+    }
+
+    /* Animated Instagram eyes */
+
+    .ascii-container pre img {
+        width: 220px;
+        max-width: none;
+
+        /* Move the eyes slightly left */
+        transform: translateX(-8px);
     }
 
 }
@@ -92,7 +115,7 @@ img {
 
     <pre>
 
-                                                                <a href="https://www.instagram.com/analisamcfarlane/"target="_blank"rel="noopener noreferrer"><img src="images/Untitled_Artwork.gif"width="200"alt="Instagram"></a>
+                                                                <a href="https://www.instagram.com/analisamcfarlane/"target="_blank"rel="noopener noreferrer"><img src="images/Untitled_Artwork.gif" alt="Instagram"></a>
                 ¸„.-•~¹°”ˆ˜¨ w̾e̾l̾c̾o̾m̾e̾ ¨˜ˆ”°¹~•-.„¸          
 
                            ººººººººººº                        º     
