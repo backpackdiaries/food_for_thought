@@ -1,624 +1,994 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>altar</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>✦</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="images/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="images/icon.png">
 
-    <style>
 
-        /* --------------------------------------------------
-           FOOD FOR THOUGHT / DIGITAL ALTAR
-        -------------------------------------------------- */
+<style>
 
-        * {
-            box-sizing: border-box;
-        }
+/* ==========================================================
+   FOOD FOR THOUGHT — DIGITAL ALTAR V2
+   ========================================================== */
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
 
-        body {
-            font-family: monospace;
-            color: fuchsia;
-            background-color: #02010f;
-            font-size: 14px;
+* {
+    box-sizing: border-box;
+}
 
-            overflow: hidden;
 
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: none;
-        }
+html,
+body {
 
-        a {
-            color: rgb(105, 255, 150);
-            text-decoration: none;
-        }
+    width: 100%;
+    height: 100%;
 
-        a:hover {
-            text-decoration: underline;
-        }
+    margin: 0;
+    padding: 0;
 
+}
 
-        /* --------------------------------------------------
-           THE SPACE
-        -------------------------------------------------- */
 
-        #space {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+body {
 
-            overflow: hidden;
-        }
+    font-family: monospace;
 
+    color: fuchsia;
 
-        /* tiny background stars */
+    background-color: #02010f;
 
-        .star {
-            position: absolute;
-            color: rgb(105, 255, 150);
-            opacity: 0.5;
-            pointer-events: none;
-        }
+    font-size: 14px;
 
+    overflow: hidden;
 
-        /* --------------------------------------------------
-           ALTAR WORLD
+    user-select: none;
+    -webkit-user-select: none;
 
-           Everything inside this container uses a fixed
-           coordinate system. The entire altar scales on
-           smaller screens.
-        -------------------------------------------------- */
+    touch-action: none;
 
-        #altar-world {
-            position: absolute;
+}
 
-            width: 900px;
-            height: 650px;
 
-            left: 50%;
-            top: 50%;
+/* ==========================================================
+   FLOATING SPACE
+   ========================================================== */
 
-            transform:
-                translate(-50%, -50%)
-                scale(1);
 
-            transform-origin: center center;
-        }
+#space {
 
+    position: relative;
 
-        /* --------------------------------------------------
-           FLOATING ALTAR
-        -------------------------------------------------- */
+    width: 100vw;
+    height: 100vh;
 
-        #altar {
+    overflow: hidden;
 
-            position: absolute;
+}
 
-            left: 50%;
-            bottom: 85px;
 
-            transform: translateX(-50%);
+/* tiny distant symbols */
 
-            width: 700px;
-            height: 260px;
-        }
+.star {
 
+    position: absolute;
 
-        /* shelves */
+    color: rgb(105, 255, 150);
 
-        .shelf {
-            position: absolute;
+    opacity: 0.45;
 
-            left: 50%;
-            transform: translateX(-50%);
+    pointer-events: none;
 
-            height: 2px;
+}
 
-            border-top: 1px solid fuchsia;
 
-            text-align: center;
+/* ==========================================================
+   ALTAR WORLD
 
-            pointer-events: none;
-        }
+   The altar has its own coordinate system.
 
-        .shelf::before {
-            content: "· · · · · · · · · · · · · · · · · · ·";
-            position: absolute;
+   It remains large and spacious internally,
+   while the entire world scales down on small screens.
+   ========================================================== */
 
-            left: 50%;
-            transform: translateX(-50%);
 
-            top: -9px;
+#altar-world {
 
-            color: rgb(105, 255, 150);
-            opacity: 0.7;
+    position: absolute;
 
-            white-space: nowrap;
-        }
+    width: 1000px;
+    height: 720px;
 
-        .shelf.top {
-            width: 420px;
-            top: 20px;
-        }
+    left: 50%;
+    top: 50%;
 
-        .shelf.middle {
-            width: 560px;
-            top: 80px;
-        }
+    transform:
+        translate(-50%, -50%)
+        scale(1);
 
-        .shelf.main {
-            width: 700px;
-            top: 190px;
-        }
+    transform-origin: center center;
 
+}
 
-        /* little altar legs */
 
-        .altar-leg {
-            position: absolute;
+/* ==========================================================
+   THE ALTAR
 
-            bottom: 20px;
+   One single floating line.
+   ========================================================== */
 
-            height: 60px;
-            width: 1px;
 
-            background: fuchsia;
+#altar {
 
-            opacity: 0.8;
-        }
+    position: absolute;
 
-        .altar-leg.left {
-            left: 70px;
-        }
+    left: 50%;
+    top: 50%;
 
-        .altar-leg.right {
-            right: 70px;
-        }
+    transform: translate(-50%, -50%);
 
+    width: 760px;
+    height: 390px;
 
-        /* --------------------------------------------------
-           OBJECTS
-        -------------------------------------------------- */
+}
 
-        .object {
-            position: absolute;
 
-            cursor: grab;
+/* ==========================================================
+   SINGLE TABLE LINE
+   ========================================================== */
 
-            transform-origin: center bottom;
 
-            z-index: 10;
+.table-line {
 
-            touch-action: none;
+    position: absolute;
 
-            transition:
-                filter 0.2s ease;
-        }
+    left: 50%;
+    bottom: 95px;
 
-        .object:active {
-            cursor: grabbing;
-        }
+    transform: translateX(-50%);
 
-        .object:hover {
-            filter: brightness(1.25);
-        }
+    width: 760px;
 
+    height: 1px;
 
-        /* --------------------------------------------------
-           PHOTOGRAPHS
-        -------------------------------------------------- */
+    border-top: 1px solid fuchsia;
 
-        .photo {
-            background: #02010f;
+    pointer-events: none;
 
-            padding: 8px;
+}
 
-            border: 1px solid fuchsia;
 
-            box-shadow:
-                3px 3px 0 rgba(255, 0, 255, 0.35);
+.table-line::before {
 
-            width: 125px;
-        }
+    content: "·";
 
-        .photo img {
-            display: block;
+    position: absolute;
 
-            width: 100%;
-            height: auto;
+    left: -8px;
+    top: -7px;
 
-            object-fit: contain;
+    color: rgb(105, 255, 150);
 
-            pointer-events: none;
-        }
+}
 
-        .photo.small {
-            width: 85px;
-        }
 
-        .photo.large {
-            width: 155px;
-        }
+.table-line::after {
 
+    content: "·";
 
-        /* --------------------------------------------------
-           CANDLES
-        -------------------------------------------------- */
+    position: absolute;
 
-        .candle {
-            position: absolute;
+    right: -8px;
+    top: -7px;
 
-            display: flex;
-            flex-direction: column;
+    color: rgb(105, 255, 150);
 
-            align-items: center;
+}
 
-            font-size: 18px;
-        }
 
-        .flame {
-            width: 30px;
-            height: 30px;
+/* ==========================================================
+   SMALL DECORATIONS AROUND THE TABLE
+   ========================================================== */
 
-            text-align: center;
 
-            color: rgb(255, 170, 255);
+.table-mark {
 
-            line-height: 30px;
+    position: absolute;
 
-            animation: flicker 0.8s infinite steps(2);
-        }
+    color: rgb(105, 255, 150);
 
-        .wax {
-            background: #02010f;
+    opacity: 0.65;
 
-            border-left: 1px solid fuchsia;
-            border-right: 1px solid fuchsia;
+    pointer-events: none;
 
-            position: relative;
-        }
+}
 
-        .wax::after {
-            content: "";
 
-            position: absolute;
+.table-mark.left {
 
-            left: 50%;
-            top: -1px;
+    left: 115px;
+    bottom: 89px;
 
-            width: 1px;
-            height: 100%;
+}
 
-            background: rgb(105, 255, 150);
 
-            opacity: 0.5;
-        }
+.table-mark.right {
 
-        .base {
-            color: fuchsia;
+    right: 115px;
+    bottom: 89px;
 
-            white-space: nowrap;
+}
 
-            line-height: 10px;
-        }
 
+/* ==========================================================
+   OBJECTS
+   ========================================================== */
 
-        /* fat candle */
 
-        .candle.pillar .wax {
-            width: 42px;
-            height: 75px;
-        }
+.object {
 
-        .candle.pillar.short .wax {
-            height: 48px;
-        }
+    position: absolute;
 
-        .candle.pillar.tall .wax {
-            height: 105px;
-        }
+    cursor: grab;
 
+    transform-origin: center bottom;
 
-        /* skinny candle */
+    touch-action: none;
 
-        .candle.tall .wax {
-            width: 12px;
-            height: 125px;
-        }
+    z-index: 10;
 
-        .candle.tall .base {
-            margin-top: 1px;
-        }
+}
 
 
-        /* lotus candle */
+.object:active {
 
-        .lotus {
-            width: 90px;
-        }
+    cursor: grabbing;
 
-        .lotus-flower {
-            position: relative;
+}
 
-            width: 75px;
-            height: 48px;
 
-            text-align: center;
+.object:hover {
 
-            line-height: 48px;
+    filter: brightness(1.18);
 
-            color: rgb(255, 105, 255);
+}
 
-            font-size: 27px;
-        }
 
+/* ==========================================================
+   PHOTOGRAPHS
 
-        /* candle flame animation */
+   The frame determines the size.
 
-        @keyframes flicker {
+   The uploaded image does NOT determine the frame shape.
+   ========================================================== */
 
-            0% {
-                transform: scale(1) rotate(-2deg);
-                opacity: 0.8;
-            }
 
-            25% {
-                transform: scale(1.08) rotate(2deg);
-                opacity: 1;
-            }
+.photo {
 
-            50% {
-                transform: scale(0.92) rotate(-1deg);
-                opacity: 0.7;
-            }
+    position: absolute;
 
-            75% {
-                transform: scale(1.12) rotate(3deg);
-                opacity: 1;
-            }
+    display: flex;
 
-            100% {
-                transform: scale(1) rotate(-2deg);
-                opacity: 0.8;
-            }
-        }
+    align-items: center;
+    justify-content: center;
 
+    padding: 8px;
 
-        /* --------------------------------------------------
-           DECORATIVE OBJECTS
-        -------------------------------------------------- */
+    background: #02010f;
 
-        .flower {
-            font-size: 34px;
+    border: 1px solid fuchsia;
 
-            color: rgb(255, 105, 255);
-        }
+    box-shadow:
+        3px 3px 0 rgba(255, 0, 255, 0.25);
 
-        .stone {
-            font-size: 26px;
+    overflow: hidden;
 
-            color: rgb(105, 255, 150);
-        }
+}
 
-        .incense {
-            font-size: 24px;
 
-            color: fuchsia;
-        }
+/* small portrait */
 
-        .symbol {
-            font-size: 30px;
+.photo.small-portrait {
 
-            color: rgb(105, 255, 150);
-        }
+    width: 92px;
+    height: 125px;
 
+}
 
-        /* --------------------------------------------------
-           TITLE
-        -------------------------------------------------- */
 
-        #altar-title {
+/* medium portrait */
 
-            position: absolute;
+.photo.medium-portrait {
 
-            top: -5px;
-            left: 50%;
+    width: 125px;
+    height: 170px;
 
-            transform: translateX(-50%);
+}
 
-            text-align: center;
 
-            white-space: nowrap;
+/* landscape */
 
-            font-size: 16px;
+.photo.landscape {
 
-            color: fuchsia;
-        }
+    width: 165px;
+    height: 115px;
 
-        #altar-title::before {
-            content: "✦ · · · ";
-            color: rgb(105, 255, 150);
-        }
+}
 
-        #altar-title::after {
-            content: " · · · ✦";
-            color: rgb(105, 255, 150);
-        }
 
+/* large portrait */
 
-        /* --------------------------------------------------
-           INSTRUCTIONS
-        -------------------------------------------------- */
+.photo.large-portrait {
 
-        #instructions {
+    width: 150px;
+    height: 200px;
 
-            position: fixed;
+}
 
-            bottom: 15px;
-            left: 15px;
 
-            font-size: 11px;
+/* image itself */
 
-            color: rgb(105, 255, 150);
+.photo img {
 
-            opacity: 0.6;
+    width: 100%;
+    height: 100%;
 
-            z-index: 100;
+    object-fit: contain;
 
-            pointer-events: none;
-        }
+    pointer-events: none;
 
+}
 
-        /* --------------------------------------------------
-           MOBILE / RESPONSIVE ALTAR
-        -------------------------------------------------- */
 
-        @media (max-width: 900px) {
+/* ==========================================================
+   CANDLES
+   ========================================================== */
 
-            #altar-world {
 
-                transform:
-                    translate(-50%, -50%)
-                    scale(
-                        min(
-                            calc(100vw / 950),
-                            calc(100vh / 700)
-                        )
-                    );
-            }
+.candle {
 
-        }
+    position: absolute;
 
+    display: flex;
 
-        @media (max-width: 600px) {
+    flex-direction: column;
 
-            body {
-                font-size: 12px;
-            }
+    align-items: center;
 
-            #instructions {
-                bottom: 8px;
-                left: 8px;
+    justify-content: flex-start;
 
-                font-size: 9px;
-            }
+}
 
-        }
 
+/* ----------------------------------------------------------
+   FLAME
+   ---------------------------------------------------------- */
 
-        @media (orientation: landscape) and (max-height: 600px) {
 
-            #altar-world {
+.flame {
 
-                transform:
-                    translate(-50%, -50%)
-                    scale(
-                        min(
-                            calc(100vw / 950),
-                            calc(100vh / 700)
-                        )
-                    );
-            }
+    width: 30px;
+    height: 32px;
 
-        }
+    line-height: 32px;
 
-    </style>
+    text-align: center;
+
+    color: rgb(255, 170, 255);
+
+    animation:
+        flicker 0.8s infinite steps(2);
+
+}
+
+
+/* alternate flame animation speeds */
+
+.candle.slow .flame {
+
+    animation-duration: 1.25s;
+
+}
+
+
+.candle.fast .flame {
+
+    animation-duration: 0.55s;
+
+}
+
+
+/* ----------------------------------------------------------
+   WAX
+   ---------------------------------------------------------- */
+
+
+.wax {
+
+    position: relative;
+
+    background: #02010f;
+
+    border-left: 1px solid fuchsia;
+    border-right: 1px solid fuchsia;
+
+}
+
+
+/* subtle green wick */
+
+.wax::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -4px;
+    left: 50%;
+
+    width: 1px;
+    height: 6px;
+
+    transform: translateX(-50%);
+
+    background: rgb(105, 255, 150);
+
+}
+
+
+/* ----------------------------------------------------------
+   CANDLE BASE
+   ---------------------------------------------------------- */
+
+
+.base {
+
+    color: fuchsia;
+
+    white-space: nowrap;
+
+    line-height: 10px;
+
+}
+
+
+/* ==========================================================
+   PILLAR CANDLES
+   ========================================================== */
+
+
+.pillar .wax {
+
+    width: 44px;
+    height: 65px;
+
+}
+
+
+.pillar.short .wax {
+
+    height: 45px;
+
+}
+
+
+.pillar.tall .wax {
+
+    height: 105px;
+
+}
+
+
+/* ==========================================================
+   TALL THIN CANDLE
+   ========================================================== */
+
+
+.skinny .wax {
+
+    width: 12px;
+    height: 135px;
+
+}
+
+
+/* ==========================================================
+   LOTUS CANDLE
+   ========================================================== */
+
+
+.lotus {
+
+    width: 90px;
+
+}
+
+
+.lotus-flower {
+
+    width: 80px;
+    height: 50px;
+
+    text-align: center;
+
+    line-height: 50px;
+
+    color: rgb(255, 105, 255);
+
+    font-size: 30px;
+
+}
+
+
+/* ==========================================================
+   CANDLE FLICKER
+   ========================================================== */
+
+
+@keyframes flicker {
+
+    0% {
+
+        transform:
+            translateX(-1px)
+            scale(0.95)
+            rotate(-3deg);
+
+        opacity: 0.72;
+
+    }
+
+    20% {
+
+        transform:
+            translateX(1px)
+            scale(1.08)
+            rotate(2deg);
+
+        opacity: 1;
+
+    }
+
+    45% {
+
+        transform:
+            translateX(-2px)
+            scale(0.88)
+            rotate(-1deg);
+
+        opacity: 0.68;
+
+    }
+
+    70% {
+
+        transform:
+            translateX(2px)
+            scale(1.12)
+            rotate(4deg);
+
+        opacity: 1;
+
+    }
+
+    100% {
+
+        transform:
+            translateX(-1px)
+            scale(0.95)
+            rotate(-3deg);
+
+        opacity: 0.72;
+
+    }
+
+}
+
+
+/* ==========================================================
+   OTHER ALTAR OBJECTS
+   ========================================================== */
+
+
+.flower {
+
+    font-size: 35px;
+
+    color: rgb(255, 105, 255);
+
+}
+
+
+.flower.small {
+
+    font-size: 25px;
+
+}
+
+
+.stone {
+
+    font-size: 27px;
+
+    color: rgb(105, 255, 150);
+
+}
+
+
+.incense {
+
+    font-size: 27px;
+
+    color: fuchsia;
+
+}
+
+
+.symbol {
+
+    font-size: 30px;
+
+    color: rgb(105, 255, 150);
+
+}
+
+
+/* ==========================================================
+   VERY SUBTLE FLOATING MOTION
+
+   Only the altar world moves, not individual objects.
+   ========================================================== */
+
+
+#altar-world {
+
+    animation:
+
+        breathe 8s ease-in-out infinite;
+
+}
+
+
+@keyframes breathe {
+
+    0% {
+
+        margin-top: 0px;
+
+    }
+
+    50% {
+
+        margin-top: -3px;
+
+    }
+
+    100% {
+
+        margin-top: 0px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   RESPONSIVE SCALING
+   ========================================================== */
+
+
+/*
+   Desktop:
+   The altar remains relatively small compared to
+   the surrounding space.
+*/
+
+
+@media (min-width: 901px) {
+
+    #altar-world {
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+    }
+
+}
+
+
+/*
+   Tablet and smaller screens:
+   Scale the entire altar proportionally.
+*/
+
+
+@media (max-width: 900px) {
+
+    #altar-world {
+
+        transform:
+            translate(-50%, -50%)
+            scale(
+                min(
+                    calc(100vw / 1080),
+                    calc(100vh / 790)
+                )
+            );
+
+    }
+
+}
+
+
+/*
+   Phone:
+   Give the altar a little more vertical breathing room.
+
+   The important difference from V1 is that we're NOT
+   shrinking the objects individually.
+*/
+
+
+@media (max-width: 600px) {
+
+    #altar-world {
+
+        width: 1000px;
+        height: 780px;
+
+        transform:
+            translate(-50%, -50%)
+            scale(
+                min(
+                    calc(100vw / 1050),
+                    calc(100vh / 820)
+                )
+            );
+
+    }
+
+
+    .photo {
+
+        box-shadow:
+            2px 2px 0 rgba(255, 0, 255, 0.25);
+
+    }
+
+}
+
+
+/*
+   Very short phone screens.
+*/
+
+
+@media (
+    max-width: 600px
+)
+and (
+    max-height: 650px
+) {
+
+    #altar-world {
+
+        transform:
+            translate(-50%, -50%)
+            scale(
+                min(
+                    calc(100vw / 1080),
+                    calc(100vh / 720)
+                )
+            );
+
+    }
+
+}
+
+
+/*
+   Landscape phones.
+*/
+
+
+@media (
+    orientation: landscape
+)
+and (
+    max-height: 600px
+) {
+
+    #altar-world {
+
+        transform:
+            translate(-50%, -50%)
+            scale(
+                min(
+                    calc(100vw / 1080),
+                    calc(100vh / 720)
+                )
+            );
+
+    }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
+
 <div id="space">
 
-    <!-- background atmosphere -->
 
-    <span class="star" style="left:8%;top:15%;">·</span>
-    <span class="star" style="left:18%;top:72%;">✦</span>
-    <span class="star" style="left:83%;top:20%;">·</span>
-    <span class="star" style="left:91%;top:67%;">✧</span>
-    <span class="star" style="left:72%;top:84%;">·</span>
-    <span class="star" style="left:32%;top:11%;">✦</span>
-    <span class="star" style="left:53%;top:91%;">·</span>
+    <!-- ==================================================
+         DISTANT SYMBOLS
+         ================================================== -->
+
+
+    <span
+        class="star"
+        style="left:9%; top:16%;"
+    >·</span>
+
+    <span
+        class="star"
+        style="left:18%; top:73%;"
+    >✦</span>
+
+    <span
+        class="star"
+        style="left:84%; top:19%;"
+    >·</span>
+
+    <span
+        class="star"
+        style="left:91%; top:70%;"
+    >✧</span>
+
+    <span
+        class="star"
+        style="left:72%; top:84%;"
+    >·</span>
+
+    <span
+        class="star"
+        style="left:31%; top:10%;"
+    >✦</span>
+
+    <span
+        class="star"
+        style="left:55%; top:91%;"
+    >·</span>
+
+
+
+    <!-- ==================================================
+         ALTAR WORLD
+         ================================================== -->
 
 
     <div id="altar-world">
 
-        <div id="altar-title">
-            little altar
-        </div>
-
 
         <div id="altar">
 
-            <!-- shelves -->
 
-            <div class="shelf top"></div>
-            <div class="shelf middle"></div>
-            <div class="shelf main"></div>
+            <!-- THE ONE TABLE -->
 
+            <div class="table-line"></div>
 
-            <!-- altar legs -->
-
-            <div class="altar-leg left"></div>
-            <div class="altar-leg right"></div>
+            <div class="table-mark left">·</div>
+            <div class="table-mark right">·</div>
 
 
-            <!-- =========================================
-                 OBJECTS
-                 ========================================= -->
+            <!-- ==================================================
+                 PHOTOGRAPHS
+                 ================================================== -->
 
-
-            <!-- LARGE PHOTO -->
 
             <div
-                class="object photo large"
-                style="left: 275px; top: 105px;"
+                class="object photo medium-portrait"
+                style="
+                    left: 175px;
+                    top: 125px;
+                    transform: rotate(-2deg);
+                "
                 data-draggable
             >
-                <img src="images/altar/photo1.jpg" alt="">
+
+                <img
+                    src="images/altar/photo1.jpg"
+                    alt=""
+                >
+
             </div>
 
 
-            <!-- SMALL PHOTO -->
-
             <div
-                class="object photo small"
-                style="left: 135px; top: 130px;"
+                class="object photo large-portrait"
+                style="
+                    left: 320px;
+                    top: 70px;
+                    transform: rotate(1deg);
+                "
                 data-draggable
             >
-                <img src="images/altar/photo2.jpg" alt="">
+
+                <img
+                    src="images/altar/photo2.jpg"
+                    alt=""
+                >
+
             </div>
 
 
-            <!-- ANOTHER PHOTO -->
-
             <div
-                class="object photo"
-                style="left: 475px; top: 110px;"
+                class="object photo landscape"
+                style="
+                    left: 505px;
+                    top: 140px;
+                    transform: rotate(-1deg);
+                "
                 data-draggable
             >
-                <img src="images/altar/photo3.jpg" alt="">
+
+                <img
+                    src="images/altar/photo3.jpg"
+                    alt=""
+                >
+
             </div>
 
 
-            <!-- FAT SHORT CANDLE -->
+            <div
+                class="object photo small-portrait"
+                style="
+                    left: 90px;
+                    top: 195px;
+                    transform: rotate(2deg);
+                "
+                data-draggable
+            >
+
+                <img
+                    src="images/altar/photo4.jpg"
+                    alt=""
+                >
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 CANDLES
+                 ================================================== -->
+
+
+            <!-- short thick candle -->
 
             <div
                 class="object candle pillar short"
-                style="left: 80px; top: 112px;"
+                style="
+                    left: 40px;
+                    top: 225px;
+                "
                 data-draggable
             >
 
@@ -633,11 +1003,14 @@
             </div>
 
 
-            <!-- FAT TALL CANDLE -->
+            <!-- tall thick candle -->
 
             <div
-                class="object candle pillar tall"
-                style="left: 575px; top: 70px;"
+                class="object candle pillar tall slow"
+                style="
+                    left: 665px;
+                    top: 55px;
+                "
                 data-draggable
             >
 
@@ -652,11 +1025,14 @@
             </div>
 
 
-            <!-- TALL SKINNY CANDLE -->
+            <!-- tall skinny candle -->
 
             <div
-                class="object candle tall"
-                style="left: 215px; top: 5px;"
+                class="object candle skinny fast"
+                style="
+                    left: 250px;
+                    top: 20px;
+                "
                 data-draggable
             >
 
@@ -671,11 +1047,14 @@
             </div>
 
 
-            <!-- LOTUS CANDLE -->
+            <!-- lotus candle -->
 
             <div
                 class="object candle lotus"
-                style="left: 380px; top: 143px;"
+                style="
+                    left: 420px;
+                    top: 205px;
+                "
                 data-draggable
             >
 
@@ -692,44 +1071,69 @@
             </div>
 
 
-            <!-- FLOWER -->
+
+            <!-- ==================================================
+                 OTHER OBJECTS
+                 ================================================== -->
+
 
             <div
                 class="object flower"
-                style="left: 25px; top: 165px;"
+                style="
+                    left: 5px;
+                    top: 265px;
+                    transform: rotate(-5deg);
+                "
                 data-draggable
             >
                 ✿
             </div>
 
 
-            <!-- STONE -->
+            <div
+                class="object flower small"
+                style="
+                    left: 620px;
+                    top: 240px;
+                    transform: rotate(5deg);
+                "
+                data-draggable
+            >
+                ❀
+            </div>
+
 
             <div
                 class="object stone"
-                style="left: 635px; top: 165px;"
+                style="
+                    left: 700px;
+                    top: 260px;
+                "
                 data-draggable
             >
                 ◒
             </div>
 
 
-            <!-- INCENSE -->
-
             <div
                 class="object incense"
-                style="left: 335px; top: 50px;"
+                style="
+                    left: 375px;
+                    top: 35px;
+                    transform: rotate(-5deg);
+                "
                 data-draggable
             >
                 〰
             </div>
 
 
-            <!-- DECORATIVE SYMBOL -->
-
             <div
                 class="object symbol"
-                style="left: 445px; top: 35px;"
+                style="
+                    left: 560px;
+                    top: 60px;
+                "
                 data-draggable
             >
                 ☽
@@ -741,173 +1145,204 @@
     </div>
 
 
-    <div id="instructions">
-        ✦ move things gently ✦
-    </div>
-
 </div>
+
 
 
 <script>
 
-    /* --------------------------------------------------
-       DRAGGABLE OBJECTS
 
-       Objects can be moved with mouse or touch.
-
-       Their positions are kept relative to the altar,
-       so the whole altar can scale on smaller screens.
-    -------------------------------------------------- */
-
-    const objects = document.querySelectorAll("[data-draggable]");
-
-    objects.forEach(object => {
-
-        let dragging = false;
-
-        let startX = 0;
-        let startY = 0;
-
-        let originalLeft = 0;
-        let originalTop = 0;
+/* ==========================================================
+   DRAGGING
+   ========================================================== */
 
 
-        object.addEventListener("pointerdown", startDrag);
+const objects =
+    document.querySelectorAll("[data-draggable]");
 
 
-        function startDrag(event) {
-
-            dragging = true;
-
-            object.setPointerCapture(event.pointerId);
-
-            startX = event.clientX;
-            startY = event.clientY;
-
-            originalLeft = parseFloat(
-                object.style.left
-            ) || 0;
-
-            originalTop = parseFloat(
-                object.style.top
-            ) || 0;
-
-            object.style.zIndex = getNextZIndex();
-
-            event.preventDefault();
-        }
+let highestZ = 20;
 
 
-        object.addEventListener("pointermove", drag);
+objects.forEach(object => {
 
 
-        function drag(event) {
+    let dragging = false;
 
-            if (!dragging) return;
+    let startX = 0;
+    let startY = 0;
 
-
-            /*
-                The altar is scaled on smaller screens.
-
-                We compensate for that scale so that
-                dragging still feels natural.
-            */
-
-            const altarWorld =
-                document.getElementById("altar-world");
-
-            const transform =
-                getComputedStyle(altarWorld).transform;
+    let originalLeft = 0;
+    let originalTop = 0;
 
 
-            let scale = 1;
+    object.addEventListener(
+        "pointerdown",
+        startDrag
+    );
 
 
-            if (transform !== "none") {
-
-                const matrix =
-                    new DOMMatrix(transform);
-
-                scale = matrix.a;
-            }
+    function startDrag(event) {
 
 
-            const dx =
-                (event.clientX - startX) / scale;
-
-            const dy =
-                (event.clientY - startY) / scale;
+        dragging = true;
 
 
-            object.style.left =
-                (originalLeft + dx) + "px";
-
-            object.style.top =
-                (originalTop + dy) + "px";
-        }
+        object.setPointerCapture(
+            event.pointerId
+        );
 
 
-        object.addEventListener("pointerup", endDrag);
-        object.addEventListener("pointercancel", endDrag);
+        startX = event.clientX;
+        startY = event.clientY;
 
 
-        function endDrag() {
-
-            dragging = false;
-        }
-
-    });
+        originalLeft =
+            parseFloat(object.style.left) || 0;
 
 
-    /* --------------------------------------------------
-       KEEP MOVED OBJECTS ON TOP
-    -------------------------------------------------- */
+        originalTop =
+            parseFloat(object.style.top) || 0;
 
-    let highestZ = 20;
-
-    function getNextZIndex() {
 
         highestZ++;
 
-        return highestZ;
-    }
+        object.style.zIndex =
+            highestZ;
 
 
-    /* --------------------------------------------------
-       RANDOMIZE INITIAL OBJECT POSITIONS
-
-       Currently disabled.
-
-       We can turn this into a proper altar
-       generation system once the visual layout
-       is finalized.
-    -------------------------------------------------- */
-
-    /*
-    function randomizeObjects() {
-
-        objects.forEach(object => {
-
-            const x =
-                Math.random() * 620;
-
-            const y =
-                Math.random() * 150;
-
-            object.style.left = x + "px";
-            object.style.top = y + "px";
-
-        });
+        event.preventDefault();
 
     }
 
-    randomizeObjects();
-    */
+
+    object.addEventListener(
+        "pointermove",
+        drag
+    );
+
+
+    function drag(event) {
+
+
+        if (!dragging) return;
+
+
+        const altarWorld =
+            document.getElementById(
+                "altar-world"
+            );
+
+
+        const matrix =
+            new DOMMatrix(
+                getComputedStyle(
+                    altarWorld
+                ).transform
+            );
+
+
+        let scale = matrix.a;
+
+
+        if (!scale || scale === 0) {
+
+            scale = 1;
+
+        }
+
+
+        const dx =
+            (event.clientX - startX)
+            / scale;
+
+
+        const dy =
+            (event.clientY - startY)
+            / scale;
+
+
+        object.style.left =
+            (originalLeft + dx) + "px";
+
+
+        object.style.top =
+            (originalTop + dy) + "px";
+
+
+    }
+
+
+    object.addEventListener(
+        "pointerup",
+        stopDrag
+    );
+
+
+    object.addEventListener(
+        "pointercancel",
+        stopDrag
+    );
+
+
+    function stopDrag() {
+
+        dragging = false;
+
+    }
+
+
+});
+
+
+/* ==========================================================
+   FUTURE RANDOMIZER
+
+   We'll develop this after the visual layout is settled.
+
+   The idea will be to randomly select objects and place
+   them using composition rules rather than completely
+   random coordinates.
+   ========================================================== */
+
+
+/*
+function randomizeAltar() {
+
+    const objects =
+        document.querySelectorAll("[data-draggable]");
+
+
+    objects.forEach(object => {
+
+        const x =
+            30 + Math.random() * 680;
+
+        const y =
+            20 + Math.random() * 270;
+
+
+        object.style.left =
+            x + "px";
+
+        object.style.top =
+            y + "px";
+
+    });
+
+}
+
+
+randomizeAltar();
+*/
 
 
 </script>
 
+
 </body>
+
 </html>
 ```
+
 
