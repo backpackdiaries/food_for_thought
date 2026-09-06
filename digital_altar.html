@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <title>digital altar</title>
@@ -9,8 +11,13 @@
           content="width=device-width, initial-scale=1.0">
 
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="images/icon.png" type="image/png">
-    <link rel="apple-touch-icon" href="images/icon.png">
+
+    <link rel="icon"
+          href="images/icon.png"
+          type="image/png">
+
+    <link rel="apple-touch-icon"
+          href="images/icon.png">
 
 
     <style>
@@ -23,110 +30,134 @@
         box-sizing: border-box;
     }
 
+
     html,
     body {
+
         margin: 0;
+
         width: 100%;
-        min-height: 100%;
+        height: 100%;
+
     }
 
+
     body {
+
         font-family: monospace;
+
         color: fuchsia;
+
         background-color: #02010f;
+
         font-size: 14px;
 
         /*
-         * Space around the invisible table.
+         * Space around the page.
          */
         padding: 10px;
 
         /*
-         * Prevent the browser from trying to scroll the page
-         * while an object is being dragged.
+         * Prevents the browser from scrolling while
+         * an object is being dragged.
          */
         overflow: hidden;
+
     }
 
+
     a {
+
         color: rgb(105, 255, 150);
+
         text-decoration: none;
+
     }
+
 
 
     /* =========================================================
-       THE INVISIBLE TABLE
+       INVISIBLE TABLE
+       =========================================================
+
+       This is the area where the images live.
+
+       You can temporarily uncomment the border below
+       if you want to see it while designing.
+
        ========================================================= */
 
     #table {
-        /*
-         * This is the invisible surface that the objects
-         * are resting on.
-         *
-         * You can give this a background temporarily while
-         * designing if you want to see it.
-         */
 
         position: relative;
 
-        width: min(1200px, 100%);
+        width: min(1400px, 100%);
+
         height: calc(100vh - 20px);
 
         margin: 0 auto;
 
-        /*
-         * Uncomment this temporarily to see the table:
-
-         background: rgba(255, 0, 255, 0.05);
-         border: 1px dashed fuchsia;
-         */
-
         overflow: hidden;
+
+        /*
+        border: 1px dashed fuchsia;
+        */
+
     }
+
 
 
     /* =========================================================
-       DRAGGABLE OBJECTS
+       DRAGGABLE IMAGES
        ========================================================= */
 
     .object {
+
         position: absolute;
 
-        /*
-         * Width is supplied by JavaScript from the image
-         * configuration below.
-         */
         height: auto;
 
-        user-select: none;
-        -webkit-user-select: none;
+        /*
+         * The image is positioned by its CENTER horizontally
+         * and its BOTTOM vertically.
+         */
+        transform: translate(-50%, -100%);
+
 
         /*
-         * Allows dragging with a finger on mobile without
-         * the browser interpreting it as page scrolling.
+         * Prevent text/image selection.
+         */
+        user-select: none;
+
+        -webkit-user-select: none;
+
+
+        /*
+         * Important for touch screens.
          */
         touch-action: none;
 
-        cursor: grab;
 
         /*
-         * Prevents the image from being selected/dragged
-         * as a normal browser image.
+         * Mouse cursor.
+         */
+        cursor: grab;
+
+
+        /*
+         * Prevent native browser image dragging.
          */
         -webkit-user-drag: none;
 
-        transform: translate(-50%, -50%);
     }
+
 
     .object.dragging {
+
         cursor: grabbing;
 
-        /*
-         * Makes the currently selected object appear above
-         * everything else.
-         */
-        z-index: 9999;
     }
+
 
 
     /* =========================================================
@@ -136,59 +167,51 @@
     @media (min-width: 768px) {
 
         body {
+
             padding: 15px;
+
         }
+
 
         #table {
-            /*
-             * More vertical breathing room on desktop.
-             */
+
             height: calc(100vh - 30px);
+
         }
 
-        .object {
-            /*
-             * Optional desktop styling.
-             *
-             * Actual image sizes are controlled in the
-             * IMAGE CONFIGURATION section below.
-             */
-        }
     }
 
 
+
     /* =========================================================
-       PHONE
+       MOBILE
        ========================================================= */
 
     @media (max-width: 767px) {
 
         body {
+
             padding: 10px;
+
         }
+
 
         #table {
-            /*
-             * Keeps the workspace centered vertically.
-             */
+
             height: calc(100vh - 20px);
+
         }
 
-        .object {
-            /*
-             * Mobile-specific styling can go here if needed.
-             *
-             * Individual image sizes are controlled by the
-             * mobileWidth values in the configuration.
-             */
-        }
     }
 
     </style>
+
 </head>
 
 
+
 <body>
+
 
     <!-- =======================================================
          INVISIBLE TABLE
@@ -197,353 +220,761 @@
     <main id="table"></main>
 
 
-    ```html
-<script>
+
+    <script>
+
 
     /* =========================================================
-       IMAGE CONFIGURATION
        =========================================================
+
+       IMAGE CONFIGURATION
 
        THIS IS THE MAIN SECTION YOU WILL EDIT.
 
-       width:
-           Desktop image width in pixels.
+       To add an image, simply copy one of the blocks below.
 
-       mobileWidth:
-           Phone image width in pixels.
+       You only need to change:
 
-       x / y:
-           Starting desktop position, as percentages.
+           src
+           width
+           mobileWidth
 
-       mobileX / mobileY:
-           Starting phone position, as percentages.
+       You do NOT need to calculate positions.
 
+       =========================================================
        ========================================================= */
 
+
     const images = [
+
 
         {
             src: "images/buddha.png",
 
-            width: 220,
-            mobileWidth: 120,
+            /*
+             * Desktop width.
+             */
+            width: 60,
 
-            x: 30,
-            y: 40,
-
-            mobileX: 35,
-            mobileY: 35
+            /*
+             * Phone width.
+             */
+            mobileWidth: 130
         },
 
-        {
-            src: "images/ganesha.jpg",
-
-            width: 180,
-            mobileWidth: 100,
-
-            x: 55,
-            y: 35,
-
-            mobileX: 65,
-            mobileY: 35
-        },
-
-        {
-            src: "images/guadalupe.jpg",
-
-            width: 260,
-            mobileWidth: 140,
-
-            x: 70,
-            y: 60,
-
-            mobileX: 50,
-            mobileY: 60
-        },
 
         {
             src: "images/yukimi_3.jpg",
 
-            width: 100,
-            mobileWidth: 170,
+            width: 70,
 
-            x: 35,
-            y: 70,
+            mobileWidth: 110
+        },
 
-            mobileX: 45,
-            mobileY: 75
-        }
+
+        {
+            src: "images/yoganada.jpg",
+
+            width: 50,
+
+            mobileWidth: 150
+        },
+
+
+        {
+            src: "images/ganesha.jpg",
+
+            width: 70,
+
+            mobileWidth: 170
+        },
+
+
+        /*
+         * ADD MORE IMAGES HERE
+         *
+         * Example:
+         *
+         * {
+         *     src: "images/new-image.png",
+         *
+         *     width: 280,
+         *
+         *     mobileWidth: 140
+         * },
+         *
+         */
+
 
     ];
+
+
+
+    /* =========================================================
+       =========================================================
+
+       LAYOUT SETTINGS
+
+       These control the entire row.
+
+       =========================================================
+       ========================================================= */
+
+
+    const layout = {
+
+
+        /*
+         * =====================================================
+         * INVISIBLE TABLE / BASELINE
+         * =====================================================
+
+         * 50 = exactly the middle of the page.
+         *
+         * This is where the BOTTOM of every image sits.
+         *
+         * 45 = higher
+         * 50 = center
+         * 55 = lower
+         */
+
+        desktopBaseline: 50,
+
+        mobileBaseline: 50,
+
+
+
+        /*
+         * =====================================================
+         * SPACING BETWEEN IMAGES
+         * =====================================================
+
+         * Positive number:
+         *     space between images
+         *
+         * 0:
+         *     images touch
+         *
+         * Negative number:
+         *     images overlap
+         *
+         * Example:
+         *
+         * -20 = slight overlap
+         * -40 = more overlap
+         * 20  = space between images
+         */
+
+        desktopSpacing: -20,
+
+        mobileSpacing: -10
+
+    };
+
 
 
     /* =========================================================
        TABLE
        ========================================================= */
 
-    const table = document.getElementById("table");
+    const table =
+        document.getElementById("table");
 
-    /*
-     * Every time an image is selected, this number increases.
-     * This guarantees that the selected image goes to the front.
-     */
+
+
+    /* =========================================================
+       Z-INDEX
+       =========================================================
+
+       Every time an image is selected, this number increases.
+
+       This makes the selected image appear above all the
+       other images.
+
+       ========================================================= */
+
     let highestZIndex = 1;
+
+
+
+    /* =========================================================
+       DETECT MOBILE
+       ========================================================= */
+
+    function isMobile() {
+
+        return window.innerWidth < 768;
+
+    }
+
+
+
+    /* =========================================================
+       GET IMAGE WIDTH
+       ========================================================= */
+
+    function getImageWidth(item) {
+
+        if (isMobile()) {
+
+            return item.mobileWidth || item.width;
+
+        }
+
+        return item.width;
+
+    }
+
+
+
+    /* =========================================================
+       CALCULATE STARTING ROW
+       =========================================================
+
+       This automatically calculates where every image should
+       start.
+
+       The entire row is centered horizontally.
+
+       Every image shares the same bottom baseline.
+
+       ========================================================= */
+
+    function calculateLayout() {
+
+
+        const spacing =
+
+            isMobile()
+
+                ? layout.mobileSpacing
+
+                : layout.desktopSpacing;
+
+
+
+        /*
+         * Get the width of every image.
+         */
+
+        const widths =
+
+            images.map(function(item) {
+
+                return getImageWidth(item);
+
+            });
+
+
+
+        /*
+         * Calculate total width of the row.
+         */
+
+        const totalWidth =
+
+            widths.reduce(
+
+                function(total, width) {
+
+                    return total + width;
+
+                },
+
+                0
+
+            )
+
+            +
+
+            spacing *
+            (images.length - 1);
+
+
+
+        /*
+         * Start at the left side of the centered row.
+         */
+
+        let currentX =
+
+            (table.clientWidth - totalWidth) / 2;
+
+
+
+        /*
+         * Create a position for each image.
+         */
+
+        return images.map(function(item, index) {
+
+
+            const width =
+                widths[index];
+
+
+            /*
+             * The image's horizontal CENTER.
+             */
+
+            const centerX =
+
+                currentX +
+                (width / 2);
+
+
+
+            /*
+             * Move to the next image.
+             */
+
+            currentX +=
+
+                width +
+                spacing;
+
+
+
+            return {
+
+                x: centerX,
+
+                baseline:
+
+                    isMobile()
+
+                        ? layout.mobileBaseline
+
+                        : layout.desktopBaseline
+
+            };
+
+        });
+
+    }
+
 
 
     /* =========================================================
        CREATE IMAGES
        ========================================================= */
 
-    images.forEach((item, index) => {
+    const startingPositions =
+        calculateLayout();
 
-        const img = document.createElement("img");
+
+
+    images.forEach(function(item, index) {
+
+
+        const img =
+            document.createElement("img");
+
+
+
+        /*
+         * Image file.
+         */
 
         img.src = item.src;
 
+
+
+        /*
+         * CSS class.
+         */
+
         img.classList.add("object");
+
+
+
+        /*
+         * Store image number.
+         */
 
         img.dataset.index = index;
 
+
+
         /*
-         * IMPORTANT:
-         * Prevent the browser from using its own native
-         * image-dragging behavior on desktop.
+         * Disable native browser dragging.
          */
+
         img.draggable = false;
 
-        img.addEventListener("dragstart", function(event) {
-            event.preventDefault();
-        });
 
 
-        /* -----------------------------------------------------
-           DESKTOP SIZE
-           ----------------------------------------------------- */
+        img.addEventListener(
 
-        img.style.width = item.width + "px";
+            "dragstart",
 
+            function(event) {
 
-        /* -----------------------------------------------------
-           STARTING DESKTOP POSITION
-           ----------------------------------------------------- */
+                event.preventDefault();
 
-        img.style.left = item.x + "%";
-        img.style.top = item.y + "%";
+            }
 
+        );
 
-        /* -----------------------------------------------------
-           MOBILE SIZE + POSITION
-           ----------------------------------------------------- */
-
-        if (item.mobileWidth) {
-
-            const mobileStyle = document.createElement("style");
-
-            mobileStyle.innerHTML = `
-                @media (max-width: 767px) {
-
-                    .object[data-index="${index}"] {
-                        width: ${item.mobileWidth}px;
-                        left: ${item.mobileX}%;
-                        top: ${item.mobileY}%;
-                    }
-
-                }
-            `;
-
-            document.head.appendChild(mobileStyle);
-        }
 
 
         /* =====================================================
-           DRAGGING
+           IMAGE SIZE
+           ===================================================== */
+
+        img.style.width =
+            getImageWidth(item) + "px";
+
+
+
+        /* =====================================================
+           INITIAL POSITION
+           ===================================================== */
+
+        img.style.left =
+            startingPositions[index].x + "px";
+
+
+        img.style.top =
+            startingPositions[index].baseline + "%";
+
+
+
+        /* =====================================================
+           DRAG VARIABLES
            ===================================================== */
 
         let dragging = false;
 
         let offsetX = 0;
+
         let offsetY = 0;
 
 
-        /* -----------------------------------------------------
+
+        /* =====================================================
            POINTER DOWN
-           ----------------------------------------------------- */
+           ===================================================== */
 
-        img.addEventListener("pointerdown", function(event) {
+        img.addEventListener(
 
-            /*
-             * Stop the browser from doing anything else with
-             * this mouse/finger action.
-             */
-            event.preventDefault();
+            "pointerdown",
 
-            dragging = true;
-
-            img.classList.add("dragging");
+            function(event) {
 
 
-            /*
-             * Bring THIS image to the absolute front.
-             */
-            highestZIndex++;
-
-            img.style.zIndex = highestZIndex;
+                event.preventDefault();
 
 
-            /*
-             * Capture the pointer.
-             *
-             * This is important on desktop because it means
-             * the image continues receiving mouse movement even
-             * if the cursor moves quickly.
-             */
-            img.setPointerCapture(event.pointerId);
+                dragging = true;
 
 
-            const rect = table.getBoundingClientRect();
-            const imageRect = img.getBoundingClientRect();
+                img.classList.add(
+                    "dragging"
+                );
 
 
-            /*
-             * Remember exactly where the image was grabbed.
-             *
-             * This prevents the image from "jumping" when
-             * dragging begins.
-             */
-            offsetX =
-                event.clientX -
-                (imageRect.left + imageRect.width / 2);
+                /*
+                 * Bring this image to the front.
+                 */
 
-            offsetY =
-                event.clientY -
-                (imageRect.top + imageRect.height / 2);
-        });
+                highestZIndex++;
+
+                img.style.zIndex =
+                    highestZIndex;
 
 
-        /* -----------------------------------------------------
+
+                /*
+                 * Keep receiving pointer events
+                 * while dragging.
+                 */
+
+                img.setPointerCapture(
+                    event.pointerId
+                );
+
+
+
+                const imageRect =
+                    img.getBoundingClientRect();
+
+
+
+                /*
+                 * Remember exactly where the user
+                 * grabbed the image.
+                 */
+
+                offsetX =
+
+                    event.clientX -
+
+                    (
+                        imageRect.left +
+                        imageRect.width / 2
+                    );
+
+
+                offsetY =
+
+                    event.clientY -
+
+                    imageRect.top -
+                    imageRect.height;
+
+            }
+
+        );
+
+
+
+        /* =====================================================
            POINTER MOVE
-           ----------------------------------------------------- */
+           ===================================================== */
 
-        img.addEventListener("pointermove", function(event) {
+        img.addEventListener(
 
-            if (!dragging) return;
+            "pointermove",
 
-            event.preventDefault();
-
-
-            const rect = table.getBoundingClientRect();
-
-            const imageRect = img.getBoundingClientRect();
+            function(event) {
 
 
-            /*
-             * Find the mouse/finger position relative
-             * to the invisible table.
-             */
-            let x =
-                event.clientX -
-                rect.left -
-                offsetX;
-
-            let y =
-                event.clientY -
-                rect.top -
-                offsetY;
+                if (!dragging) return;
 
 
-            /*
-             * Convert the position into percentages.
-             */
-            let xPercent =
-                (x / rect.width) * 100;
-
-            let yPercent =
-                (y / rect.height) * 100;
+                event.preventDefault();
 
 
-            /*
-             * Calculate half the image dimensions.
-             *
-             * This prevents the image from being dragged
-             * completely off the table.
-             */
-            const halfWidth =
-                (imageRect.width / rect.width) * 50;
 
-            const halfHeight =
-                (imageRect.height / rect.height) * 50;
+                const tableRect =
+                    table.getBoundingClientRect();
 
 
-            /*
-             * Keep the entire image inside the table.
-             */
-            xPercent = Math.max(
-                halfWidth,
-                Math.min(100 - halfWidth, xPercent)
-            );
-
-            yPercent = Math.max(
-                halfHeight,
-                Math.min(100 - halfHeight, yPercent)
-            );
+                const imageRect =
+                    img.getBoundingClientRect();
 
 
-            /*
-             * Move the image.
-             */
-            img.style.left = xPercent + "%";
-            img.style.top = yPercent + "%";
 
-        });
+                /*
+                 * Calculate new horizontal position.
+                 */
+
+                let x =
+
+                    event.clientX -
+
+                    tableRect.left -
+
+                    offsetX;
 
 
-        /* -----------------------------------------------------
+
+                /*
+                 * Calculate new vertical position.
+                 */
+
+                let y =
+
+                    event.clientY -
+
+                    tableRect.top -
+
+                    offsetY;
+
+
+
+                /*
+                 * Keep image inside the table horizontally.
+                 */
+
+                x = Math.max(
+
+                    imageRect.width / 2,
+
+                    Math.min(
+
+                        tableRect.width -
+                        imageRect.width / 2,
+
+                        x
+
+                    )
+
+                );
+
+
+
+                /*
+                 * Keep image inside the table vertically.
+                 */
+
+                y = Math.max(
+
+                    imageRect.height,
+
+                    Math.min(
+
+                        tableRect.height,
+
+                        y
+
+                    )
+
+                );
+
+
+
+                /*
+                 * Move image.
+                 */
+
+                img.style.left =
+                    x + "px";
+
+
+                img.style.top =
+                    y + "px";
+
+            }
+
+        );
+
+
+
+        /* =====================================================
            POINTER UP
-           ----------------------------------------------------- */
+           ===================================================== */
 
-        img.addEventListener("pointerup", function(event) {
+        img.addEventListener(
 
-            if (!dragging) return;
+            "pointerup",
 
-            dragging = false;
+            function(event) {
 
-            img.classList.remove("dragging");
 
-            /*
-             * Release the pointer.
-             */
-            if (img.hasPointerCapture(event.pointerId)) {
-                img.releasePointerCapture(event.pointerId);
+                dragging = false;
+
+
+                img.classList.remove(
+                    "dragging"
+                );
+
+
+
+                if (
+
+                    img.hasPointerCapture(
+                        event.pointerId
+                    )
+
+                ) {
+
+                    img.releasePointerCapture(
+                        event.pointerId
+                    );
+
+                }
+
             }
 
-        });
+        );
 
 
-        /* -----------------------------------------------------
+
+        /* =====================================================
            POINTER CANCEL
-           ----------------------------------------------------- */
+           ===================================================== */
 
-        img.addEventListener("pointercancel", function(event) {
+        img.addEventListener(
 
-            dragging = false;
+            "pointercancel",
 
-            img.classList.remove("dragging");
+            function(event) {
 
-            if (img.hasPointerCapture(event.pointerId)) {
-                img.releasePointerCapture(event.pointerId);
+
+                dragging = false;
+
+
+                img.classList.remove(
+                    "dragging"
+                );
+
+
+
+                if (
+
+                    img.hasPointerCapture(
+                        event.pointerId
+                    )
+
+                ) {
+
+                    img.releasePointerCapture(
+                        event.pointerId
+                    );
+
+                }
+
             }
 
-        });
+        );
 
 
-        /* -----------------------------------------------------
-           ADD IMAGE TO TABLE
-           ----------------------------------------------------- */
+
+        /* =====================================================
+           ADD TO TABLE
+           ===================================================== */
 
         table.appendChild(img);
 
     });
 
-</script>
+
+
+    /* =========================================================
+       RESIZE
+       =========================================================
+
+       If the browser changes between desktop/mobile dimensions,
+       reload the initial arrangement so the row recalculates.
+
+       ========================================================= */
+
+    let resizeTimer;
+
+
+    window.addEventListener(
+
+        "resize",
+
+        function() {
+
+
+            clearTimeout(resizeTimer);
+
+
+            resizeTimer = setTimeout(
+
+                function() {
+
+                    window.location.reload();
+
+                },
+
+                300
+
+            );
+
+        }
+
+    );
+
+
+    </script>
+
 </body>
+
 </html>
+
+
