@@ -1,1635 +1,512 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta charset="UTF-8">
 
-<title>✦</title>
+    <title>digital altar</title>
 
-<style>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-/* =========================================================
-   FOOD FOR THOUGHT — DIGITAL ALTAR V3
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
 
-   The code is divided into four parts:
 
-   1. ALTAR ENGINE
-      positioning, dragging, scaling, layering
+    <style>
 
-   2. OBJECT LIBRARY
-      photos, transparent PNGs, candles
+    /* =========================================================
+       BASIC PAGE
+       ========================================================= */
 
-   3. CANDLE STYLES
-      edit candle construction here
-
-   4. ARRANGEMENT
-      edit where objects initially appear here
-   ========================================================= */
-
-
-/* =========================================================
-   1. ALTAR ENGINE — GENERAL
-   ========================================================= */
-
-:root {
-    --bg: #02010f;
-
-    --fuchsia: fuchsia;
-    --green: rgb(105, 255, 150);
-
-    /*
-       Internal altar coordinate system.
-       These numbers do NOT represent screen pixels.
-       The entire altar is scaled down/up to fit the viewport.
-    */
-    --world-width: 800;
-    --world-height: 600;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
-
-body {
-    background: var(--bg);
-    color: var(--fuchsia);
-    font-family: monospace;
-
-    /*
-       Prevent the browser from interpreting a drag as
-       page scrolling / selection.
-    */
-    touch-action: none;
-    user-select: none;
-
-    /*
-       Safe-area padding for phones with notches.
-    */
-    padding:
-        env(safe-area-inset-top)
-        env(safe-area-inset-right)
-        env(safe-area-inset-bottom)
-        env(safe-area-inset-left);
-}
-
-
-/* =========================================================
-   THE SPACE
-
-   This is the actual viewport.
-   Nothing needs to be positioned directly against its edges.
-   ========================================================= */
-
-#space {
-    position: fixed;
-    inset: 0;
-
-    width: 100%;
-    height: 100dvh;
-
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   THE WORLD
-
-   The altar lives inside an 800 × 600 invisible world.
-
-   JavaScript scales this entire world proportionally so it
-   always has breathing room around it.
-   ========================================================= */
-
-#altar-world {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 800px;
-    height: 600px;
-
-    transform:
-        translate(-50%, -50%)
-        scale(var(--altar-scale, 1));
-
-    transform-origin: center center;
-}
-
-
-/* =========================================================
-   A SECOND INNER LAYER
-
-   This lets us add subtle visual movement later without
-   interfering with the scaling/dragging system.
-   ========================================================= */
-
-#altar-float {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-}
-
-
-/* =========================================================
-   THE SINGLE TABLE / ALTAR LINE
-   ========================================================= */
-
-.table-line {
-    position: absolute;
-
-    left: 100px;
-    top: 420px;
-
-    width: 600px;
-    height: 1px;
-
-    border-top: 1px solid var(--fuchsia);
-
-    opacity: 0.9;
-
-    /*
-       The line itself is not draggable.
-    */
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   OBJECT ENGINE
-   ========================================================= */
-
-.object {
-    position: absolute;
-
-    transform-origin: center center;
-
-    cursor: grab;
-
-    /*
-       Important for touch dragging.
-    */
-    touch-action: none;
-
-    /*
-       Makes overlapping objects behave naturally.
-    */
-    z-index: 10;
-}
-
-.object:active {
-    cursor: grabbing;
-}
-
-
-/* =========================================================
-   FRAMED PHOTOS
-
-   The frame determines the visual size.
-   The actual image does NOT determine the frame shape.
-   ========================================================= */
-
-.photo-frame {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 6px;
-
-    background: #02010f;
-
-    border: 1px solid var(--fuchsia);
-
-    overflow: hidden;
-
-    /*
-       This makes the photo behave like an object rather than
-       a normal web image.
-    */
-}
-
-.photo-frame img {
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    pointer-events: none;
-
-    /*
-       Keeps the original RGB image appearance.
-       No grayscale / hue filters.
-    */
-}
-
-
-/*
-   EDITABLE FRAME SIZES
-*/
-
-.frame-small-portrait {
-    width: 82px;
-    height: 112px;
-}
-
-.frame-medium-portrait {
-    width: 112px;
-    height: 150px;
-}
-
-.frame-large-portrait {
-    width: 142px;
-    height: 188px;
-}
-
-.frame-small-landscape {
-    width: 132px;
-    height: 88px;
-}
-
-.frame-medium-landscape {
-    width: 172px;
-    height: 112px;
-}
-
-.frame-large-landscape {
-    width: 218px;
-    height: 142px;
-}
-
-
-/* =========================================================
-   TRANSPARENT PNG OBJECTS
-   ========================================================= */
-
-/*
-   PNG objects have:
-
-   - no frame
-   - no border
-   - no ASCII
-   - transparent background
-
-   Simply put a transparent PNG in:
-
-   images/altar/objects/
-
-   and add it to the OBJECT_LIBRARY below.
-*/
-
-.png-object {
-    display: block;
-
-    width: var(--object-width, 90px);
-    height: auto;
-
-    object-fit: contain;
-
-    pointer-events: none;
-
-    /*
-       No filter.
-       Original PNG colors remain intact.
-    */
-}
-
-
-/* =========================================================
-   CANDLES
-   ========================================================= */
-
-/*
-   The candle itself is deliberately simple.
-
-   You can completely redesign these later without touching
-   the drag system.
-*/
-
-.candle {
-    position: absolute;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: flex-end;
-
-    width: var(--candle-width);
-    height: var(--candle-height);
-}
-
-
-/*
-   FLAME
-*/
-
-.flame {
-    position: absolute;
-
-    left: 50%;
-
-    top: var(--flame-top);
-
-    transform:
-        translateX(-50%)
-        rotate(var(--flame-rotation, 0deg));
-
-    font-family: monospace;
-
-    font-size: var(--flame-size, 15px);
-
-    line-height: 1;
-
-    animation:
-        flicker
-        var(--flicker-speed, 900ms)
-        ease-in-out
-        infinite alternate;
-
-    pointer-events: none;
-}
-
-
-/*
-   WAX
-*/
-
-.wax {
-    position: absolute;
-
-    bottom: var(--base-height);
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: var(--wax-width);
-    height: var(--wax-height);
-
-    border: 1px solid var(--fuchsia);
-
-    background: var(--bg);
-
-    /*
-       Makes the ASCII construction optional.
-    */
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-family: monospace;
-
-    font-size: var(--wax-font-size, 11px);
-
-    line-height: 1;
-
-    text-align: center;
-
-    overflow: hidden;
-}
-
-
-/*
-   BASE
-*/
-
-.candle-base {
-    position: absolute;
-
-    bottom: 0;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: var(--base-width);
-    height: var(--base-height);
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-family: monospace;
-
-    font-size: var(--base-font-size, 10px);
-
-    line-height: 1;
-}
-
-
-/* =========================================================
-   DIFFERENT CANDLE CONSTRUCTIONS
-   ========================================================= */
-
-
-/*
-   PILLAR
-*/
-
-.candle.pillar {
-    --candle-width: 52px;
-    --candle-height: 90px;
-
-    --wax-width: 42px;
-    --wax-height: 62px;
-
-    --base-width: 52px;
-    --base-height: 13px;
-
-    --flame-top: -2px;
-
-    --flame-size: 16px;
-
-    --flicker-speed: 850ms;
-}
-
-
-/*
-   SHORT / THICK PILLAR
-*/
-
-.candle.pillar-short {
-    --candle-width: 58px;
-    --candle-height: 68px;
-
-    --wax-width: 50px;
-    --wax-height: 43px;
-
-    --base-width: 58px;
-    --base-height: 13px;
-
-    --flame-top: -2px;
-
-    --flame-size: 15px;
-
-    --flicker-speed: 760ms;
-}
-
-
-/*
-   TALL PILLAR
-*/
-
-.candle.pillar-tall {
-    --candle-width: 52px;
-    --candle-height: 125px;
-
-    --wax-width: 42px;
-    --wax-height: 96px;
-
-    --base-width: 52px;
-    --base-height: 13px;
-
-    --flame-top: -2px;
-
-    --flame-size: 16px;
-
-    --flicker-speed: 980ms;
-}
-
-
-/*
-   SKINNY CANDLE
-*/
-
-.candle.skinny {
-    --candle-width: 28px;
-    --candle-height: 145px;
-
-    --wax-width: 12px;
-    --wax-height: 112px;
-
-    --base-width: 28px;
-    --base-height: 9px;
-
-    --flame-top: -3px;
-
-    --flame-size: 14px;
-
-    --flicker-speed: 690ms;
-}
-
-
-/*
-   LOTUS CANDLE
-*/
-
-.candle.lotus {
-    --candle-width: 62px;
-    --candle-height: 75px;
-
-    --wax-width: 54px;
-    --wax-height: 34px;
-
-    --base-width: 62px;
-    --base-height: 15px;
-
-    --flame-top: -4px;
-
-    --flame-size: 15px;
-
-    --flicker-speed: 1040ms;
-}
-
-
-/* =========================================================
-   LOTUS PETALS
-   ========================================================= */
-
-.lotus-petals {
-    position: absolute;
-
-    bottom: 21px;
-
-    left: 50%;
-
-    width: 54px;
-    height: 24px;
-
-    transform: translateX(-50%);
-
-    pointer-events: none;
-}
-
-.lotus-petals::before {
-    content: "❀";
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    font-size: 25px;
-
-    line-height: 1;
-}
-
-
-/* =========================================================
-   FLICKER
-   ========================================================= */
-
-@keyframes flicker {
-
-    0% {
-        opacity: 0.65;
-        transform:
-            translateX(-50%)
-            translateY(1px)
-            rotate(-2deg);
+    * {
+        box-sizing: border-box;
     }
 
-    35% {
-        opacity: 1;
-        transform:
-            translateX(-50%)
-            translateY(-1px)
-            rotate(1deg);
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        min-height: 100%;
     }
 
-    70% {
-        opacity: 0.78;
-        transform:
-            translateX(-50%)
-            translateY(1px)
-            rotate(2deg);
+    body {
+        font-family: monospace;
+        color: fuchsia;
+        background-color: #02010f;
+        font-size: 14px;
+
+        /*
+         * Space around the invisible table.
+         */
+        padding: 10px;
+
+        /*
+         * Prevent the browser from trying to scroll the page
+         * while an object is being dragged.
+         */
+        overflow: hidden;
     }
 
-    100% {
-        opacity: 0.95;
-        transform:
-            translateX(-50%)
-            translateY(-2px)
-            rotate(-1deg);
-    }
-}
-
-
-/* =========================================================
-   SMALL DECORATIVE HTML OBJECTS
-   ========================================================= */
-
-.symbol-object {
-    font-family: monospace;
-
-    font-size: 24px;
-
-    line-height: 1;
-
-    color: var(--fuchsia);
-
-    white-space: nowrap;
-}
-
-.small-symbol {
-    font-size: 17px;
-}
-
-.large-symbol {
-    font-size: 31px;
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-/*
-   This is intentionally generous.
-
-   The altar gets SMALLER on phones rather than trying to
-   fill the screen.
-
-   More empty space is desirable here.
-*/
-
-@media (max-width: 600px) {
-
-    /*
-       Slightly reduce internal object scale.
-       The entire world is still scaled proportionally.
-    */
-
-    .photo-frame {
-        border-width: 1px;
-        padding: 4px;
+    a {
+        color: rgb(105, 255, 150);
+        text-decoration: none;
     }
 
-    .symbol-object {
-        font-size: 19px;
+
+    /* =========================================================
+       THE INVISIBLE TABLE
+       ========================================================= */
+
+    #table {
+        /*
+         * This is the invisible surface that the objects
+         * are resting on.
+         *
+         * You can give this a background temporarily while
+         * designing if you want to see it.
+         */
+
+        position: relative;
+
+        width: min(1200px, 100%);
+        height: calc(100vh - 20px);
+
+        margin: 0 auto;
+
+        /*
+         * Uncomment this temporarily to see the table:
+
+         background: rgba(255, 0, 255, 0.05);
+         border: 1px dashed fuchsia;
+         */
+
+        overflow: hidden;
     }
 
-    .large-symbol {
-        font-size: 25px;
+
+    /* =========================================================
+       DRAGGABLE OBJECTS
+       ========================================================= */
+
+    .object {
+        position: absolute;
+
+        /*
+         * Width is supplied by JavaScript from the image
+         * configuration below.
+         */
+        height: auto;
+
+        user-select: none;
+        -webkit-user-select: none;
+
+        /*
+         * Allows dragging with a finger on mobile without
+         * the browser interpreting it as page scrolling.
+         */
+        touch-action: none;
+
+        cursor: grab;
+
+        /*
+         * Prevents the image from being selected/dragged
+         * as a normal browser image.
+         */
+        -webkit-user-drag: none;
+
+        transform: translate(-50%, -50%);
     }
-}
 
+    .object.dragging {
+        cursor: grabbing;
 
-/*
-   Very small phones.
-
-   Give the composition even more breathing room.
-*/
-
-@media (max-width: 380px) {
-
-    .photo-frame {
-        padding: 3px;
+        /*
+         * Makes the currently selected object appear above
+         * everything else.
+         */
+        z-index: 9999;
     }
 
-    .symbol-object {
-        font-size: 16px;
+
+    /* =========================================================
+       DESKTOP
+       ========================================================= */
+
+    @media (min-width: 768px) {
+
+        body {
+            padding: 15px;
+        }
+
+        #table {
+            /*
+             * More vertical breathing room on desktop.
+             */
+            height: calc(100vh - 30px);
+        }
+
+        .object {
+            /*
+             * Optional desktop styling.
+             *
+             * Actual image sizes are controlled in the
+             * IMAGE CONFIGURATION section below.
+             */
+        }
     }
 
-    .large-symbol {
-        font-size: 22px;
-    }
-}
 
-</style>
+    /* =========================================================
+       PHONE
+       ========================================================= */
+
+    @media (max-width: 767px) {
+
+        body {
+            padding: 10px;
+        }
+
+        #table {
+            /*
+             * Keeps the workspace centered vertically.
+             */
+            height: calc(100vh - 20px);
+        }
+
+        .object {
+            /*
+             * Mobile-specific styling can go here if needed.
+             *
+             * Individual image sizes are controlled by the
+             * mobileWidth values in the configuration.
+             */
+        }
+    }
+
+    </style>
 </head>
 
 
 <body>
 
-<div id="space">
+    <!-- =======================================================
+         INVISIBLE TABLE
+         ======================================================= -->
 
-    <div id="altar-world">
-
-        <div id="altar-float">
-
-            <!-- THE ONE TABLE -->
-            <div class="table-line"></div>
-
-            <!--
-                OBJECTS ARE INSERTED HERE BY JAVASCRIPT.
-            -->
-
-        </div>
-
-    </div>
-
-</div>
+    <main id="table"></main>
 
 
-<script>
+    <script>
 
-/* =========================================================
-   2. OBJECT LIBRARY
+    /* =========================================================
+       IMAGE CONFIGURATION
+       =========================================================
 
-   THIS IS ONE OF THE MAIN PLACES YOU WILL EDIT.
+       THIS IS THE MAIN SECTION YOU WILL EDIT.
 
-   Add your images and transparent PNGs here.
+       Each object can have:
 
-   Example:
+       src
+           The image file.
 
-   pngObjects: [
-       {
-           src: "images/altar/objects/flower01.png",
-           width: 80
-       }
-   ]
+       width
+           Desktop image width in pixels.
 
-   PNGs must have transparent backgrounds if you want them
-   to float cleanly against the dark space.
-   ========================================================= */
+       mobileWidth
+           Phone image width in pixels.
+
+       x
+           Starting horizontal position.
+
+       y
+           Starting vertical position.
+
+       mobileX
+           Starting horizontal position on phone.
+
+       mobileY
+           Starting vertical position on phone.
+
+       The x/y positions are percentages of the invisible table.
+
+       Example:
+
+           x: 50,
+           y: 50
+
+       means the center of the image starts in the middle
+       of the table.
+
+       ========================================================= */
 
 
-const OBJECT_LIBRARY = {
-
-    photos: [
-
-        /*
-           Replace these paths with your actual files.
-
-           The page currently references photo1.jpg,
-           photo2.jpg and photo3.jpg, but those files are
-           currently returning 404s on the live site.
-        */
+    const images = [
 
         {
-            src: "images/altar/photos/photo01.jpg",
-            frame: "frame-small-portrait"
+            src: "images/buddha.png",
+
+            width: 220,
+            mobileWidth: 120,
+
+            x: 30,
+            y: 40,
+
+            mobileX: 35,
+            mobileY: 35
         },
 
-        {
-            src: "images/altar/photos/photo02.jpg",
-            frame: "frame-medium-portrait"
-        },
 
         {
-            src: "images/altar/photos/photo03.jpg",
-            frame: "frame-small-landscape"
+            src: "images/ganesha.jpg",
+
+            width: 180,
+            mobileWidth: 100,
+
+            x: 55,
+            y: 35,
+
+            mobileX: 65,
+            mobileY: 35
         },
 
+
         {
-            src: "images/altar/photos/photo04.jpg",
-            frame: "frame-large-landscape"
+            src: "images/yogananda.jpg",
+
+            width: 260,
+            mobileWidth: 140,
+
+            x: 70,
+            y: 60,
+
+            mobileX: 50,
+            mobileY: 60
+        },
+
+
+        {
+            src: "images/yukimi_3.jpg",
+
+            width: 300,
+            mobileWidth: 170,
+
+            x: 35,
+            y: 70,
+
+            mobileX: 45,
+            mobileY: 75
         }
 
-    ],
+    ];
 
 
-    /*
-       TRANSPARENT PNGS
+    /* =========================================================
+       TABLE
+       ========================================================= */
 
-       No frame.
-       No ASCII.
+    const table = document.getElementById("table");
 
-       Uncomment/add files as you collect them.
-    */
 
-    pngObjects: [
+    /* =========================================================
+       CREATE IMAGES
+       ========================================================= */
+
+    images.forEach((item, index) => {
+
+        const img = document.createElement("img");
+
+        img.src = item.src;
+
+        img.classList.add("object");
 
         /*
-        {
-            src: "images/altar/objects/flower01.png",
-            width: 75
-        },
+         * Give every object its own ID.
+         */
+        img.dataset.index = index;
 
-        {
-            src: "images/altar/objects/bowl01.png",
-            width: 100
-        },
 
-        {
-            src: "images/altar/objects/statue01.png",
-            width: 85
+        /* -----------------------------------------------------
+           DESKTOP SIZE
+           ----------------------------------------------------- */
+
+        img.style.width = item.width + "px";
+
+
+        /* -----------------------------------------------------
+           STARTING POSITION
+           ----------------------------------------------------- */
+
+        img.style.left = item.x + "%";
+        img.style.top = item.y + "%";
+
+
+        /* -----------------------------------------------------
+           MOBILE SIZE
+           ----------------------------------------------------- */
+
+        if (item.mobileWidth) {
+
+            const mobileStyle = document.createElement("style");
+
+            mobileStyle.innerHTML = `
+                @media (max-width: 767px) {
+                    .object[data-index="${index}"] {
+                        width: ${item.mobileWidth}px;
+                        left: ${item.mobileX}%;
+                        top: ${item.mobileY}%;
+                    }
+                }
+            `;
+
+            document.head.appendChild(mobileStyle);
         }
-        */
 
-    ],
 
+        /* -----------------------------------------------------
+           DRAGGING
+           ----------------------------------------------------- */
 
-    /*
-       Available candle styles.
+        let dragging = false;
 
-       These names correspond to CANDLE_STYLES below.
-    */
+        let offsetX = 0;
+        let offsetY = 0;
 
-    candles: [
-        "pillar-short",
-        "pillar",
-        "pillar-tall",
-        "skinny",
-        "lotus"
-    ]
 
-};
+        img.addEventListener("pointerdown", function(event) {
 
+            dragging = true;
 
-/* =========================================================
-   3. CANDLE STYLES
+            img.classList.add("dragging");
 
-   THIS IS THE OTHER MAIN PLACE YOU WILL EDIT.
+            /*
+             * Bring this image to the front.
+             */
+            img.style.zIndex = 9999;
 
-   You can change the ASCII / Unicode construction of each
-   candle without changing the altar engine.
+            /*
+             * Capture the pointer so dragging continues
+             * even if the finger/mouse moves quickly.
+             */
+            img.setPointerCapture(event.pointerId);
 
-   You can eventually make these much more elaborate.
-   ========================================================= */
 
+            const rect = table.getBoundingClientRect();
+            const imageRect = img.getBoundingClientRect();
 
-const CANDLE_STYLES = {
+            /*
+             * Calculate where inside the image the user
+             * grabbed it.
+             */
+            offsetX =
+                event.clientX -
+                (imageRect.left + imageRect.width / 2);
 
-    pillar: {
+            offsetY =
+                event.clientY -
+                (imageRect.top + imageRect.height / 2);
+        });
 
-        className: "pillar",
 
-        wax: "│ │",
+        img.addEventListener("pointermove", function(event) {
 
-        base: "─────",
+            if (!dragging) return;
 
-        flame: "✦",
 
-        flameRotation: 0
+            const rect = table.getBoundingClientRect();
 
-    },
 
+            /*
+             * Convert mouse/finger position into coordinates
+             * relative to the invisible table.
+             */
+            let x =
+                event.clientX -
+                rect.left -
+                offsetX;
 
-    "pillar-short": {
+            let y =
+                event.clientY -
+                rect.top -
+                offsetY;
 
-        className: "pillar-short",
 
-        wax: "││",
+            /*
+             * Convert to percentage.
+             *
+             * This means the objects remain responsive if
+             * the screen changes size.
+             */
+            let xPercent =
+                (x / rect.width) * 100;
 
-        base: "──────",
+            let yPercent =
+                (y / rect.height) * 100;
 
-        flame: "✧",
 
-        flameRotation: -2
+            /*
+             * Keep the object inside the table.
+             */
+            const halfWidth =
+                (imageRectWidth(img) / rect.width) * 50;
 
-    },
+            const halfHeight =
+                (imageRectHeight(img) / rect.height) * 50;
 
 
-    "pillar-tall": {
+            xPercent = Math.max(
+                halfWidth,
+                Math.min(100 - halfWidth, xPercent)
+            );
 
-        className: "pillar-tall",
-
-        wax: "│ │",
-
-        base: "─────",
-
-        flame: "*",
-
-        flameRotation: 1
-
-    },
-
-
-    skinny: {
-
-        className: "skinny",
-
-        wax: "│",
-
-        base: "───",
-
-        flame: "·",
-
-        flameRotation: -1
-
-    },
-
-
-    lotus: {
-
-        className: "lotus",
-
-        wax: "││",
-
-        base: "──────",
-
-        flame: "✦",
-
-        flameRotation: 2,
-
-        lotus: true
-
-    }
-
-};
-
-
-/* =========================================================
-   4. ARRANGEMENT
-
-   THIS IS WHERE YOU CONTROL THE INITIAL COMPOSITION.
-
-   x = horizontal position inside the 800px world
-   y = vertical position inside the 600px world
-
-   rotation = degrees
-
-   z = layering
-
-   You can move things around without touching their style.
-   ========================================================= */
-
-
-const ARRANGEMENT = [
-
-    /* -------------------------
-       PHOTOS
-       ------------------------- */
-
-    {
-        type: "photo",
-        libraryIndex: 0,
-
-        x: 245,
-        y: 270,
-
-        rotation: -4,
-
-        z: 20
-    },
-
-    {
-        type: "photo",
-        libraryIndex: 1,
-
-        x: 355,
-        y: 220,
-
-        rotation: 3,
-
-        z: 18
-    },
-
-    {
-        type: "photo",
-        libraryIndex: 2,
-
-        x: 490,
-        y: 275,
-
-        rotation: -2,
-
-        z: 21
-    },
-
-
-    /* -------------------------
-       CANDLES
-       ------------------------- */
-
-    {
-        type: "candle",
-        style: "pillar-short",
-
-        x: 315,
-        y: 350,
-
-        rotation: -2,
-
-        z: 30
-    },
-
-    {
-        type: "candle",
-        style: "skinny",
-
-        x: 430,
-        y: 300,
-
-        rotation: 2,
-
-        z: 31
-    },
-
-    {
-        type: "candle",
-        style: "lotus",
-
-        x: 545,
-        y: 355,
-
-        rotation: -1,
-
-        z: 32
-    },
-
-
-    /* -------------------------
-       SMALL HTML OBJECTS
-       ------------------------- */
-
-    {
-        type: "symbol",
-
-        text: "❀",
-
-        x: 215,
-        y: 365,
-
-        rotation: -8,
-
-        z: 15,
-
-        className: "large-symbol"
-    },
-
-    {
-        type: "symbol",
-
-        text: "◒",
-
-        x: 610,
-        y: 365,
-
-        rotation: 5,
-
-        z: 15,
-
-        className: "small-symbol"
-    },
-
-    {
-        type: "symbol",
-
-        text: "〰",
-
-        x: 680,
-        y: 325,
-
-        rotation: -5,
-
-        z: 14,
-
-        className: "small-symbol"
-    }
-
-];
-
-
-/* =========================================================
-   ALTAR ENGINE
-   ========================================================= */
-
-const WORLD_WIDTH = 800;
-const WORLD_HEIGHT = 600;
-
-const world = document.getElementById("altar-world");
-const altarFloat = document.getElementById("altar-float");
-
-
-/* =========================================================
-   RESPONSIVE WORLD SCALING
-
-   IMPORTANT:
-
-   The altar is deliberately NOT scaled to fill the phone.
-
-   We reserve:
-
-   Desktop:
-       ~74% width
-       ~60% height
-
-   Mobile:
-       ~82% width
-       ~62% height
-
-   Because the internal altar is 800 × 600, this keeps a
-   visible margin around the complete composition.
-
-   The height constraint creates the extra breathing room
-   above and below that you wanted.
-   ========================================================= */
-
-function updateWorldScale() {
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const isMobile = width <= 600;
-
-    let safeWidth;
-    let safeHeight;
-
-    if (isMobile) {
-
-        /*
-           Mobile:
-           smaller overall composition
-           with lots of vertical breathing room.
-        */
-
-        safeWidth = width * 0.82;
-        safeHeight = height * 0.62;
-
-    } else {
-
-        /*
-           Desktop:
-           slightly larger but still floating in space.
-        */
-
-        safeWidth = width * 0.74;
-        safeHeight = height * 0.60;
-    }
-
-
-    const scaleByWidth =
-        safeWidth / WORLD_WIDTH;
-
-    const scaleByHeight =
-        safeHeight / WORLD_HEIGHT;
-
-
-    const scale =
-        Math.min(
-            scaleByWidth,
-            scaleByHeight
-        );
-
-
-    world.style.setProperty(
-        "--altar-scale",
-        scale
-    );
-}
-
-
-window.addEventListener(
-    "resize",
-    updateWorldScale
-);
-
-window.addEventListener(
-    "orientationchange",
-    updateWorldScale
-);
-
-updateWorldScale();
-
-
-/* =========================================================
-   OBJECT CREATION
-   ========================================================= */
-
-
-let highestZ = 100;
-
-
-function createObject(definition) {
-
-    let element;
-
-
-    /* =====================================================
-       PHOTO
-       ===================================================== */
-
-    if (definition.type === "photo") {
-
-        const photo =
-            OBJECT_LIBRARY.photos[
-                definition.libraryIndex
-            ];
-
-        if (!photo) return;
-
-
-        element =
-            document.createElement("div");
-
-        element.className =
-            "object photo-frame " +
-            photo.frame;
-
-
-        const image =
-            document.createElement("img");
-
-        image.src =
-            photo.src;
-
-        image.alt = "";
-
-        image.draggable = false;
-
-        element.appendChild(image);
-    }
-
-
-    /* =====================================================
-       TRANSPARENT PNG
-       ===================================================== */
-
-    else if (definition.type === "png") {
-
-        element =
-            document.createElement("div");
-
-        element.className =
-            "object";
-
-        element.style.setProperty(
-            "--object-width",
-            (definition.width || 90) + "px"
-        );
-
-
-        const image =
-            document.createElement("img");
-
-        image.className =
-            "png-object";
-
-        image.src =
-            definition.src;
-
-        image.alt = "";
-
-        image.draggable = false;
-
-        element.appendChild(image);
-    }
-
-
-    /* =====================================================
-       CANDLE
-       ===================================================== */
-
-    else if (definition.type === "candle") {
-
-        const style =
-            CANDLE_STYLES[
-                definition.style
-            ];
-
-        if (!style) return;
-
-
-        element =
-            document.createElement("div");
-
-        element.className =
-            "object candle " +
-            style.className;
-
-
-        /*
-           Flame
-        */
-
-        const flame =
-            document.createElement("div");
-
-        flame.className =
-            "flame";
-
-        flame.textContent =
-            style.flame;
-
-        flame.style.setProperty(
-            "--flame-rotation",
-            style.flameRotation + "deg"
-        );
-
-
-        /*
-           Wax
-        */
-
-        const wax =
-            document.createElement("div");
-
-        wax.className =
-            "wax";
-
-        wax.textContent =
-            style.wax;
-
-
-        /*
-           Base
-        */
-
-        const base =
-            document.createElement("div");
-
-        base.className =
-            "candle-base";
-
-        base.textContent =
-            style.base;
-
-
-        element.appendChild(flame);
-
-        element.appendChild(wax);
-
-        element.appendChild(base);
-
-
-        /*
-           Lotus gets an additional decorative layer.
-        */
-
-        if (style.lotus) {
-
-            const petals =
-                document.createElement("div");
-
-            petals.className =
-                "lotus-petals";
-
-            element.appendChild(petals);
-        }
-    }
-
-
-    /* =====================================================
-       SYMBOL
-       ===================================================== */
-
-    else if (definition.type === "symbol") {
-
-        element =
-            document.createElement("div");
-
-        element.className =
-            "object symbol-object " +
-            (definition.className || "");
-
-        element.textContent =
-            definition.text;
-    }
-
-
-    else {
-
-        return;
-    }
-
-
-    /* =====================================================
-       INITIAL POSITION
-       ===================================================== */
-
-    element.style.left =
-        definition.x + "px";
-
-    element.style.top =
-        definition.y + "px";
-
-    element.style.transform =
-        "rotate(" +
-        (definition.rotation || 0) +
-        "deg)";
-
-    element.dataset.rotation =
-        definition.rotation || 0;
-
-    element.style.zIndex =
-        definition.z || highestZ;
-
-
-    altarFloat.appendChild(element);
-
-    makeDraggable(element);
-}
-
-
-/* =========================================================
-   CREATE THE INITIAL ALTAR
-   ========================================================= */
-
-ARRANGEMENT.forEach(
-    createObject
-);
-
-
-/* =========================================================
-   DRAGGING ENGINE
-   ========================================================= */
-
-
-function makeDraggable(element) {
-
-    let dragging = false;
-
-    let startPointerX = 0;
-    let startPointerY = 0;
-
-    let startLeft = 0;
-    let startTop = 0;
-
-
-    element.addEventListener(
-        "pointerdown",
-        startDrag
-    );
-
-
-    function startDrag(event) {
-
-        event.preventDefault();
-
-        dragging = true;
-
-
-        /*
-           Bring the selected object forward.
-        */
-
-        highestZ++;
-
-        element.style.zIndex =
-            highestZ;
-
-
-        /*
-           Keep pointer events attached to this element.
-        */
-
-        element.setPointerCapture(
-            event.pointerId
-        );
-
-
-        startPointerX =
-            event.clientX;
-
-        startPointerY =
-            event.clientY;
-
-
-        startLeft =
-            parseFloat(
-                element.style.left
-            ) || 0;
-
-        startTop =
-            parseFloat(
-                element.style.top
-            ) || 0;
-
-
-        element.classList.add(
-            "dragging"
-        );
-
-
-        element.addEventListener(
-            "pointermove",
-            drag
-        );
-
-        element.addEventListener(
-            "pointerup",
-            endDrag
-        );
-
-        element.addEventListener(
-            "pointercancel",
-            endDrag
-        );
-    }
-
-
-    function drag(event) {
-
-        if (!dragging) return;
-
-
-        /*
-           The world is scaled.
-
-           Divide the pointer movement by the current scale
-           so objects move at the correct internal-world speed.
-        */
-
-        const scale =
-            parseFloat(
-                getComputedStyle(
-                    world
-                ).getPropertyValue(
-                    "--altar-scale"
-                )
-            ) || 1;
-
-
-        const deltaX =
-            (event.clientX -
-             startPointerX) / scale;
-
-        const deltaY =
-            (event.clientY -
-             startPointerY) / scale;
-
-
-        let newLeft =
-            startLeft + deltaX;
-
-        let newTop =
-            startTop + deltaY;
-
-
-        /*
-           Keep objects inside the invisible world.
-
-           This prevents visitors from accidentally dragging
-           something permanently off-screen.
-        */
-
-        const objectWidth =
-            element.offsetWidth;
-
-        const objectHeight =
-            element.offsetHeight;
-
-
-        const padding = 8;
-
-
-        newLeft =
-            Math.max(
-                padding,
-                Math.min(
-                    WORLD_WIDTH -
-                    objectWidth -
-                    padding,
-                    newLeft
-                )
+            yPercent = Math.max(
+                halfHeight,
+                Math.min(100 - halfHeight, yPercent)
             );
 
 
-        newTop =
-            Math.max(
-                padding,
-                Math.min(
-                    WORLD_HEIGHT -
-                    objectHeight -
-                    padding,
-                    newTop
-                )
-            );
+            img.style.left = xPercent + "%";
+            img.style.top = yPercent + "%";
+        });
 
 
-        element.style.left =
-            newLeft + "px";
+        img.addEventListener("pointerup", function(event) {
 
-        element.style.top =
-            newTop + "px";
+            dragging = false;
+
+            img.classList.remove("dragging");
+
+            img.releasePointerCapture(event.pointerId);
+        });
+
+
+        img.addEventListener("pointercancel", function() {
+
+            dragging = false;
+
+            img.classList.remove("dragging");
+        });
+
+
+        table.appendChild(img);
+
+    });
+
+
+    /* =========================================================
+       HELPER FUNCTIONS
+       ========================================================= */
+
+    function imageRectWidth(img) {
+        return img.getBoundingClientRect().width;
+    }
+
+    function imageRectHeight(img) {
+        return img.getBoundingClientRect().height;
     }
 
 
-    function endDrag() {
-
-        if (!dragging) return;
-
-        dragging = false;
-
-        element.classList.remove(
-            "dragging"
-        );
-
-
-        element.removeEventListener(
-            "pointermove",
-            drag
-        );
-
-        element.removeEventListener(
-            "pointerup",
-            endDrag
-        );
-
-        element.removeEventListener(
-            "pointercancel",
-            endDrag
-        );
-    }
-}
-
-</script>
+    </script>
 
 </body>
 </html>
-```
