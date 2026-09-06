@@ -197,7 +197,8 @@
     <main id="table"></main>
 
 
-    <script>
+    ```html
+<script>
 
     /* =========================================================
        IMAGE CONFIGURATION
@@ -205,41 +206,19 @@
 
        THIS IS THE MAIN SECTION YOU WILL EDIT.
 
-       Each object can have:
-
-       src
-           The image file.
-
-       width
+       width:
            Desktop image width in pixels.
 
-       mobileWidth
+       mobileWidth:
            Phone image width in pixels.
 
-       x
-           Starting horizontal position.
+       x / y:
+           Starting desktop position, as percentages.
 
-       y
-           Starting vertical position.
-
-       mobileX
-           Starting horizontal position on phone.
-
-       mobileY
-           Starting vertical position on phone.
-
-       The x/y positions are percentages of the invisible table.
-
-       Example:
-
-           x: 50,
-           y: 50
-
-       means the center of the image starts in the middle
-       of the table.
+       mobileX / mobileY:
+           Starting phone position, as percentages.
 
        ========================================================= */
-
 
     const images = [
 
@@ -256,7 +235,6 @@
             mobileY: 35
         },
 
-
         {
             src: "images/ganesha.jpg",
 
@@ -270,9 +248,8 @@
             mobileY: 35
         },
 
-
         {
-            src: "images/yogananda.jpg",
+            src: "images/guadalupe.jpg",
 
             width: 260,
             mobileWidth: 140,
@@ -284,11 +261,10 @@
             mobileY: 60
         },
 
-
         {
             src: "images/yukimi_3.jpg",
 
-            width: 300,
+            width: 100,
             mobileWidth: 170,
 
             x: 35,
@@ -307,6 +283,12 @@
 
     const table = document.getElementById("table");
 
+    /*
+     * Every time an image is selected, this number increases.
+     * This guarantees that the selected image goes to the front.
+     */
+    let highestZIndex = 1;
+
 
     /* =========================================================
        CREATE IMAGES
@@ -320,10 +302,18 @@
 
         img.classList.add("object");
 
-        /*
-         * Give every object its own ID.
-         */
         img.dataset.index = index;
+
+        /*
+         * IMPORTANT:
+         * Prevent the browser from using its own native
+         * image-dragging behavior on desktop.
+         */
+        img.draggable = false;
+
+        img.addEventListener("dragstart", function(event) {
+            event.preventDefault();
+        });
 
 
         /* -----------------------------------------------------
@@ -334,7 +324,7 @@
 
 
         /* -----------------------------------------------------
-           STARTING POSITION
+           STARTING DESKTOP POSITION
            ----------------------------------------------------- */
 
         img.style.left = item.x + "%";
@@ -342,7 +332,7 @@
 
 
         /* -----------------------------------------------------
-           MOBILE SIZE
+           MOBILE SIZE + POSITION
            ----------------------------------------------------- */
 
         if (item.mobileWidth) {
@@ -351,11 +341,13 @@
 
             mobileStyle.innerHTML = `
                 @media (max-width: 767px) {
+
                     .object[data-index="${index}"] {
                         width: ${item.mobileWidth}px;
                         left: ${item.mobileX}%;
                         top: ${item.mobileY}%;
                     }
+
                 }
             `;
 
@@ -363,9 +355,9 @@
         }
 
 
-        /* -----------------------------------------------------
+        /* =====================================================
            DRAGGING
-           ----------------------------------------------------- */
+           ===================================================== */
 
         let dragging = false;
 
@@ -373,20 +365,37 @@
         let offsetY = 0;
 
 
+        /* -----------------------------------------------------
+           POINTER DOWN
+           ----------------------------------------------------- */
+
         img.addEventListener("pointerdown", function(event) {
+
+            /*
+             * Stop the browser from doing anything else with
+             * this mouse/finger action.
+             */
+            event.preventDefault();
 
             dragging = true;
 
             img.classList.add("dragging");
 
-            /*
-             * Bring this image to the front.
-             */
-            img.style.zIndex = 9999;
 
             /*
-             * Capture the pointer so dragging continues
-             * even if the finger/mouse moves quickly.
+             * Bring THIS image to the absolute front.
+             */
+            highestZIndex++;
+
+            img.style.zIndex = highestZIndex;
+
+
+            /*
+             * Capture the pointer.
+             *
+             * This is important on desktop because it means
+             * the image continues receiving mouse movement even
+             * if the cursor moves quickly.
              */
             img.setPointerCapture(event.pointerId);
 
@@ -394,9 +403,12 @@
             const rect = table.getBoundingClientRect();
             const imageRect = img.getBoundingClientRect();
 
+
             /*
-             * Calculate where inside the image the user
-             * grabbed it.
+             * Remember exactly where the image was grabbed.
+             *
+             * This prevents the image from "jumping" when
+             * dragging begins.
              */
             offsetX =
                 event.clientX -
@@ -408,17 +420,25 @@
         });
 
 
+        /* -----------------------------------------------------
+           POINTER MOVE
+           ----------------------------------------------------- */
+
         img.addEventListener("pointermove", function(event) {
 
             if (!dragging) return;
 
+            event.preventDefault();
+
 
             const rect = table.getBoundingClientRect();
 
+            const imageRect = img.getBoundingClientRect();
+
 
             /*
-             * Convert mouse/finger position into coordinates
-             * relative to the invisible table.
+             * Find the mouse/finger position relative
+             * to the invisible table.
              */
             let x =
                 event.clientX -
@@ -432,10 +452,7 @@
 
 
             /*
-             * Convert to percentage.
-             *
-             * This means the objects remain responsive if
-             * the screen changes size.
+             * Convert the position into percentages.
              */
             let xPercent =
                 (x / rect.width) * 100;
@@ -445,15 +462,21 @@
 
 
             /*
-             * Keep the object inside the table.
+             * Calculate half the image dimensions.
+             *
+             * This prevents the image from being dragged
+             * completely off the table.
              */
             const halfWidth =
-                (imageRectWidth(img) / rect.width) * 50;
+                (imageRect.width / rect.width) * 50;
 
             const halfHeight =
-                (imageRectHeight(img) / rect.height) * 50;
+                (imageRect.height / rect.height) * 50;
 
 
+            /*
+             * Keep the entire image inside the table.
+             */
             xPercent = Math.max(
                 halfWidth,
                 Math.min(100 - halfWidth, xPercent)
@@ -465,48 +488,62 @@
             );
 
 
+            /*
+             * Move the image.
+             */
             img.style.left = xPercent + "%";
             img.style.top = yPercent + "%";
+
         });
 
+
+        /* -----------------------------------------------------
+           POINTER UP
+           ----------------------------------------------------- */
 
         img.addEventListener("pointerup", function(event) {
 
-            dragging = false;
-
-            img.classList.remove("dragging");
-
-            img.releasePointerCapture(event.pointerId);
-        });
-
-
-        img.addEventListener("pointercancel", function() {
+            if (!dragging) return;
 
             dragging = false;
 
             img.classList.remove("dragging");
+
+            /*
+             * Release the pointer.
+             */
+            if (img.hasPointerCapture(event.pointerId)) {
+                img.releasePointerCapture(event.pointerId);
+            }
+
         });
 
+
+        /* -----------------------------------------------------
+           POINTER CANCEL
+           ----------------------------------------------------- */
+
+        img.addEventListener("pointercancel", function(event) {
+
+            dragging = false;
+
+            img.classList.remove("dragging");
+
+            if (img.hasPointerCapture(event.pointerId)) {
+                img.releasePointerCapture(event.pointerId);
+            }
+
+        });
+
+
+        /* -----------------------------------------------------
+           ADD IMAGE TO TABLE
+           ----------------------------------------------------- */
 
         table.appendChild(img);
 
     });
 
-
-    /* =========================================================
-       HELPER FUNCTIONS
-       ========================================================= */
-
-    function imageRectWidth(img) {
-        return img.getBoundingClientRect().width;
-    }
-
-    function imageRectHeight(img) {
-        return img.getBoundingClientRect().height;
-    }
-
-
-    </script>
-
+</script>
 </body>
 </html>
