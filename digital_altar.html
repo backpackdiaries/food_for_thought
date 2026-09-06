@@ -290,19 +290,21 @@
 
 
         {
-            image: "images/buddha.png",
+    image: "images/buddha.png",
 
-            size: 220,
+    desktopSize: 300,
 
-            x: 20,
-            y: 50
-        },
+    mobileSize: 180,
 
+    x: 20,
+    y: 50
+},
 
         {
             image: "images/yukimi_3.jpg",
 
-            size: 260,
+            desktopSize: 300,
+            mobileSize: 180,
 
             x: 40,
             y: 50
@@ -312,7 +314,8 @@
         {
             image: "images/yogananda.jpg",
 
-            size: 200,
+            desktopSize: 200,
+            mobileSize: 180,
 
             x: 60,
             y: 50
@@ -322,7 +325,8 @@
         {
             image: "images/ganesha.jpg",
 
-            size: 280,
+            desktopSize: 280,
+            mobileSize: 180,
 
             x: 80,
             y: 50
@@ -644,8 +648,9 @@
            ===================================================== */
 
         img.style.width =
-            item.size + "px";
-
+    (isMobile()
+        ? item.mobileSize
+        : item.desktopSize) + "px";
 
 
         /* =====================================================
