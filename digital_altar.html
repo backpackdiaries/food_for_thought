@@ -1,1059 +1,660 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
 
-    <meta charset="UTF-8">
+<title>digital altar</title>
 
-    <title>digital altar</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="images/icon.png" type="image/png">
+<link rel="apple-touch-icon" href="images/icon.png">
 
-    <link rel="manifest" href="manifest.json">
+<style>
+/* =========================================================
+   BASIC PAGE
+   ========================================================= */
 
-    <link rel="icon"
-          href="images/icon.png"
-          type="image/png">
+* {
+  box-sizing: border-box;
+}
 
-    <link rel="apple-touch-icon"
-          href="images/icon.png">
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
 
+body {
+  font-family: monospace;
+  color: fuchsia;
+  background-color: #02010f;
 
-    <style>
+  overflow: hidden;
 
-    /* =========================================================
-       BASIC PAGE
-       ========================================================= */
+  /*
+    No padding here.
 
-    * {
-        box-sizing: border-box;
-    }
+    The draggable area goes all the way to the edges
+    of the actual browser viewport.
+  */
+  padding: 0;
 
+  /*
+    Prevent the phone from trying to scroll or zoom
+    while dragging objects.
+  */
+  touch-action: none;
+}
 
-    html,
-    body {
 
-        margin: 0;
+/* =========================================================
+   DRAGGABLE ROOM / ALTAR SPACE
+   ========================================================= */
 
-        width: 100%;
-        height: 100%;
+#table {
+  position: fixed;
 
-    }
+  /*
+    THIS is the important part.
 
+    The coordinate space is the entire actual screen,
+    rather than a 1600x1000 "room" scaled into the screen.
+  */
+  inset: 0;
 
-    body {
+  width: 100%;
+  height: 100%;
 
-        font-family: monospace;
+  overflow: hidden;
 
-        color: fuchsia;
+  margin: 0;
 
-        background-color: #02010f;
+  touch-action: none;
+}
 
-        font-size: 14px;
 
-        /*
-         * Small breathing room around the screen.
-         */
-        padding: 10px;
+/* =========================================================
+   OBJECTS
+   ========================================================= */
 
-        /*
-         * Prevent the page itself from scrolling.
-         */
-        overflow: hidden;
+.object {
+  position: absolute;
 
-    }
+  height: auto;
 
+  /*
+    The x/y coordinates represent the CENTER of the image.
+  */
+  transform: translate(-50%, -50%);
 
-    a {
+  /*
+    Prevent selecting the image while dragging.
+  */
+  user-select: none;
+  -webkit-user-select: none;
 
-        color: rgb(105, 255, 150);
+  /*
+    Important for iPhone/iPad dragging.
+  */
+  touch-action: none;
 
-        text-decoration: none;
+  /*
+    Prevent the browser's native image dragging.
+  */
+  -webkit-user-drag: none;
 
-    }
+  cursor: grab;
 
+  display: block;
+}
 
+.object.dragging {
+  cursor: grabbing;
+}
 
-    /* =========================================================
-       FULL-SCREEN ROOM
-       =========================================================
 
-       The room now fills the entire available screen.
+/* =========================================================
+   OPTIONAL: KEEP THE CONTENT BELOW THE PHONE NOTCH AREA
+   =========================================================
 
-       There is NO fixed 1600px x 1000px canvas.
+   The room itself still fills the whole screen.
 
-       This means objects can be dragged anywhere on the
-       actual desktop or phone screen.
+   safe-area-inset values simply give you variables you
+   can use later if you decide you want to avoid the notch.
+   ========================================================= */
 
-       ========================================================= */
-
-    #table {
-
-        position: relative;
-
-        width: 100%;
-        height: 100%;
-
-        margin: 0;
-
-        overflow: hidden;
-
-    }
-
-
-
-    /* =========================================================
-       DRAGGABLE OBJECTS
-       ========================================================= */
-
-    .object {
-
-        position: absolute;
-
-        height: auto;
-
-        /*
-         * left/top represent the CENTER of the image.
-         */
-        transform: translate(-50%, -50%);
-
-        /*
-         * Prevent selection.
-         */
-        user-select: none;
-
-        -webkit-user-select: none;
-
-        /*
-         * Essential for touch dragging.
-         */
-        touch-action: none;
-
-        /*
-         * Mouse cursor.
-         */
-        cursor: grab;
-
-        /*
-         * Prevent native browser image dragging.
-         */
-        -webkit-user-drag: none;
-
-        /*
-         * Removes inline-image spacing.
-         */
-        display: block;
-
-    }
-
-
-    .object.dragging {
-
-        cursor: grabbing;
-
-    }
-
-
-
-    /* =========================================================
-       DESKTOP
-       ========================================================= */
-
-    @media (min-width: 768px) {
-
-        body {
-
-            padding: 15px;
-
-        }
-
-    }
-
-
-
-    /* =========================================================
-       MOBILE
-       ========================================================= */
-
-    @media (max-width: 767px) {
-
-        body {
-
-            padding: 10px;
-
-        }
-
-    }
-
-    </style>
-
+:root {
+  --safe-top: env(safe-area-inset-top);
+  --safe-right: env(safe-area-inset-right);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-left: env(safe-area-inset-left);
+}
+</style>
 </head>
-
 
 
 <body>
 
+<main id="table"></main>
 
-    <!-- =======================================================
-         FULL-SCREEN ROOM
-         ======================================================= -->
 
-    <main id="table"></main>
+<script>
 
+/* =========================================================
+   OBJECTS
+   =========================================================
 
+   THIS is the main place you will edit.
 
-    <script>
+   image:
+     The file in your images folder.
 
+   desktopSize:
+     Width of the image on desktop.
 
-    /* =========================================================
-       =========================================================
+   mobileSize:
+     Width of the image on phones/tablets.
 
-       DIGITAL ALTAR / ROOM CONFIGURATION
+   x:
+     Starting horizontal position as a percentage
+     of the ACTUAL screen width.
 
-       =========================================================
+   y:
+     Starting vertical position as a percentage
+     of the ACTUAL screen height.
 
-       THIS IS THE MAIN SECTION YOU EDIT.
+   Examples:
 
-       To add an object, copy one of the blocks below.
+     x: 50
+     = middle of the screen
 
-       You only need to change:
+     x: 20
+     = 20% from the left
 
-           image
-           desktopSize
-           mobileSize
-           x
-           y
+     y: 80
+     = 80% down the screen
 
-       =========================================================
-       ========================================================= */
+   ========================================================= */
 
+const objects = [
 
-    const objects = [
+     {
+    image: "images/candle_2.GIF",
 
+    desktopSize: 200,
+    mobileSize: 230,
 
-        {
-            image: "images/buddha.png",
+    x: 10,
+    y: 50
+  },
 
-            /*
-             * Width on desktop.
-             */
-            desktopSize: 200,
+  {
+    image: "images/buddha.png",
 
-            /*
-             * Width on phone.
-             */
-            mobileSize: 280,
+    desktopSize: 200,
+    mobileSize: 230,
 
-            /*
-             * Horizontal position.
-             *
-             * 0   = left edge
-             * 50  = center
-             * 100 = right edge
-             */
-            x: 20,
+    x: 20,
+    y: 50
+  },
 
-            /*
-             * Vertical position.
-             *
-             * 0   = top
-             * 50  = center
-             * 100 = bottom
-             */
-            y: 50
-        },
+  {
+    image: "images/yukimi_frame.png",
 
-        {
-            image: "images/candle_1.GIF",
+    desktopSize: 220,
+    mobileSize: 310,
 
-            desktopSize: 100,
+    x: 40,
+    y: 50
+  },
 
-            mobileSize: 190,
+  {
+    image: "images/yogananda_1.png",
 
-            x: 10,
+    desktopSize: 240,
+    mobileSize: 250,
 
-            y: 50
-        },
+    x: 60,
+    y: 50
+  },
 
-        {
-            image: "images/yukimi_frame.png",
+  {
+    image: "images/ganesha.jpg",
 
-            desktopSize: 320,
+    desktopSize: 320,
+    mobileSize: 170,
 
-            mobileSize: 190,
+    x: 80,
+    y: 50
+  }
 
-            x: 40,
+];
 
-            y: 50
-        },
 
+/* =========================================================
+   SETUP
+   ========================================================= */
 
-        {
-            image: "images/yogananda_1.png",
+const table = document.getElementById("table");
 
-            desktopSize: 240,
+let highestZIndex = 1;
 
-            mobileSize: 150,
 
-            x: 60,
+/* =========================================================
+   MOBILE DETECTION
+   =========================================================
 
-            y: 50
-        },
+   768px is only the breakpoint.
 
+   The actual coordinate space is ALWAYS the full
+   #table, which is the actual viewport.
+   ========================================================= */
 
-        {
-            image: "images/ganesha.jpg",
+function isMobile() {
+  return window.innerWidth < 768;
+}
 
-            desktopSize: 320,
 
-            mobileSize: 190,
+/* =========================================================
+   GET OBJECT SIZE
+   ========================================================= */
 
-            x: 80,
+function getObjectSize(object) {
 
-            y: 50
-        },
+  if (isMobile()) {
+    return object.mobileSize;
+  }
 
+  return object.desktopSize;
+}
 
-        /*
-         * =====================================================
-         * GIF EXAMPLE
-         * =====================================================
-         *
-         * GIFs work exactly like PNGs and JPGs.
-         *
-         *
-         * {
-         *     image: "images/my-animation.gif",
-         *
-         *     desktopSize: 300,
-         *
-         *     mobileSize: 180,
-         *
-         *     x: 70,
-         *
-         *     y: 65
-         * },
-         *
-         */
 
+/* =========================================================
+   CREATE OBJECTS
+   ========================================================= */
 
-        /*
-         * =====================================================
-         * ADD MORE OBJECTS HERE
-         * =====================================================
-         *
-         * Example:
-         *
-         *
-         * {
-         *     image: "images/plant.png",
-         *
-         *     desktopSize: 350,
-         *
-         *     mobileSize: 220,
-         *
-         *     x: 15,
-         *
-         *     y: 70
-         * },
-         *
-         */
+objects.forEach(function(objectData, index) {
 
+  const img = document.createElement("img");
 
-    ];
+  img.src = objectData.image;
 
+  img.classList.add("object");
 
+  img.dataset.index = index;
 
-    /* =========================================================
-       TABLE
-       ========================================================= */
+  /*
+    Prevent native browser image dragging.
+  */
+  img.draggable = false;
 
-    const table =
-        document.getElementById("table");
+  img.addEventListener("dragstart", function(event) {
+    event.preventDefault();
+  });
 
 
+  /* -------------------------------------------------------
+     IMAGE SIZE
+     ------------------------------------------------------- */
 
-    /* =========================================================
-       Z-INDEX
-       =========================================================
+  img.style.width = getObjectSize(objectData) + "px";
 
-       Every time an object is selected, its z-index increases.
 
-       Therefore the most recently selected object is always
-       placed above the others.
+  /* -------------------------------------------------------
+     INITIAL POSITION
+     -------------------------------------------------------
 
-       ========================================================= */
+     x/y are percentages of the ACTUAL viewport.
+     ------------------------------------------------------- */
 
-    let highestZIndex = 1;
+  img.style.left = objectData.x + "%";
+  img.style.top = objectData.y + "%";
 
 
+  /* -------------------------------------------------------
+     Z-INDEX
+     ------------------------------------------------------- */
 
-    /* =========================================================
-       MOBILE DETECTION
-       ========================================================= */
+  img.style.zIndex = ++highestZIndex;
 
-    function isMobile() {
 
-        return window.innerWidth < 768;
+  /* =======================================================
+     DRAGGING VARIABLES
+     ======================================================= */
 
+  let dragging = false;
+
+  let offsetX = 0;
+  let offsetY = 0;
+
+
+  /* =======================================================
+     POINTER DOWN
+     ======================================================= */
+
+  img.addEventListener("pointerdown", function(event) {
+
+    event.preventDefault();
+
+    dragging = true;
+
+    img.classList.add("dragging");
+
+
+    /*
+      Bring the selected object to the front.
+    */
+    highestZIndex++;
+
+    img.style.zIndex = highestZIndex;
+
+
+    /*
+      Keep receiving pointer events even if the
+      finger/mouse moves outside the image itself.
+    */
+    img.setPointerCapture(event.pointerId);
+
+
+    /*
+      Find the image's actual position on screen.
+
+      Because the image is centered with:
+        transform: translate(-50%, -50%)
+
+      we calculate the offset from its CENTER.
+    */
+
+    const imageRect = img.getBoundingClientRect();
+
+    const imageCenterX =
+      imageRect.left + imageRect.width / 2;
+
+    const imageCenterY =
+      imageRect.top + imageRect.height / 2;
+
+
+    offsetX = event.clientX - imageCenterX;
+    offsetY = event.clientY - imageCenterY;
+
+  });
+
+
+  /* =======================================================
+     POINTER MOVE
+     ======================================================= */
+
+  img.addEventListener("pointermove", function(event) {
+
+    if (!dragging) {
+      return;
     }
 
+    event.preventDefault();
 
 
-    /* =========================================================
-       GET OBJECT SIZE
-       =========================================================
+    const tableRect = table.getBoundingClientRect();
 
-       Each object can have a different size on desktop
-       and mobile.
+    const imageRect = img.getBoundingClientRect();
 
-       ========================================================= */
 
-    function getObjectSize(item) {
+    /*
+      Calculate where the CENTER of the image should go.
+    */
 
-        if (isMobile()) {
+    let x =
+      event.clientX
+      - tableRect.left
+      - offsetX;
 
-            return item.mobileSize;
+    let y =
+      event.clientY
+      - tableRect.top
+      - offsetY;
 
-        }
 
-        return item.desktopSize;
+    /*
+      Half the image dimensions.
 
-    }
+      We use these to make sure the entire image
+      stays inside the screen.
+    */
 
+    const halfWidth =
+      imageRect.width / 2;
 
+    const halfHeight =
+      imageRect.height / 2;
 
-    /* =========================================================
-       CONVERT PERCENTAGE POSITION TO SCREEN POSITION
-       ========================================================= */
 
-    function getPosition(item) {
+    /* -----------------------------------------------------
+       KEEP IMAGE INSIDE LEFT / RIGHT
+       ----------------------------------------------------- */
 
-
-        return {
-
-            x:
-                table.clientWidth *
-                (item.x / 100),
-
-            y:
-                table.clientHeight *
-                (item.y / 100)
-
-        };
-
-    }
-
-
-
-    /* =========================================================
-       KEEP OBJECT INSIDE SCREEN
-       =========================================================
-
-       This is important.
-
-       An object can be dragged anywhere across the screen,
-       but its edges won't disappear beyond the screen.
-
-       ========================================================= */
-
-    function constrainPosition(
-
-        x,
-        y,
-        image
-
-    ) {
-
-
-        const tableRect =
-            table.getBoundingClientRect();
-
-
-
-        const imageWidth =
-            image.offsetWidth;
-
-
-        const imageHeight =
-            image.offsetHeight;
-
-
-
-        /*
-         * Because the image is centered using
-         * translate(-50%, -50%), these are the
-         * minimum and maximum CENTER positions.
-         */
-
-        const halfWidth =
-            imageWidth / 2;
-
-
-        const halfHeight =
-            imageHeight / 2;
-
-
-
-        /*
-         * Horizontal boundary.
-         */
-
-        x = Math.max(
-
-            halfWidth,
-
-            Math.min(
-
-                tableRect.width -
-                halfWidth,
-
-                x
-
-            )
-
-        );
-
-
-
-        /*
-         * Vertical boundary.
-         */
-
-        y = Math.max(
-
-            halfHeight,
-
-            Math.min(
-
-                tableRect.height -
-                halfHeight,
-
-                y
-
-            )
-
-        );
-
-
-
-        return {
-
-            x: x,
-            y: y
-
-        };
-
-    }
-
-
-
-    /* =========================================================
-       CREATE OBJECTS
-       ========================================================= */
-
-    objects.forEach(function(item, index) {
-
-
-        /*
-         * Create image.
-         */
-
-        const img =
-            document.createElement("img");
-
-
-
-        /*
-         * Image source.
-         */
-
-        img.src =
-            item.image;
-
-
-
-        /*
-         * CSS class.
-
-         */
-
-        img.classList.add("object");
-
-
-
-        /*
-         * Store object number.
-
-         */
-
-        img.dataset.index =
-            index;
-
-
-
-        /*
-         * Disable native browser image dragging.
-         */
-
-        img.draggable = false;
-
-
-
-        img.addEventListener(
-
-            "dragstart",
-
-            function(event) {
-
-                event.preventDefault();
-
-            }
-
-        );
-
-
-
-        /* =====================================================
-           SIZE
-           ===================================================== */
-
-        img.style.width =
-            getObjectSize(item) + "px";
-
-
-
-        /* =====================================================
-           INITIAL POSITION
-           ===================================================== */
-
-        const position =
-            getPosition(item);
-
-
-
-        img.style.left =
-            position.x + "px";
-
-
-        img.style.top =
-            position.y + "px";
-
-
-
-        /* =====================================================
-           DRAG VARIABLES
-           ===================================================== */
-
-        let dragging = false;
-
-        let offsetX = 0;
-
-        let offsetY = 0;
-
-
-
-        /* =====================================================
-           POINTER DOWN
-           ===================================================== */
-
-        img.addEventListener(
-
-            "pointerdown",
-
-            function(event) {
-
-
-                event.preventDefault();
-
-
-                dragging = true;
-
-
-                img.classList.add(
-                    "dragging"
-                );
-
-
-
-                /*
-                 * Bring selected object to front.
-                 */
-
-                highestZIndex++;
-
-                img.style.zIndex =
-                    highestZIndex;
-
-
-
-                /*
-                 * Keep receiving pointer events
-                 * during the drag.
-                 */
-
-                img.setPointerCapture(
-                    event.pointerId
-                );
-
-
-
-                /*
-                 * Get the current image position.
-                 */
-
-                const imageRect =
-                    img.getBoundingClientRect();
-
-
-                const tableRect =
-                    table.getBoundingClientRect();
-
-
-
-                /*
-                 * Calculate the current center
-                 * of the image.
-                 */
-
-                const centerX =
-
-                    imageRect.left +
-                    imageRect.width / 2;
-
-
-                const centerY =
-
-                    imageRect.top +
-                    imageRect.height / 2;
-
-
-
-                /*
-                 * Remember exactly where the user
-                 * grabbed the object.
-
-                 * This prevents the object from
-                 * jumping when dragging begins.
-                 */
-
-                offsetX =
-
-                    event.clientX -
-                    centerX;
-
-
-                offsetY =
-
-                    event.clientY -
-                    centerY;
-
-            }
-
-        );
-
-
-
-        /* =====================================================
-           POINTER MOVE
-           ===================================================== */
-
-        img.addEventListener(
-
-            "pointermove",
-
-            function(event) {
-
-
-                if (!dragging) return;
-
-
-                event.preventDefault();
-
-
-
-                const tableRect =
-                    table.getBoundingClientRect();
-
-
-
-                /*
-                 * Calculate where the CENTER of the
-                 * image should move.
-                 */
-
-                let x =
-
-                    event.clientX -
-                    tableRect.left -
-                    offsetX;
-
-
-                let y =
-
-                    event.clientY -
-                    tableRect.top -
-                    offsetY;
-
-
-
-                /*
-                 * Keep the entire image inside
-                 * the visible room.
-                 */
-
-                const constrained =
-
-                    constrainPosition(
-
-                        x,
-                        y,
-                        img
-
-                    );
-
-
-
-                x =
-                    constrained.x;
-
-
-                y =
-                    constrained.y;
-
-
-
-                /*
-                 * Move image.
-                 */
-
-                img.style.left =
-                    x + "px";
-
-
-                img.style.top =
-                    y + "px";
-
-            }
-
-        );
-
-
-
-        /* =====================================================
-           POINTER UP
-           ===================================================== */
-
-        img.addEventListener(
-
-            "pointerup",
-
-            function(event) {
-
-
-                dragging = false;
-
-
-                img.classList.remove(
-                    "dragging"
-                );
-
-
-
-                if (
-
-                    img.hasPointerCapture(
-                        event.pointerId
-                    )
-
-                ) {
-
-                    img.releasePointerCapture(
-                        event.pointerId
-                    );
-
-                }
-
-            }
-
-        );
-
-
-
-        /* =====================================================
-           POINTER CANCEL
-           ===================================================== */
-
-        img.addEventListener(
-
-            "pointercancel",
-
-            function(event) {
-
-
-                dragging = false;
-
-
-                img.classList.remove(
-                    "dragging"
-                );
-
-
-
-                if (
-
-                    img.hasPointerCapture(
-                        event.pointerId
-                    )
-
-                ) {
-
-                    img.releasePointerCapture(
-                        event.pointerId
-                    );
-
-                }
-
-            }
-
-        );
-
-
-
-        /* =====================================================
-           ADD TO ROOM
-           ===================================================== */
-
-        table.appendChild(img);
-
-    });
-
-
-
-    /* =========================================================
-       HANDLE SCREEN RESIZING
-       =========================================================
-
-       We do NOT reload the page.
-
-       Instead, we recalculate the size and position of
-       every object.
-
-       ========================================================= */
-
-    function updateObjectsForScreen() {
-
-
-        objects.forEach(function(item, index) {
-
-
-            /*
-             * Find the corresponding image.
-             */
-
-            const img =
-                table.querySelector(
-
-                    '[data-index="' +
-                    index +
-                    '"]'
-
-                );
-
-
-
-            if (!img) return;
-
-
-
-            /*
-             * Change size for the current device.
-             */
-
-            img.style.width =
-                getObjectSize(item) + "px";
-
-
-
-            /*
-             * Recalculate starting position.
-
-             */
-
-            const position =
-                getPosition(item);
-
-
-
-            /*
-             * Keep the object inside the new screen.
-             */
-
-            const constrained =
-
-                constrainPosition(
-
-                    position.x,
-                    position.y,
-                    img
-
-                );
-
-
-
-            img.style.left =
-                constrained.x + "px";
-
-
-            img.style.top =
-                constrained.y + "px";
-
-        });
-
-    }
-
-
-
-    /* =========================================================
-       RESIZE EVENT
-       ========================================================= */
-
-    let resizeTimer;
-
-
-    window.addEventListener(
-
-        "resize",
-
-        function() {
-
-
-            clearTimeout(resizeTimer);
-
-
-            resizeTimer = setTimeout(
-
-                function() {
-
-                    updateObjectsForScreen();
-
-                },
-
-                100
-
-            );
-
-        }
-
+    x = Math.max(
+      halfWidth,
+      Math.min(
+        tableRect.width - halfWidth,
+        x
+      )
     );
 
 
-    </script>
+    /* -----------------------------------------------------
+       KEEP IMAGE INSIDE TOP / BOTTOM
+       ----------------------------------------------------- */
+
+    y = Math.max(
+      halfHeight,
+      Math.min(
+        tableRect.height - halfHeight,
+        y
+      )
+    );
+
+
+    /* -----------------------------------------------------
+       APPLY POSITION
+       ----------------------------------------------------- */
+
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+
+  });
+
+
+  /* =======================================================
+     POINTER UP
+     ======================================================= */
+
+  img.addEventListener("pointerup", function(event) {
+
+    dragging = false;
+
+    img.classList.remove("dragging");
+
+
+    if (img.hasPointerCapture(event.pointerId)) {
+      img.releasePointerCapture(event.pointerId);
+    }
+
+  });
+
+
+  /* =======================================================
+     POINTER CANCEL
+     ======================================================= */
+
+  img.addEventListener("pointercancel", function(event) {
+
+    dragging = false;
+
+    img.classList.remove("dragging");
+
+
+    if (img.hasPointerCapture(event.pointerId)) {
+      img.releasePointerCapture(event.pointerId);
+    }
+
+  });
+
+
+  /* -------------------------------------------------------
+     ADD IMAGE TO ROOM
+     ------------------------------------------------------- */
+
+  table.appendChild(img);
+
+});
+
+
+/* =========================================================
+   HANDLE SCREEN SIZE CHANGES
+   =========================================================
+
+   This is especially useful when:
+
+   - rotating a phone
+   - resizing a desktop browser
+   - opening/closing mobile browser UI
+   - switching between portrait and landscape
+
+   We DO NOT reload the page.
+
+   We simply change the image sizes when crossing
+   the desktop/mobile breakpoint and make sure the
+   objects remain inside the visible screen.
+   ========================================================= */
+
+let previousMobileState = isMobile();
+
+
+function updateForScreenSize() {
+
+  const currentMobileState = isMobile();
+
+  const screenChanged =
+    currentMobileState !== previousMobileState;
+
+
+  const tableRect = table.getBoundingClientRect();
+
+
+  document.querySelectorAll(".object").forEach(function(img) {
+
+    const index = Number(img.dataset.index);
+
+    const objectData = objects[index];
+
+
+    /*
+      If we crossed the 768px breakpoint,
+      switch to the appropriate image size.
+    */
+
+    if (screenChanged) {
+
+      img.style.width =
+        getObjectSize(objectData) + "px";
+
+    }
+
+
+    /*
+      Make sure the object still fits inside
+      the new screen dimensions.
+    */
+
+    const imageRect = img.getBoundingClientRect();
+
+    let x = parseFloat(img.style.left);
+    let y = parseFloat(img.style.top);
+
+
+    /*
+      If the position is still a percentage,
+      convert it to pixels.
+    */
+
+    if (img.style.left.includes("%")) {
+
+      x =
+        tableRect.width *
+        parseFloat(img.style.left) /
+        100;
+
+    }
+
+    if (img.style.top.includes("%")) {
+
+      y =
+        tableRect.height *
+        parseFloat(img.style.top) /
+        100;
+
+    }
+
+
+    const halfWidth =
+      imageRect.width / 2;
+
+    const halfHeight =
+      imageRect.height / 2;
+
+
+    x = Math.max(
+      halfWidth,
+      Math.min(
+        tableRect.width - halfWidth,
+        x
+      )
+    );
+
+
+    y = Math.max(
+      halfHeight,
+      Math.min(
+        tableRect.height - halfHeight,
+        y
+      )
+    );
+
+
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+
+  });
+
+
+  previousMobileState = currentMobileState;
+}
+
+
+/*
+  Use a small delay because mobile browsers can report
+  viewport dimensions in stages while rotating.
+*/
+
+let resizeTimer;
+
+window.addEventListener("resize", function() {
+
+  clearTimeout(resizeTimer);
+
+  resizeTimer = setTimeout(function() {
+    updateForScreenSize();
+  }, 100);
+
+});
+
+
+</script>
 
 </body>
-
 </html>
-
-
-
