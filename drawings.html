@@ -62,10 +62,12 @@ a:active {
 }
 
 
+
 /* DRAWING LINKS */
 
 .gallery a {
     display: block;
+    position: relative;
 }
 
 
@@ -75,7 +77,32 @@ a:active {
     display: block;
     width: 100%;
     height: auto;
+
+    filter: grayscale(100%);
 }
+
+
+/* FUSHIA MONOCHROME EFFECT */
+
+.gallery a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: fuchsia;
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+
+/* HOVER */
+
+.gallery a:hover::after {
+    opacity: 0;
+}
+
+
+
 
 
 /* PHONE */
