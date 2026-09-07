@@ -15,10 +15,6 @@
 <link rel="apple-touch-icon" href="images/icon.png">
 
 <style>
-/* =========================================================
-   BASIC PAGE
-   ========================================================= */
-
 * {
   box-sizing: border-box;
 }
@@ -34,45 +30,24 @@ body {
   font-family: monospace;
   color: fuchsia;
   background-color: #02010f;
-
   overflow: hidden;
-
-  /*
-    No padding here.
-
-    The draggable area goes all the way to the edges
-    of the actual browser viewport.
-  */
   padding: 0;
-
-  /*
-    Prevent the phone from trying to scroll or zoom
-    while dragging objects.
-  */
   touch-action: none;
 }
 
 
 /* =========================================================
-   DRAGGABLE ROOM / ALTAR SPACE
+   FULL-SCREEN DRAGGABLE SPACE
    ========================================================= */
 
 #table {
   position: fixed;
-
-  /*
-    THIS is the important part.
-
-    The coordinate space is the entire actual screen,
-    rather than a 1600x1000 "room" scaled into the screen.
-  */
   inset: 0;
 
   width: 100%;
   height: 100%;
 
   overflow: hidden;
-
   margin: 0;
 
   touch-action: none;
@@ -80,7 +55,7 @@ body {
 
 
 /* =========================================================
-   OBJECTS
+   IMAGES
    ========================================================= */
 
 .object {
@@ -89,24 +64,15 @@ body {
   height: auto;
 
   /*
-    The x/y coordinates represent the CENTER of the image.
+    x/y represent the CENTER of each image.
   */
   transform: translate(-50%, -50%);
 
-  /*
-    Prevent selecting the image while dragging.
-  */
   user-select: none;
   -webkit-user-select: none;
 
-  /*
-    Important for iPhone/iPad dragging.
-  */
   touch-action: none;
 
-  /*
-    Prevent the browser's native image dragging.
-  */
   -webkit-user-drag: none;
 
   cursor: grab;
@@ -116,24 +82,6 @@ body {
 
 .object.dragging {
   cursor: grabbing;
-}
-
-
-/* =========================================================
-   OPTIONAL: KEEP THE CONTENT BELOW THE PHONE NOTCH AREA
-   =========================================================
-
-   The room itself still fills the whole screen.
-
-   safe-area-inset values simply give you variables you
-   can use later if you decide you want to avoid the notch.
-   ========================================================= */
-
-:root {
-  --safe-top: env(safe-area-inset-top);
-  --safe-right: env(safe-area-inset-right);
-  --safe-bottom: env(safe-area-inset-bottom);
-  --safe-left: env(safe-area-inset-left);
 }
 </style>
 </head>
@@ -150,35 +98,25 @@ body {
    OBJECTS
    =========================================================
 
-   THIS is the main place you will edit.
+   EDIT YOUR IMAGES HERE.
 
-   image:
-     The file in your images folder.
+   desktopSize = image width on desktop
+   mobileSize  = image width on phones
 
-   desktopSize:
-     Width of the image on desktop.
+   x = horizontal starting position
+   y = vertical starting position
 
-   mobileSize:
-     Width of the image on phones/tablets.
+   x/y are percentages of the ACTUAL SCREEN.
 
-   x:
-     Starting horizontal position as a percentage
-     of the ACTUAL screen width.
-
-   y:
-     Starting vertical position as a percentage
-     of the ACTUAL screen height.
-
-   Examples:
-
-     x: 50
-     = middle of the screen
-
-     x: 20
-     = 20% from the left
-
-     y: 80
-     = 80% down the screen
+   x Horizontal position. 
+   0 = far left 
+   50 = center 
+   100 = far right 
+   
+   y Vertical position. 
+   0 = top 
+   50 = center 
+   100 = bottom
 
    ========================================================= */
 
@@ -192,8 +130,9 @@ const objects = [
 
     x: 5,
     y: 50
+  },
 
-     {
+  {
     image: "images/candle_2.GIF",
 
     desktopSize: 100,
@@ -209,7 +148,7 @@ const objects = [
     desktopSize: 100,
     mobileSize: 30,
 
-    x: 20,
+    x: 15,
     y: 50
   },
 
@@ -219,7 +158,7 @@ const objects = [
     desktopSize: 220,
     mobileSize: 50,
 
-    x: 40,
+    x: 20,
     y: 50
   },
 
@@ -227,7 +166,7 @@ const objects = [
     image: "images/yogananda_1.png",
 
     desktopSize: 200,
-    mobileSize: 50,
+    mobileSize: 40,
 
     x: 60,
     y: 50
@@ -241,7 +180,7 @@ const objects = [
 
     x: 80,
     y: 50
-  }
+  },
 
   {
     image: "images/candle_3.GIF",
@@ -251,7 +190,7 @@ const objects = [
 
     x: 90,
     y: 50
-
+  }
 
 ];
 
@@ -267,12 +206,6 @@ let highestZIndex = 1;
 
 /* =========================================================
    MOBILE DETECTION
-   =========================================================
-
-   768px is only the breakpoint.
-
-   The actual coordinate space is ALWAYS the full
-   #table, which is the actual viewport.
    ========================================================= */
 
 function isMobile() {
@@ -281,7 +214,7 @@ function isMobile() {
 
 
 /* =========================================================
-   GET OBJECT SIZE
+   IMAGE SIZE
    ========================================================= */
 
 function getObjectSize(object) {
@@ -295,7 +228,7 @@ function getObjectSize(object) {
 
 
 /* =========================================================
-   CREATE OBJECTS
+   CREATE IMAGES
    ========================================================= */
 
 objects.forEach(function(objectData, index) {
@@ -308,10 +241,12 @@ objects.forEach(function(objectData, index) {
 
   img.dataset.index = index;
 
-  /*
-    Prevent native browser image dragging.
-  */
   img.draggable = false;
+
+
+  /* -------------------------------------------------------
+     PREVENT NATIVE IMAGE DRAGGING
+     ------------------------------------------------------- */
 
   img.addEventListener("dragstart", function(event) {
     event.preventDefault();
@@ -322,18 +257,19 @@ objects.forEach(function(objectData, index) {
      IMAGE SIZE
      ------------------------------------------------------- */
 
-  img.style.width = getObjectSize(objectData) + "px";
+  img.style.width =
+    getObjectSize(objectData) + "px";
 
 
   /* -------------------------------------------------------
      INITIAL POSITION
-     -------------------------------------------------------
-
-     x/y are percentages of the ACTUAL viewport.
      ------------------------------------------------------- */
 
-  img.style.left = objectData.x + "%";
-  img.style.top = objectData.y + "%";
+  img.style.left =
+    objectData.x + "%";
+
+  img.style.top =
+    objectData.y + "%";
 
 
   /* -------------------------------------------------------
@@ -344,7 +280,7 @@ objects.forEach(function(objectData, index) {
 
 
   /* =======================================================
-     DRAGGING VARIABLES
+     DRAGGING
      ======================================================= */
 
   let dragging = false;
@@ -354,7 +290,7 @@ objects.forEach(function(objectData, index) {
 
 
   /* =======================================================
-     POINTER DOWN
+     TOUCH / MOUSE DOWN
      ======================================================= */
 
   img.addEventListener("pointerdown", function(event) {
@@ -366,47 +302,43 @@ objects.forEach(function(objectData, index) {
     img.classList.add("dragging");
 
 
-    /*
-      Bring the selected object to the front.
-    */
+    /* Bring selected object to front */
+
     highestZIndex++;
 
     img.style.zIndex = highestZIndex;
 
 
-    /*
-      Keep receiving pointer events even if the
-      finger/mouse moves outside the image itself.
-    */
+    /* Keep receiving pointer events */
+
     img.setPointerCapture(event.pointerId);
 
 
-    /*
-      Find the image's actual position on screen.
+    /* Calculate click/finger offset */
 
-      Because the image is centered with:
-        transform: translate(-50%, -50%)
-
-      we calculate the offset from its CENTER.
-    */
-
-    const imageRect = img.getBoundingClientRect();
+    const imageRect =
+      img.getBoundingClientRect();
 
     const imageCenterX =
-      imageRect.left + imageRect.width / 2;
+      imageRect.left +
+      imageRect.width / 2;
 
     const imageCenterY =
-      imageRect.top + imageRect.height / 2;
+      imageRect.top +
+      imageRect.height / 2;
 
 
-    offsetX = event.clientX - imageCenterX;
-    offsetY = event.clientY - imageCenterY;
+    offsetX =
+      event.clientX - imageCenterX;
+
+    offsetY =
+      event.clientY - imageCenterY;
 
   });
 
 
   /* =======================================================
-     POINTER MOVE
+     DRAG
      ======================================================= */
 
   img.addEventListener("pointermove", function(event) {
@@ -418,14 +350,14 @@ objects.forEach(function(objectData, index) {
     event.preventDefault();
 
 
-    const tableRect = table.getBoundingClientRect();
+    const tableRect =
+      table.getBoundingClientRect();
 
-    const imageRect = img.getBoundingClientRect();
+    const imageRect =
+      img.getBoundingClientRect();
 
 
-    /*
-      Calculate where the CENTER of the image should go.
-    */
+    /* Calculate new center position */
 
     let x =
       event.clientX
@@ -438,12 +370,7 @@ objects.forEach(function(objectData, index) {
       - offsetY;
 
 
-    /*
-      Half the image dimensions.
-
-      We use these to make sure the entire image
-      stays inside the screen.
-    */
+    /* Half image dimensions */
 
     const halfWidth =
       imageRect.width / 2;
@@ -453,7 +380,7 @@ objects.forEach(function(objectData, index) {
 
 
     /* -----------------------------------------------------
-       KEEP IMAGE INSIDE LEFT / RIGHT
+       KEEP IMAGE INSIDE SCREEN
        ----------------------------------------------------- */
 
     x = Math.max(
@@ -464,11 +391,6 @@ objects.forEach(function(objectData, index) {
       )
     );
 
-
-    /* -----------------------------------------------------
-       KEEP IMAGE INSIDE TOP / BOTTOM
-       ----------------------------------------------------- */
-
     y = Math.max(
       halfHeight,
       Math.min(
@@ -478,12 +400,13 @@ objects.forEach(function(objectData, index) {
     );
 
 
-    /* -----------------------------------------------------
-       APPLY POSITION
-       ----------------------------------------------------- */
+    /* Apply position */
 
-    img.style.left = x + "px";
-    img.style.top = y + "px";
+    img.style.left =
+      x + "px";
+
+    img.style.top =
+      y + "px";
 
   });
 
@@ -525,7 +448,7 @@ objects.forEach(function(objectData, index) {
 
 
   /* -------------------------------------------------------
-     ADD IMAGE TO ROOM
+     ADD IMAGE TO SCREEN
      ------------------------------------------------------- */
 
   table.appendChild(img);
@@ -534,21 +457,7 @@ objects.forEach(function(objectData, index) {
 
 
 /* =========================================================
-   HANDLE SCREEN SIZE CHANGES
-   =========================================================
-
-   This is especially useful when:
-
-   - rotating a phone
-   - resizing a desktop browser
-   - opening/closing mobile browser UI
-   - switching between portrait and landscape
-
-   We DO NOT reload the page.
-
-   We simply change the image sizes when crossing
-   the desktop/mobile breakpoint and make sure the
-   objects remain inside the visible screen.
+   SCREEN RESIZE
    ========================================================= */
 
 let previousMobileState = isMobile();
@@ -556,109 +465,123 @@ let previousMobileState = isMobile();
 
 function updateForScreenSize() {
 
-  const currentMobileState = isMobile();
+  const currentMobileState =
+    isMobile();
 
   const screenChanged =
     currentMobileState !== previousMobileState;
 
 
-  const tableRect = table.getBoundingClientRect();
+  const tableRect =
+    table.getBoundingClientRect();
 
 
-  document.querySelectorAll(".object").forEach(function(img) {
+  document
+    .querySelectorAll(".object")
+    .forEach(function(img) {
 
-    const index = Number(img.dataset.index);
+      const index =
+        Number(img.dataset.index);
 
-    const objectData = objects[index];
-
-
-    /*
-      If we crossed the 768px breakpoint,
-      switch to the appropriate image size.
-    */
-
-    if (screenChanged) {
-
-      img.style.width =
-        getObjectSize(objectData) + "px";
-
-    }
+      const objectData =
+        objects[index];
 
 
-    /*
-      Make sure the object still fits inside
-      the new screen dimensions.
-    */
+      /* ---------------------------------------------------
+         SWITCH DESKTOP / MOBILE SIZE
+         --------------------------------------------------- */
 
-    const imageRect = img.getBoundingClientRect();
+      if (screenChanged) {
 
-    let x = parseFloat(img.style.left);
-    let y = parseFloat(img.style.top);
+        img.style.width =
+          getObjectSize(objectData) + "px";
 
-
-    /*
-      If the position is still a percentage,
-      convert it to pixels.
-    */
-
-    if (img.style.left.includes("%")) {
-
-      x =
-        tableRect.width *
-        parseFloat(img.style.left) /
-        100;
-
-    }
-
-    if (img.style.top.includes("%")) {
-
-      y =
-        tableRect.height *
-        parseFloat(img.style.top) /
-        100;
-
-    }
+      }
 
 
-    const halfWidth =
-      imageRect.width / 2;
+      /* ---------------------------------------------------
+         GET CURRENT POSITION
+         --------------------------------------------------- */
 
-    const halfHeight =
-      imageRect.height / 2;
+      let x =
+        parseFloat(img.style.left);
 
-
-    x = Math.max(
-      halfWidth,
-      Math.min(
-        tableRect.width - halfWidth,
-        x
-      )
-    );
+      let y =
+        parseFloat(img.style.top);
 
 
-    y = Math.max(
-      halfHeight,
-      Math.min(
-        tableRect.height - halfHeight,
-        y
-      )
-    );
+      /*
+        If the image has not been dragged yet,
+        its position is still a percentage.
+      */
+
+      if (img.style.left.includes("%")) {
+
+        x =
+          tableRect.width *
+          parseFloat(img.style.left) /
+          100;
+
+      }
+
+      if (img.style.top.includes("%")) {
+
+        y =
+          tableRect.height *
+          parseFloat(img.style.top) /
+          100;
+
+      }
 
 
-    img.style.left = x + "px";
-    img.style.top = y + "px";
+      /* ---------------------------------------------------
+         KEEP IMAGE INSIDE NEW SCREEN
+         --------------------------------------------------- */
 
-  });
+      const imageRect =
+        img.getBoundingClientRect();
+
+      const halfWidth =
+        imageRect.width / 2;
+
+      const halfHeight =
+        imageRect.height / 2;
 
 
-  previousMobileState = currentMobileState;
+      x = Math.max(
+        halfWidth,
+        Math.min(
+          tableRect.width - halfWidth,
+          x
+        )
+      );
+
+      y = Math.max(
+        halfHeight,
+        Math.min(
+          tableRect.height - halfHeight,
+          y
+        )
+      );
+
+
+      img.style.left =
+        x + "px";
+
+      img.style.top =
+        y + "px";
+
+    });
+
+
+  previousMobileState =
+    currentMobileState;
 }
 
 
-/*
-  Use a small delay because mobile browsers can report
-  viewport dimensions in stages while rotating.
-*/
+/* =========================================================
+   RESIZE LISTENER
+   ========================================================= */
 
 let resizeTimer;
 
@@ -667,11 +590,12 @@ window.addEventListener("resize", function() {
   clearTimeout(resizeTimer);
 
   resizeTimer = setTimeout(function() {
+
     updateForScreenSize();
+
   }, 100);
 
 });
-
 
 </script>
 
