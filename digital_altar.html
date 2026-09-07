@@ -52,8 +52,14 @@
 
         font-size: 14px;
 
+        /*
+         * Small breathing room around the screen.
+         */
         padding: 10px;
 
+        /*
+         * Prevent the page itself from scrolling.
+         */
         overflow: hidden;
 
     }
@@ -70,16 +76,15 @@
 
 
     /* =========================================================
-       ROOM / SCENE
+       FULL-SCREEN ROOM
        =========================================================
 
-       This is the invisible room.
+       The room now fills the entire available screen.
 
-       The room uses a fixed internal coordinate system.
-       Objects are positioned inside that coordinate system.
+       There is NO fixed 1600px x 1000px canvas.
 
-       The browser then scales the entire room to fit the
-       available screen.
+       This means objects can be dragged anywhere on the
+       actual desktop or phone screen.
 
        ========================================================= */
 
@@ -90,7 +95,7 @@
         width: 100%;
         height: 100%;
 
-        margin: 0 auto;
+        margin: 0;
 
         overflow: hidden;
 
@@ -99,43 +104,7 @@
 
 
     /* =========================================================
-       SCENE
-       =========================================================
-
-       This is the actual design space.
-
-       Think of it like a large invisible piece of paper.
-
-       Objects are placed inside this space.
-
-       ========================================================= */
-
-    #scene {
-
-        position: absolute;
-
-        width: 1600px;
-        height: 1000px;
-
-        left: 50%;
-        top: 50%;
-
-        transform-origin: center center;
-
-        /*
-         * The scene itself is translated so its center
-         * sits in the center of the screen.
-         */
-        transform:
-            translate(-50%, -50%)
-            scale(1);
-
-    }
-
-
-
-    /* =========================================================
-       OBJECTS
+       DRAGGABLE OBJECTS
        ========================================================= */
 
     .object {
@@ -145,7 +114,7 @@
         height: auto;
 
         /*
-         * Objects are positioned using their CENTER.
+         * left/top represent the CENTER of the image.
          */
         transform: translate(-50%, -50%);
 
@@ -167,13 +136,12 @@
         cursor: grab;
 
         /*
-         * Prevent native image dragging.
+         * Prevent native browser image dragging.
          */
         -webkit-user-drag: none;
 
         /*
-         * Prevent image rendering from causing
-         * unexpected inline spacing.
+         * Removes inline-image spacing.
          */
         display: block;
 
@@ -228,14 +196,10 @@
 
 
     <!-- =======================================================
-         ROOM
+         FULL-SCREEN ROOM
          ======================================================= -->
 
-    <main id="table">
-
-        <div id="scene"></div>
-
-    </main>
+    <main id="table"></main>
 
 
 
@@ -244,92 +208,96 @@
 
     /* =========================================================
        =========================================================
-       
+
        DIGITAL ALTAR / ROOM CONFIGURATION
-       
+
        =========================================================
-       
+
        THIS IS THE MAIN SECTION YOU EDIT.
-       
-       To add an object, copy one block and change:
-       
+
+       To add an object, copy one of the blocks below.
+
+       You only need to change:
+
            image
-           size
+           desktopSize
+           mobileSize
            x
            y
-       
-       That's it.
-       
-       ---------------------------------------------------------
-       
-       image
-           The image file.
-       
-       size
-           Width of the object inside the desktop room.
-       
-       x
-           Horizontal position.
-       
-           0   = far left
-           50  = center
-           100 = far right
-       
-       y
-           Vertical position.
-       
-           0   = top
-           50  = center
-           100 = bottom
-       
+
        =========================================================
        ========================================================= */
 
 
     const objects = [
 
-        {
-    image: "images/candle_1.GIF",
-
-    desktopSize: 300,
-
-    mobileSize: 280,
-
-    x: 10,
-    y: 50
-},
-
-
 
         {
-    image: "images/buddha.png",
+            image: "images/buddha.png",
 
-    desktopSize: 300,
+            /*
+             * Width on desktop.
+             */
+            desktopSize: 200,
 
-    mobileSize: 280,
+            /*
+             * Width on phone.
+             */
+            mobileSize: 280,
 
-    x: 20,
-    y: 50
-},
+            /*
+             * Horizontal position.
+             *
+             * 0   = left edge
+             * 50  = center
+             * 100 = right edge
+             */
+            x: 20,
+
+            /*
+             * Vertical position.
+             *
+             * 0   = top
+             * 50  = center
+             * 100 = bottom
+             */
+            y: 50
+        },
+
+        {
+            image: "images/candle_1.GIF",
+
+            desktopSize: 100,
+
+            mobileSize: 190,
+
+            x: 10,
+
+            y: 50
+        },
 
         {
             image: "images/yukimi_frame.png",
 
-            desktopSize: 200,
-            mobileSize: 380,
+            desktopSize: 320,
+
+            mobileSize: 190,
 
             x: 40,
+
             y: 50
         },
 
 
         {
-            image: "images/yogananda_1.png",
+            image: "images/yoganada_1.png",
 
-            desktopSize: 200,
-            mobileSize: 280,
+            desktopSize: 240,
+
+            mobileSize: 150,
 
             x: 60,
+
             y: 50
         },
 
@@ -337,12 +305,37 @@
         {
             image: "images/ganesha.jpg",
 
-            desktopSize: 280,
-            mobileSize: 280,
+            desktopSize: 320,
+
+            mobileSize: 190,
 
             x: 80,
+
             y: 50
         },
+
+
+        /*
+         * =====================================================
+         * GIF EXAMPLE
+         * =====================================================
+         *
+         * GIFs work exactly like PNGs and JPGs.
+         *
+         *
+         * {
+         *     image: "images/my-animation.gif",
+         *
+         *     desktopSize: 300,
+         *
+         *     mobileSize: 180,
+         *
+         *     x: 70,
+         *
+         *     y: 65
+         * },
+         *
+         */
 
 
         /*
@@ -356,14 +349,14 @@
          * {
          *     image: "images/plant.png",
          *
-         *     size: 240,
+         *     desktopSize: 350,
          *
-         *     x: 25,
+         *     mobileSize: 220,
+         *
+         *     x: 15,
+         *
          *     y: 70
          * },
-         *
-         *
-         * You can add as many objects as you want.
          *
          */
 
@@ -373,60 +366,11 @@
 
 
     /* =========================================================
-       ROOM SETTINGS
-       =========================================================
-
-       These settings control the invisible room itself.
-
-       You normally won't need to change these.
-
-       ========================================================= */
-
-    const room = {
-
-
-        /*
-         * Internal room dimensions.
-         *
-         * Think of this as the size of your desktop
-         * design canvas.
-         */
-
-        width: 1600,
-
-        height: 1000,
-
-
-        /*
-         * Minimum amount of space kept around the room
-         * on phones.
-         */
-
-        mobileMargin: 12,
-
-
-        /*
-         * Desktop scale.
-         *
-         * 1 = full-size room.
-         */
-
-        desktopScale: 1
-
-    };
-
-
-
-    /* =========================================================
-       GET ELEMENTS
+       TABLE
        ========================================================= */
 
     const table =
         document.getElementById("table");
-
-
-    const scene =
-        document.getElementById("scene");
 
 
 
@@ -434,8 +378,10 @@
        Z-INDEX
        =========================================================
 
-       The most recently selected object always goes
-       above the others.
+       Every time an object is selected, its z-index increases.
+
+       Therefore the most recently selected object is always
+       placed above the others.
 
        ========================================================= */
 
@@ -456,128 +402,148 @@
 
 
     /* =========================================================
-       CALCULATE SCENE SCALE
+       GET OBJECT SIZE
        =========================================================
 
-       DESKTOP:
-           Uses the large desktop room.
-
-       MOBILE:
-           Automatically scales the entire room so it fits
-           inside the phone screen.
-
-       This means you NEVER need to specify a separate
-       mobileWidth for every object.
+       Each object can have a different size on desktop
+       and mobile.
 
        ========================================================= */
 
-    function calculateSceneScale() {
+    function getObjectSize(item) {
 
+        if (isMobile()) {
 
-        const tableWidth =
-            table.clientWidth;
-
-
-        const tableHeight =
-            table.clientHeight;
-
-
-
-        /*
-         * Desktop:
-         *
-         * Use the room at its normal size unless the
-         * available browser window is smaller than the
-         * room.
-         */
-
-        if (!isMobile()) {
-
-
-            const horizontalScale =
-                tableWidth / room.width;
-
-
-            const verticalScale =
-                tableHeight / room.height;
-
-
-            /*
-             * Don't allow the desktop room to become
-             * ridiculously small.
-             */
-
-            return Math.min(
-
-                room.desktopScale,
-
-                horizontalScale,
-                verticalScale
-
-            );
+            return item.mobileSize;
 
         }
 
-
-
-        /*
-         * MOBILE
-         *
-         * Leave a little breathing room around the scene.
-         */
-
-        const availableWidth =
-            tableWidth -
-            (room.mobileMargin * 2);
-
-
-        const availableHeight =
-            tableHeight -
-            (room.mobileMargin * 2);
-
-
-
-        const horizontalScale =
-            availableWidth /
-            room.width;
-
-
-        const verticalScale =
-            availableHeight /
-            room.height;
-
-
-
-        /*
-         * Use whichever dimension is more restrictive.
-         */
-
-        return Math.min(
-
-            horizontalScale,
-            verticalScale
-
-        );
+        return item.desktopSize;
 
     }
 
 
 
     /* =========================================================
-       APPLY SCENE SCALE
+       CONVERT PERCENTAGE POSITION TO SCREEN POSITION
        ========================================================= */
 
-    function updateSceneScale() {
+    function getPosition(item) {
 
 
-        const scale =
-            calculateSceneScale();
+        return {
+
+            x:
+                table.clientWidth *
+                (item.x / 100),
+
+            y:
+                table.clientHeight *
+                (item.y / 100)
+
+        };
+
+    }
 
 
-        scene.style.transform =
 
-            "translate(-50%, -50%) " +
-            "scale(" + scale + ")";
+    /* =========================================================
+       KEEP OBJECT INSIDE SCREEN
+       =========================================================
+
+       This is important.
+
+       An object can be dragged anywhere across the screen,
+       but its edges won't disappear beyond the screen.
+
+       ========================================================= */
+
+    function constrainPosition(
+
+        x,
+        y,
+        image
+
+    ) {
+
+
+        const tableRect =
+            table.getBoundingClientRect();
+
+
+
+        const imageWidth =
+            image.offsetWidth;
+
+
+        const imageHeight =
+            image.offsetHeight;
+
+
+
+        /*
+         * Because the image is centered using
+         * translate(-50%, -50%), these are the
+         * minimum and maximum CENTER positions.
+         */
+
+        const halfWidth =
+            imageWidth / 2;
+
+
+        const halfHeight =
+            imageHeight / 2;
+
+
+
+        /*
+         * Horizontal boundary.
+         */
+
+        x = Math.max(
+
+            halfWidth,
+
+            Math.min(
+
+                tableRect.width -
+                halfWidth,
+
+                x
+
+            )
+
+        );
+
+
+
+        /*
+         * Vertical boundary.
+         */
+
+        y = Math.max(
+
+            halfHeight,
+
+            Math.min(
+
+                tableRect.height -
+                halfHeight,
+
+                y
+
+            )
+
+        );
+
+
+
+        return {
+
+            x: x,
+            y: y
+
+        };
 
     }
 
@@ -600,7 +566,7 @@
 
 
         /*
-         * Set image source.
+         * Image source.
          */
 
         img.src =
@@ -619,6 +585,7 @@
 
         /*
          * Store object number.
+
          */
 
         img.dataset.index =
@@ -627,7 +594,7 @@
 
 
         /*
-         * Disable native image dragging.
+         * Disable native browser image dragging.
          */
 
         img.draggable = false;
@@ -650,36 +617,28 @@
 
         /* =====================================================
            SIZE
-           =====================================================
-
-           One size works everywhere.
-
-           Mobile responsiveness is handled by scaling
-           the entire scene.
-
            ===================================================== */
 
         img.style.width =
-    (isMobile()
-        ? item.mobileSize
-        : item.desktopSize) + "px";
+            getObjectSize(item) + "px";
+
 
 
         /* =====================================================
-           POSITION
-           =====================================================
-
-           Convert percentage coordinates into the internal
-           room coordinates.
-
+           INITIAL POSITION
            ===================================================== */
 
+        const position =
+            getPosition(item);
+
+
+
         img.style.left =
-            (room.width * item.x / 100) + "px";
+            position.x + "px";
 
 
         img.style.top =
-            (room.height * item.y / 100) + "px";
+            position.y + "px";
 
 
 
@@ -719,7 +678,7 @@
 
 
                 /*
-                 * Bring object to front.
+                 * Bring selected object to front.
                  */
 
                 highestZIndex++;
@@ -730,7 +689,7 @@
 
 
                 /*
-                 * Continue receiving pointer events
+                 * Keep receiving pointer events
                  * during the drag.
                  */
 
@@ -741,73 +700,54 @@
 
 
                 /*
-                 * Because the scene itself is scaled,
-                 * convert pointer coordinates back into
-                 * room coordinates.
+                 * Get the current image position.
                  */
 
-                const sceneScale =
-                    calculateSceneScale();
+                const imageRect =
+                    img.getBoundingClientRect();
 
 
-                const sceneRect =
-                    scene.getBoundingClientRect();
+                const tableRect =
+                    table.getBoundingClientRect();
 
 
 
                 /*
-                 * Current object center.
+                 * Calculate the current center
+                 * of the image.
                  */
 
-                const objectX =
-                    parseFloat(
-                        img.style.left
-                    );
+                const centerX =
+
+                    imageRect.left +
+                    imageRect.width / 2;
 
 
-                const objectY =
-                    parseFloat(
-                        img.style.top
-                    );
+                const centerY =
+
+                    imageRect.top +
+                    imageRect.height / 2;
 
 
 
                 /*
-                 * Pointer position in room coordinates.
-                 */
+                 * Remember exactly where the user
+                 * grabbed the object.
 
-                const pointerX =
-
-                    (
-                        event.clientX -
-                        sceneRect.left
-                    ) /
-                    sceneScale;
-
-
-                const pointerY =
-
-                    (
-                        event.clientY -
-                        sceneRect.top
-                    ) /
-                    sceneScale;
-
-
-
-                /*
-                 * Remember where inside the object
-                 * the user grabbed it.
+                 * This prevents the object from
+                 * jumping when dragging begins.
                  */
 
                 offsetX =
-                    pointerX -
-                    objectX;
+
+                    event.clientX -
+                    centerX;
 
 
                 offsetY =
-                    pointerY -
-                    objectY;
+
+                    event.clientY -
+                    centerY;
 
             }
 
@@ -833,111 +773,59 @@
 
 
 
-                const sceneScale =
-                    calculateSceneScale();
-
-
-                const sceneRect =
-                    scene.getBoundingClientRect();
+                const tableRect =
+                    table.getBoundingClientRect();
 
 
 
                 /*
-                 * Pointer position converted into
-                 * room coordinates.
+                 * Calculate where the CENTER of the
+                 * image should move.
                  */
 
                 let x =
 
-                    (
-                        event.clientX -
-                        sceneRect.left
-                    ) /
-                    sceneScale -
+                    event.clientX -
+                    tableRect.left -
                     offsetX;
-
 
 
                 let y =
 
-                    (
-                        event.clientY -
-                        sceneRect.top
-                    ) /
-                    sceneScale -
+                    event.clientY -
+                    tableRect.top -
                     offsetY;
 
 
 
                 /*
-                 * Object dimensions inside the
-                 * unscaled room.
+                 * Keep the entire image inside
+                 * the visible room.
                  */
 
-                const objectWidth =
-                    img.offsetWidth;
+                const constrained =
+
+                    constrainPosition(
+
+                        x,
+                        y,
+                        img
+
+                    );
 
 
-                const objectHeight =
-                    img.offsetHeight;
+
+                x =
+                    constrained.x;
+
+
+                y =
+                    constrained.y;
 
 
 
                 /*
-                 * Keep the entire object inside
-                 * the room horizontally.
-                 */
-
-                const halfWidth =
-                    objectWidth / 2;
-
-
-                const halfHeight =
-                    objectHeight / 2;
-
-
-
-                x = Math.max(
-
-                    halfWidth,
-
-                    Math.min(
-
-                        room.width -
-                        halfWidth,
-
-                        x
-
-                    )
-
-                );
-
-
-
-                /*
-                 * Keep the entire object inside
-                 * the room vertically.
-                 */
-
-                y = Math.max(
-
-                    halfHeight,
-
-                    Math.min(
-
-                        room.height -
-                        halfHeight,
-
-                        y
-
-                    )
-
-                );
-
-
-
-                /*
-                 * Move object.
+                 * Move image.
                  */
 
                 img.style.left =
@@ -1034,30 +922,101 @@
 
 
         /* =====================================================
-           ADD TO SCENE
+           ADD TO ROOM
            ===================================================== */
 
-        scene.appendChild(img);
+        table.appendChild(img);
 
     });
 
 
 
     /* =========================================================
-       INITIAL SCALE
+       HANDLE SCREEN RESIZING
+       =========================================================
+
+       We do NOT reload the page.
+
+       Instead, we recalculate the size and position of
+       every object.
+
        ========================================================= */
 
-    updateSceneScale();
+    function updateObjectsForScreen() {
+
+
+        objects.forEach(function(item, index) {
+
+
+            /*
+             * Find the corresponding image.
+             */
+
+            const img =
+                table.querySelector(
+
+                    '[data-index="' +
+                    index +
+                    '"]'
+
+                );
+
+
+
+            if (!img) return;
+
+
+
+            /*
+             * Change size for the current device.
+             */
+
+            img.style.width =
+                getObjectSize(item) + "px";
+
+
+
+            /*
+             * Recalculate starting position.
+
+             */
+
+            const position =
+                getPosition(item);
+
+
+
+            /*
+             * Keep the object inside the new screen.
+             */
+
+            const constrained =
+
+                constrainPosition(
+
+                    position.x,
+                    position.y,
+                    img
+
+                );
+
+
+
+            img.style.left =
+                constrained.x + "px";
+
+
+            img.style.top =
+                constrained.y + "px";
+
+        });
+
+    }
 
 
 
     /* =========================================================
-       RESIZE
-       =========================================================
-
-       Recalculate the scene whenever the browser changes
-       size or orientation.
-
+       RESIZE EVENT
        ========================================================= */
 
     let resizeTimer;
@@ -1077,7 +1036,7 @@
 
                 function() {
 
-                    updateSceneScale();
+                    updateObjectsForScreen();
 
                 },
 
@@ -1090,10 +1049,11 @@
     );
 
 
-
     </script>
 
 </body>
 
 </html>
+
+
 
