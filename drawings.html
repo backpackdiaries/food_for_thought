@@ -52,15 +52,13 @@ a:active {
 }
 
 
+
 /* DRAWING GRID */
 
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    align-items: start;
+    column-count: 3;
+    column-gap: 10px;
 }
-
 
 
 /* DRAWING LINKS */
@@ -68,7 +66,9 @@ a:active {
 .gallery a {
     display: block;
     position: relative;
-    border-radius: 5px; 
+    margin-bottom: 10px;
+    break-inside: avoid;
+    border-radius: 5px;
     overflow: hidden;
 }
 
@@ -79,7 +79,6 @@ a:active {
     display: block;
     width: 100%;
     height: auto;
-
     filter: grayscale(100%);
 }
 
@@ -104,23 +103,22 @@ a:active {
 }
 
 
-
-
-
 /* PHONE */
 
 @media (max-width: 768px) {
 
-    body {
-        padding: 10px;
+    .gallery {
+        column-count: 2;
+        column-gap: 6px;
     }
 
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
+    .gallery a {
+        margin-bottom: 6px;
     }
 
 }
+
+
 
 </style>
 
