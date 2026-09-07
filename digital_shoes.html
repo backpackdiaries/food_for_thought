@@ -18,10 +18,45 @@
             padding: 10px;
         }
 
-        a {
-            color: rgb(105, 255, 150);
-            text-decoration: none;
-        }
+
+a {
+    color: rgb(105, 255, 150);
+    text-decoration: none;
+
+    background: linear-gradient(
+        90deg,
+        #ff00ff,
+        #ff0080,
+        #ff0000,
+        #ffff00,
+        #00ff00,
+        #00ffff,
+        #0080ff,
+        #8000ff,
+        #ff00ff
+    );
+
+    background-size: 300% 100%;
+    background-position: 0% 50%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: rainbow 8s linear infinite;
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+
 
         .back-button {
             display: inline-block;
@@ -72,7 +107,7 @@
         >
 
         <p class="caption">
-            please take off your digital shoes, and you may <a href="digital_altar.html">enter</a>
+            please take off your digital shoes, and you may <a href="digital_altar.html">𝐄𝐧𝐭𝐞𝐫...</a>
         </p>
 
     </div>
