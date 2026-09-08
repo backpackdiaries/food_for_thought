@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>visual sudoku</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+</head>
+
+
+<style>
+
+body {
+    font-family: monospace;
+    color: fuchsia;
+    background-color: #02010f;
+    font-size: 14px;
+    margin: 0;
+    min-height: 100vh;
+}
+
+
+/* LINKS */
+
+a {
+    color: rgb(105, 255, 150);
+    text-decoration: none;
+}
+
+a:hover {
+    color: fuchsia;
+}
+
+a:active {
+    color: fuchsia;
+}
+
+
+/* BACK BUTTON */
+
+.home-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 16px;
+    z-index: 10;
+}
+
+
+/* CENTER CONTENT */
+
+.center-content {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: 70px 20px;
+}
+
+
+/* IMAGE */
+
+.project-image {
+    display: block;
+    width: auto;
+    max-width: 75%;
+    max-height: 65vh;
+    height: auto;
+    border-radius: 8px;
+}
+
+
+/* NEXT BUTTON */
+
+.next-button {
+    margin-top: 15px;
+
+    color: rgb(105, 255, 150);
+    background: transparent;
+    border: 1px solid fuchsia;
+    border-radius: 5px;
+
+    padding: 4px 9px;
+
+    font-family: monospace;
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.next-button:hover {
+    color: fuchsia;
+}
+
+
+/* DESCRIPTION */
+
+.description {
+    max-width: 500px;
+    margin-top: 18px;
+
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+
+/* PHONE */
+
+@media (max-width: 768px) {
+
+    .center-content {
+        padding: 70px 15px;
+    }
+
+    .project-image {
+        max-width: 90%;
+        max-height: 60vh;
+    }
+
+    .description {
+        max-width: 90%;
+        font-size: 11px;
+    }
+
+}
+
+</style>
+
+
+<body>
+
+
+<!-- BACK BUTTON -->
+
+<a class="home-button" href="food_for_thought.html">╾━╤デ╦︻</a>
+
+
+<!-- PROJECT -->
+
+<div class="center-content">
+
+    <img
+        id="project-image"
+        class="project-image"
+        src="images/sudoku_1.jpg"
+        alt="project">
+
+
+    <button
+        class="next-button"
+        onclick="nextImage()">
+        ⟶
+    </button>
+
+
+    <div class="description">
+
+        this is a visual sudoku game about family dynamics. 
+        made for an advanced graphic design class. 
+        it also includes a typeface i designed and a poem. 
+        𝟚𝟘𝟚𝟜
+
+    </div>
+
+</div>
+
+
+<script>
+
+const images = [
+    "images/sudoku_1.jpeg",
+    "images/sudoku_2.jpeg",
+    "images/sudoku_type_1.jpeg",
+    "images/sudoku_type_2.jpeg",
+];
+
+let currentImage = 0;
+
+
+/* CHANGE IMAGE */
+
+function nextImage() {
+
+    currentImage = (currentImage + 1) % images.length;
+
+    document.getElementById("project-image").src = images[currentImage];
+
+}
+
+
+/* AUTOMATIC ROTATION */
+
+setInterval(function() {
+
+    nextImage();
+
+}, 4000);
+
+</script>
+
+
+</body>
+</html>
+
