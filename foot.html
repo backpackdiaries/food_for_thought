@@ -120,15 +120,20 @@ a:active {
             src="images/20260830 2.gif"
             alt="CD">
 
-        <audio
-            class="audio-player"
-            controls>
 
-            <source src="audio/new_recording_345.m4a" type="audio/mp4">
+<audio class="audio-player" controls>
 
-            your browser does not support this audio player :(
+    <!-- Original Apple Lossless version -->
+    <source src="audio/new_recording_345.m4a" type="audio/mp4">
 
-        </audio>
+    <!-- Lossless fallback for Firefox -->
+    <source src="audio/new_recording_345.flac" type="audio/flac">
+
+    your browser cannot play this audio :(
+
+</audio>
+
+
 
     </div>
 
