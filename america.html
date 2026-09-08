@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>America</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+</head>
+
+
+<style>
+
+body {
+    font-family: monospace;
+    color: fuchsia;
+    background-color: #02010f;
+    font-size: 14px;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+
+/* LINKS */
+
+a {
+    color: rgb(105, 255, 150);
+    text-decoration: none;
+}
+
+a:hover {
+    color: fuchsia;
+}
+
+a:active {
+    color: fuchsia;
+}
+
+
+/* BACK BUTTON */
+
+.home-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 16px;
+    z-index: 10;
+}
+
+
+/* INTRODUCTION */
+
+.introduction {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: 80px 20px;
+}
+
+.intro-text {
+    max-width: 550px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* THESIS IMAGE */
+
+.thesis {
+    text-align: center;
+    padding: 20px 20px 80px;
+}
+
+.thesis img {
+    display: block;
+    width: auto;
+    max-width: 75%;
+    max-height: 75vh;
+    height: auto;
+    margin: 0 auto;
+}
+
+
+/* CAROUSEL */
+
+.carousel {
+    text-align: center;
+    padding: 20px 20px 80px;
+}
+
+.carousel-frame {
+    width: min(700px, 80vw);
+    height: 65vh;
+
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+
+/* CAROUSEL BUTTON */
+
+.next-button {
+    margin-top: 15px;
+
+    color: rgb(105, 255, 150);
+    background: transparent;
+
+    border: 1px solid fuchsia;
+    border-radius: 5px;
+
+    padding: 4px 9px;
+
+    font-family: monospace;
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.next-button:hover {
+    color: fuchsia;
+}
+
+
+/* FINAL IMAGES */
+
+.final-images {
+    width: 55%;
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    line-height: 0;
+}
+
+.final-images img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* CONCLUSION */
+
+.conclusion {
+    max-width: 550px;
+
+    margin: 50px auto 100px;
+
+    padding: 0 20px;
+
+    text-align: center;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* PHONE */
+
+@media (max-width: 768px) {
+
+    .introduction {
+        min-height: 100svh;
+        padding: 70px 20px;
+    }
+
+    .intro-text {
+        max-width: 90%;
+        font-size: 12px;
+    }
+
+
+    .thesis {
+        padding: 20px 15px 70px;
+    }
+
+    .thesis img {
+        max-width: 90%;
+        max-height: 70vh;
+    }
+
+
+    .carousel {
+        padding: 20px 15px 70px;
+    }
+
+    .carousel-frame {
+        width: 90vw;
+        height: 60vh;
+    }
+
+
+    .final-images {
+        width: 90%;
+        max-width: none;
+    }
+
+
+    .conclusion {
+        max-width: 90%;
+        margin: 40px auto 80px;
+        font-size: 11px;
+    }
+
+}
+
+</style>
+
+
+<body>
+
+
+<!-- BACK BUTTON -->
+
+<a class="home-button" href="food_for_thought.html">╾━╤デ╦︻</a>
+
+
+<!-- INTRODUCTION -->
+
+<section class="introduction">
+
+    <div class="intro-text">
+
+        this is where the description of the project begins.
+        <br>
+        a few lines about what this page is,
+        what the work is exploring,
+        or whatever you want the visitor to know before
+        entering the images.
+        <br><br>
+        the text can be as short or strange as you like.
+
+    </div>
+
+</section>
+
+
+<!-- THESIS IMAGE -->
+
+<section class="thesis">
+
+    <img
+        src="images/thesis.jpg"
+        alt="thesis image"
+    >
+
+</section>
+
+
+<!-- CAROUSEL -->
+
+<section class="carousel">
+
+    <div class="carousel-frame">
+
+        <img
+            id="carousel-image"
+            class="carousel-image"
+            src="images/carousel_1.jpg"
+            alt="project image"
+        >
+
+    </div>
+
+    <button
+        class="next-button"
+        onclick="nextImage()"
+    >
+        ⟶
+    </button>
+
+</section>
+
+
+<!-- FINALIZED IMAGES -->
+
+<section class="final-images">
+
+    <img src="images/final_1.jpg" alt="final image 1">
+    <img src="images/final_2.jpg" alt="final image 2">
+    <img src="images/final_3.jpg" alt="final image 3">
+    <img src="images/final_4.jpg" alt="final image 4">
+
+</section>
+
+
+<!-- CONCLUSION -->
+
+<div class="conclusion">
+
+    this is where the concluding description goes.
+    <br><br>
+    a final thought about the project, the process,
+    the images, or whatever you want to leave the visitor with.
+
+</div>
+
+
+<script>
+
+/* CAROUSEL IMAGES */
+
+const images = [
+    "images/carousel_1.jpg",
+    "images/carousel_2.jpg",
+    "images/carousel_3.jpg",
+    "images/carousel_4.jpg"
+];
+
+let currentImage = 0;
+
+
+/* CHANGE IMAGE */
+
+function nextImage() {
+
+    currentImage = (currentImage + 1) % images.length;
+
+    document.getElementById("carousel-image").src = images[currentImage];
+
+}
+
+
+/* AUTO ROTATE */
+
+setInterval(function() {
+
+    nextImage();
+
+}, 4000);
+
+</script>
+
+
+</body>
+</html>
+
