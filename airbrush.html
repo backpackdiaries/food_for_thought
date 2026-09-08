@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>drawings</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+</head>
+
+
+<style>
+
+body {
+    font-family: monospace;
+    color: fuchsia;
+    background-color: #02010f;
+    font-size: 14px;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+
+/* LINKS */
+
+a {
+    color: rgb(105, 255, 150);
+    text-decoration: none;
+}
+
+a:hover {
+    color: fuchsia;
+}
+
+a:active {
+    color: fuchsia;
+}
+
+
+/* BACK BUTTON */
+
+.home-button {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 16px;
+    z-index: 10;
+}
+
+
+/* DRAWING SECTIONS */
+
+.drawing {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: 80px 20px;
+}
+
+
+/* IMAGES */
+
+.drawing img {
+    display: block;
+    width: auto;
+    max-width: 75%;
+    max-height: 70vh;
+    height: auto;
+}
+
+
+/* CAPTIONS */
+
+.caption {
+    margin-top: 14px;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+
+/* PHONE */
+
+@media (max-width: 768px) {
+
+    .drawing {
+        min-height: 100vh;
+        padding: 70px 15px;
+    }
+
+    .drawing img {
+        max-width: 90%;
+        max-height: 65vh;
+    }
+
+    .caption {
+        font-size: 11px;
+        margin-top: 12px;
+    }
+
+}
+
+</style>
+
+
+<body>
+
+
+<!-- BACK BUTTON -->
+
+<a class="home-button" href="food_for_thought.html">╾━╤デ╦︻</a>
+
+
+<!-- DRAWING 1 -->
+
+<section class="drawing" id="drawing-1">
+
+    <img src="images/embrace.jpeg" alt="drawing 1">
+
+    <div class="caption">
+        airbrush on newsprint 2҉0҉2҉4҉
+    </div>
+
+</section>
+
+
+<!-- DRAWING 2 -->
+
+<section class="drawing" id="drawing-2">
+
+    <img src="images/moon_man.jpeg" alt="drawing 2">
+
+    <div class="caption">
+        airbrush on newsprint 2̊⫶0̊⫶2̊⫶4̊⫶
+    </div>
+
+</section>
+
+
+<!-- DRAWING 3 -->
+
+<section class="drawing" id="drawing-3">
+
+    <img src="images/connected.jpeg" alt="drawing 3">
+
+    <div class="caption">
+        airbrush on newsprint ②⓪②④
+    </div>
+
+</section>
+
+
+</body>
+</html>
+
