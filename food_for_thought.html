@@ -88,6 +88,41 @@ tr {
     color: fuchsia;
 }
 
+.patriotic-link {
+    background: linear-gradient(
+        90deg,
+        #ff0000,
+        #ffffff,
+        #0000ff,
+        #ffffff,
+        #ff0000
+    );
+    background-size: 300% 100%;
+    background-position: 0% 50%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: red-white-blue 5s linear infinite;
+}
+
+@keyframes red-white-blue {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+.patriotic-link:hover {
+    -webkit-text-fill-color: fuchsia;
+}
+
+
+
 @media (min-width: 768px) {
 
      body {
