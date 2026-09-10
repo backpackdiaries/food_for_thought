@@ -112,10 +112,42 @@ tr {
     animation: rainbow-border 6s linear infinite;
 }
 
-.random-button .category-icon {
-    color: transparent;
 
-    background: linear-gradient(
+.random-button {
+    border: 1px solid transparent;
+
+    background:
+        linear-gradient(#02010f, #02010f) padding-box,
+        linear-gradient(
+            90deg,
+            #ff00ff,
+            #ff0080,
+            #ff0000,
+            #ffff00,
+            #00ff00,
+            #00ffff,
+            #0080ff,
+            #8000ff,
+            #ff00ff
+        ) border-box;
+
+    background-size: 100% 100%, 300% 100%;
+    background-position: 0 0, 0% 50%;
+
+    animation: rainbow-border 6s linear infinite;
+}
+
+
+/* RAINBOW TEXT */
+
+.random-button {
+    background-clip: padding-box, border-box;
+    -webkit-background-clip: padding-box, border-box;
+}
+
+.random-button .category-icon,
+.random-button {
+    background-image: linear-gradient(
         90deg,
         #ff00ff,
         #ff0000,
@@ -128,27 +160,28 @@ tr {
     );
 
     background-size: 300% 100%;
+
     background-clip: text;
     -webkit-background-clip: text;
+
     -webkit-text-fill-color: transparent;
 
     animation: rainbow-text 5s linear infinite;
 }
 
-.random-button {
-    color: transparent;
 
-    background-clip: padding-box, border-box;
-    -webkit-background-clip: padding-box, border-box;
-}
+/* HOVER */
 
 .random-button:hover {
-    color: fuchsia;
+    -webkit-text-fill-color: fuchsia;
 }
 
 .random-button:hover .category-icon {
     -webkit-text-fill-color: fuchsia;
 }
+
+
+/* RAINBOW BORDER */
 
 @keyframes rainbow-border {
 
@@ -162,6 +195,9 @@ tr {
 
 }
 
+
+/* RAINBOW TEXT */
+
 @keyframes rainbow-text {
 
     0% {
@@ -173,6 +209,8 @@ tr {
     }
 
 }
+
+
 
 .patriotic-link {
     background: linear-gradient(
@@ -256,7 +294,7 @@ tr {
     </a>
 
     <a class="category-button random-button" href="#" onclick="randomPage(); return false;">
-        <span class="category-icon">⤨</span> random
+        <span class="category-icon">⤨</span> 𝓻𝓪𝓷𝓭⊕𝓶
     </a>
 
 </div>
