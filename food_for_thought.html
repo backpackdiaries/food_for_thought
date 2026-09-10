@@ -88,63 +88,9 @@ tr {
     color: fuchsia;
 }
 
-.random-button {
-    border: 1px solid transparent;
-
-    background:
-        linear-gradient(#02010f, #02010f) padding-box,
-        linear-gradient(
-            90deg,
-            #ff00ff,
-            #ff0080,
-            #ff0000,
-            #ffff00,
-            #00ff00,
-            #00ffff,
-            #0080ff,
-            #8000ff,
-            #ff00ff
-        ) border-box;
-
-    background-size: 100% 100%, 300% 100%;
-    background-position: 0 0, 0% 50%;
-
-    animation: rainbow-border 6s linear infinite;
-}
-
 
 .random-button {
     border: 1px solid transparent;
-
-    background:
-        linear-gradient(#02010f, #02010f) padding-box,
-        linear-gradient(
-            90deg,
-            #ff00ff,
-            #ff0080,
-            #ff0000,
-            #ffff00,
-            #00ff00,
-            #00ffff,
-            #0080ff,
-            #8000ff,
-            #ff00ff
-        ) border-box;
-
-    background-size: 100% 100%, 300% 100%;
-    background-position: 0 0, 0% 50%;
-
-    animation: rainbow-border 6s linear infinite;
-}
-
-
-.random-button {
-    position: relative;
-
-    color: rgb(105, 255, 150);
-
-    border: 1px solid transparent;
-    border-radius: 6px;
 
     background:
         linear-gradient(#02010f, #02010f) padding-box,
@@ -172,6 +118,8 @@ tr {
 
 .random-text,
 .random-icon {
+    display: inline-block;
+
     background: linear-gradient(
         90deg,
         #ff00ff,
@@ -185,6 +133,7 @@ tr {
     );
 
     background-size: 300% 100%;
+    background-position: 0% 50%;
 
     background-clip: text;
     -webkit-background-clip: text;
@@ -197,10 +146,6 @@ tr {
 
 
 /* HOVER */
-
-.random-button:hover {
-    color: rgb(105, 255, 150);
-}
 
 .random-button:hover .random-text,
 .random-button:hover .random-icon {
@@ -237,7 +182,6 @@ tr {
     }
 
 }
-
 
 
 
@@ -323,9 +267,9 @@ tr {
         <span class="category-icon">ॐ</span> sui generis
     </a>
 
-    <a class="category-button random-button" href="#" onclick="randomPage(); return false;">
-        <span class="category-icon"></span> 𝓻𝓪𝓷𝓭⊕𝓶𝓲𝔃𝓮
-    </a>
+<a class="category-button random-button" href="#" onclick="randomPage(); return false;">
+    <span class="random-text">𝓻𝓪𝓷𝓭⊕𝓶𝓲𝔃𝓮</span>
+</a>
 
 </div>
 		<br>
@@ -491,7 +435,7 @@ const pages = [
 	"a_month_in_london.html",
 	"airbrush.html",
 	"america.html",
-	"artist_statement",
+	"artist_statement.html",
 	"design.html",
 	"digital_shoes.html",
 	"foot.html",
