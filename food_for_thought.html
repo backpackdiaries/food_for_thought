@@ -138,16 +138,41 @@ tr {
 }
 
 
-/* RAINBOW TEXT */
-
 .random-button {
-    background-clip: padding-box, border-box;
-    -webkit-background-clip: padding-box, border-box;
+    position: relative;
+
+    color: rgb(105, 255, 150);
+
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    background:
+        linear-gradient(#02010f, #02010f) padding-box,
+        linear-gradient(
+            90deg,
+            #ff00ff,
+            #ff0080,
+            #ff0000,
+            #ffff00,
+            #00ff00,
+            #00ffff,
+            #0080ff,
+            #8000ff,
+            #ff00ff
+        ) border-box;
+
+    background-size: 100% 100%, 300% 100%;
+    background-position: 0 0, 0% 50%;
+
+    animation: rainbow-border 6s linear infinite;
 }
 
-.random-button .category-icon,
-.random-button {
-    background-image: linear-gradient(
+
+/* RAINBOW TEXT */
+
+.random-text,
+.random-icon {
+    background: linear-gradient(
         90deg,
         #ff00ff,
         #ff0000,
@@ -164,6 +189,7 @@ tr {
     background-clip: text;
     -webkit-background-clip: text;
 
+    color: transparent;
     -webkit-text-fill-color: transparent;
 
     animation: rainbow-text 5s linear infinite;
@@ -173,10 +199,12 @@ tr {
 /* HOVER */
 
 .random-button:hover {
-    -webkit-text-fill-color: fuchsia;
+    color: rgb(105, 255, 150);
 }
 
-.random-button:hover .category-icon {
+.random-button:hover .random-text,
+.random-button:hover .random-icon {
+    color: fuchsia;
     -webkit-text-fill-color: fuchsia;
 }
 
@@ -209,6 +237,8 @@ tr {
     }
 
 }
+
+
 
 
 
@@ -294,7 +324,7 @@ tr {
     </a>
 
     <a class="category-button random-button" href="#" onclick="randomPage(); return false;">
-        <span class="category-icon">⤨</span> 𝓻𝓪𝓷𝓭⊕𝓶
+        <span class="category-icon"></span> 𝓻𝓪𝓷𝓭⊕𝓶
     </a>
 
 </div>
