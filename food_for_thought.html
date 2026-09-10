@@ -88,6 +88,92 @@ tr {
     color: fuchsia;
 }
 
+.random-button {
+    border: 1px solid transparent;
+
+    background:
+        linear-gradient(#02010f, #02010f) padding-box,
+        linear-gradient(
+            90deg,
+            #ff00ff,
+            #ff0080,
+            #ff0000,
+            #ffff00,
+            #00ff00,
+            #00ffff,
+            #0080ff,
+            #8000ff,
+            #ff00ff
+        ) border-box;
+
+    background-size: 100% 100%, 300% 100%;
+    background-position: 0 0, 0% 50%;
+
+    animation: rainbow-border 6s linear infinite;
+}
+
+.random-button .category-icon {
+    color: transparent;
+
+    background: linear-gradient(
+        90deg,
+        #ff00ff,
+        #ff0000,
+        #ffff00,
+        #00ff00,
+        #00ffff,
+        #0080ff,
+        #8000ff,
+        #ff00ff
+    );
+
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: rainbow-text 5s linear infinite;
+}
+
+.random-button {
+    color: transparent;
+
+    background-clip: padding-box, border-box;
+    -webkit-background-clip: padding-box, border-box;
+}
+
+.random-button:hover {
+    color: fuchsia;
+}
+
+.random-button:hover .category-icon {
+    -webkit-text-fill-color: fuchsia;
+}
+
+@keyframes rainbow-border {
+
+    0% {
+        background-position: 0 0, 0% 50%;
+    }
+
+    100% {
+        background-position: 0 0, 300% 50%;
+    }
+
+}
+
+@keyframes rainbow-text {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+
+}
+
 .patriotic-link {
     background: linear-gradient(
         90deg,
@@ -148,11 +234,31 @@ tr {
 
 
 <div class="category-nav">
-    <a class="category-button" href="drawings.html"><span class="category-icon">✎</span> fine art</a>
-    <a class="category-button" href="music.html"><span class="category-icon">♫</span> audio</a>
-	<a class="category-button" href="artwear.html"><span class="category-icon">$</span> artwear</a>
-	<a class="category-button" href="design.html"><span class="category-icon">⿻</span> design</a>
-	<a class="category-button" href="sui_generis.html"><span class="category-icon">ॐ</span> sui generis</a>
+
+    <a class="category-button" href="drawings.html">
+        <span class="category-icon">✎</span> fine art
+    </a>
+
+    <a class="category-button" href="music.html">
+        <span class="category-icon">♫</span> audio
+    </a>
+
+    <a class="category-button" href="artwear.html">
+        <span class="category-icon">$</span> artwear
+    </a>
+
+    <a class="category-button" href="design.html">
+        <span class="category-icon">⿻</span> design
+    </a>
+
+    <a class="category-button" href="sui_generis.html">
+        <span class="category-icon">ॐ</span> sui generis
+    </a>
+
+    <a class="category-button random-button" href="#" onclick="randomPage(); return false;">
+        <span class="category-icon">⤨</span> 𝓻𝓪𝓷𝓭𝓸𝓶
+    </a>
+
 </div>
 		<br>
 		<br>
@@ -308,6 +414,53 @@ tr {
 
 		<br>
 		<br>
+
+<script>
+
+const pages = [
+
+    "drawings.html",
+    "hunger.html#drawing-1",
+    "hunger.html#drawing-2",
+
+    "airbrush.html#drawing-1",
+    "airbrush.html#drawing-2",
+    "airbrush.html#drawing-3",
+
+    "a_month_in_london.html#london-1",
+    "a_month_in_london.html#london-2",
+    "a_month_in_london.html#london-3",
+    "a_month_in_london.html#london-4",
+    "a_month_in_london.html#london-5",
+    "a_month_in_london.html#london-6",
+    "a_month_in_london.html#london-7",
+    "a_month_in_london.html#london-8",
+    "a_month_in_london.html#london-9",
+    "a_month_in_london.html#london-10",
+
+    "20260730.html#thursday-clown",
+    "20260730.html#thursday-monkey",
+
+    "music.html",
+    "artwear.html",
+    "design.html",
+    "sui_generis.html"
+
+];
+
+
+function randomPage() {
+
+    const randomIndex =
+        Math.floor(Math.random() * pages.length);
+
+    window.location.href = pages[randomIndex];
+
+}
+
+</script>
+
+
 		
     </body>
 
