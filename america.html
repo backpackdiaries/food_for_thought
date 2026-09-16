@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>America</title>
+    <title>𝓐𝓶𝓮𝓻𝓲𝓬𝓪</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -77,72 +77,49 @@ a:active {
 /* THESIS IMAGE */
 
 .thesis {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
     text-align: center;
-    padding: 20px 20px 80px;
+    line-height: 0;
 }
 
 .thesis img {
     display: block;
-    width: auto;
-    max-width: 75%;
-    max-height: 75vh;
+
+    width: 100%;
+    max-width: none;
     height: auto;
-    margin: 0 auto;
+
+    margin: 0;
+    padding: 0;
 }
 
 
-/* CAROUSEL */
+/* STANDALONE PROJECT IMAGES */
 
-.carousel {
+.project-image {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
     text-align: center;
-    padding: 20px 20px 80px;
+    line-height: 0;
 }
 
-.carousel-frame {
-    width: min(700px, 80vw);
-    height: 65vh;
-
-    margin: 0 auto;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel-image {
+.project-image img {
     display: block;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
+
+    width: 100%;
     height: auto;
+
+    margin: 0;
+    padding: 0;
 }
 
 
-/* CAROUSEL BUTTON */
-
-.next-button {
-    margin-top: 15px;
-
-    color: rgb(105, 255, 150);
-    background: transparent;
-
-    border: 1px solid fuchsia;
-    border-radius: 5px;
-
-    padding: 4px 9px;
-
-    font-family: monospace;
-    font-size: 11px;
-
-    cursor: pointer;
-}
-
-.next-button:hover {
-    color: fuchsia;
-}
-
-
-/* FINAL IMAGES */
+/* FINALIZED IMAGES */
 
 .final-images {
     width: 55%;
@@ -195,29 +172,38 @@ a:active {
     }
 
 
+    /* THESIS */
+
     .thesis {
-        padding: 20px 15px 70px;
+        width: 100vw;
     }
 
     .thesis img {
-        max-width: 90%;
-        max-height: 70vh;
+        width: 100vw;
+        max-width: none;
+        height: auto;
     }
 
 
-    .carousel {
-        padding: 20px 15px 70px;
+    /* FIRST + SECOND IMAGES */
+
+    .project-image {
+        width: 100vw;
     }
 
-    .carousel-frame {
-        width: 90vw;
-        height: 60vh;
+    .project-image img {
+        width: 100vw;
+        max-width: none;
+        height: auto;
     }
 
+
+    /* FINALIZED IMAGES */
 
     .final-images {
         width: 90%;
         max-width: none;
+        margin: 0 auto;
     }
 
 
@@ -268,21 +254,26 @@ a:active {
 </section>
 
 
-<!-- CAROUSEL -->
+<!-- FIRST STANDALONE IMAGE -->
 
-<section class="carousel">
+<section class="project-image">
 
-    <div class="carousel-frame">
+    <img
+        src="images/america_4.jpg"
+        alt="project image"
+    >
 
-        <img
-            id="carousel-image"
-            class="carousel-image"
-            src="images/america_4.jpg"
-            alt="project image"
-        >
+</section>
 
-    </div>
 
+<!-- SECOND STANDALONE IMAGE -->
+
+<section class="project-image">
+
+    <img
+        src="images/america_SECOND_IMAGE.jpg"
+        alt="project image"
+    >
 
 </section>
 
@@ -295,7 +286,6 @@ a:active {
     <img src="images/america_6.jpeg" alt="garment">
     <img src="images/america_7.jpeg" alt="garment">
 
-
 </section>
 
 
@@ -303,50 +293,18 @@ a:active {
 
 <div class="conclusion">
 
-  Find a balance between spiritual and material reality and try to grow a garden there. 
 
     <br>
     <br>
-    ☯ 
+    ☯
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
 </div>
 
 
-<script>
-
-/* CAROUSEL IMAGES */
-
-const images = [
-    "images/america_8.jpg",
-    "images/america_4.jpg",
-    "images/america_8.jpg",
-];
-
-let currentImage = 0;
-
-
-/* CHANGE IMAGE */
-
-function nextImage() {
-
-    currentImage = (currentImage + 1) % images.length;
-
-    document.getElementById("carousel-image").src = images[currentImage];
-
-}
-
-
-/* AUTO ROTATE */
-
-setInterval(function() {
-
-    nextImage();
-
-}, 4000);
-
-</script>
-
-
 </body>
 </html>
-
