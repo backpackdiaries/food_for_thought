@@ -12,6 +12,8 @@
     <link rel="apple-touch-icon" href="images/icon.png">
 
     <style>
+        /* GLOBAL RESET */
+
         * {
             box-sizing: border-box;
         }
@@ -26,7 +28,10 @@
             color: fuchsia;
             background-color: #02010f;
             font-size: 14px;
+
             margin: 0;
+            padding: 0;
+
             overflow-x: hidden;
         }
 
@@ -48,6 +53,7 @@
             position: fixed;
             top: 15px;
             left: 15px;
+
             font-size: 16px;
             z-index: 10;
         }
@@ -63,10 +69,13 @@
             align-items: center;
 
             padding: 80px 20px;
+
+            background-color: #02010f;
         }
 
         .intro-text {
             max-width: 550px;
+
             text-align: center;
             font-size: 13px;
             line-height: 1.6;
@@ -82,7 +91,10 @@
             justify-content: center;
             align-items: center;
 
-            padding: 40px 0;
+            margin: 0;
+            padding: 0;
+
+            background-color: #02010f;
         }
 
         .project-page img {
@@ -102,14 +114,20 @@
 
         .final-transition {
             height: 12vh;
+            background-color: #02010f;
         }
 
         /* FINAL THREE IMAGES */
 
         .final-images {
             width: 40%;
+            max-width: none;
+
             margin: 0 auto;
+            padding: 0;
+
             line-height: 0;
+            background-color: #02010f;
         }
 
         .final-images img {
@@ -134,6 +152,8 @@
 
             font-size: 11px;
             line-height: 1.5;
+
+            background-color: #02010f;
         }
 
         /* MOBILE */
@@ -157,15 +177,16 @@
             .project-page {
                 min-height: 100svh;
 
-                padding: 50px 0;
-
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
+                padding: 0;
+                margin: 0;
             }
 
             .project-page img {
-                width: 60%;
+                width: 80%;
                 max-height: 80svh;
                 height: auto;
 
@@ -176,20 +197,27 @@
 
             .final-transition {
                 height: 8vh;
+                background-color: #02010f;
             }
 
             /* FINAL THREE IMAGES */
 
             .final-images {
-                width: 60%;
+                width: 80%;
+                max-width: none;
+
                 margin: 0 auto;
+                padding: 0;
             }
 
             /* CONCLUSION */
 
             .conclusion {
                 max-width: 90%;
+
                 margin: 40px auto 80px;
+                padding: 0 20px;
+
                 font-size: 11px;
             }
         }
