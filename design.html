@@ -28,10 +28,13 @@
             font-size: 14px;
             color: fuchsia;
             background-color: #02010f;
+
             margin: 0;
             padding: 15px;
+
             min-height: 100vh;
             min-height: 100dvh;
+
             overflow-x: hidden;
         }
 
@@ -67,11 +70,16 @@
 
         .button-grid {
             display: grid;
+
+            /* FOUR COLUMNS ON DESKTOP */
             grid-template-columns: repeat(4, minmax(0, 1fr));
+
             column-gap: 25px;
             row-gap: 45px;
+
             width: 100%;
             max-width: 1200px;
+
             margin: 0 auto;
         }
 
@@ -81,56 +89,63 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
             width: 100%;
             padding: 8px;
         }
 
         .image-button img {
             display: block;
+
             width: 100%;
             height: auto;
+
             object-fit: contain;
-            transform: rotate(0deg);
-            animation: icon-rock 2.4s ease-in-out infinite;
-            transition: opacity 0.2s ease;
             transform-origin: center center;
+
+            /* CHOPPY, STOP-START ROTATION */
+            animation: icon-rock 2.4s steps(1, end) infinite;
         }
 
-        /* GENTLE ROTATION ANIMATION */
+        /* ROTATION ANIMATION */
 
         @keyframes icon-rock {
-            0%, 35%, 100% {
+            0%, 70%, 100% {
                 transform: rotate(0deg);
             }
 
-            42% {
-                transform: rotate(-4deg);
+            75% {
+                transform: rotate(-3deg);
             }
 
-            49% {
+            80% {
+                transform: rotate(-6deg);
+            }
+
+            85% {
                 transform: rotate(3deg);
             }
 
-            56% {
+            90% {
                 transform: rotate(0deg);
             }
         }
 
-        /* SLIGHTLY DIFFERENT TIMING FOR EACH ICON */
+        /* STAGGER THE ICONS */
 
         .image-button:nth-child(4n + 2) img {
-            animation-delay: 0.6s;
+            animation-delay: 0.4s;
         }
 
         .image-button:nth-child(4n + 3) img {
-            animation-delay: 1.2s;
+            animation-delay: 0.9s;
         }
 
         .image-button:nth-child(4n + 4) img {
-            animation-delay: 1.8s;
+            animation-delay: 1.4s;
         }
 
-        /* HOVER EFFECT */
+        /* HOVER EFFECTS */
 
         .image-button:hover img {
             opacity: 0.7;
@@ -143,6 +158,7 @@
         /* MOBILE */
 
         @media (max-width: 768px) {
+
             body {
                 padding: 10px;
             }
@@ -156,21 +172,15 @@
             }
 
             .button-grid {
+                /* TWO COLUMNS ON MOBILE */
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+
                 column-gap: 18px;
                 row-gap: 30px;
             }
 
             .image-button {
                 padding: 5px;
-            }
-        }
-
-        /* ACCESSIBILITY: REDUCE MOTION WHEN REQUESTED */
-
-        @media (prefers-reduced-motion: reduce) {
-            .image-button img {
-                animation: none;
             }
         }
 
@@ -181,7 +191,7 @@
 
     <!-- HOME LINK -->
 
-    <a class="home-button" href="index.html">
+    <a class="home-button" href="food_for_thought.html">
         ╾━╤デ╦︻
     </a>
 
@@ -193,17 +203,25 @@
 
     <main class="button-grid">
 
+        <!-- BUTTON 1 -->
+
         <a class="image-button" href="america.html">
             <img src="images/gun_symbol.png" alt="America project">
         </a>
+
+        <!-- BUTTON 2 -->
 
         <a class="image-button" href="zine_1.html">
             <img src="images/zine_symbol_1.png" alt="ZINE">
         </a>
 
+        <!-- BUTTON 3 -->
+
         <a class="image-button" href="project_3.html">
             <img src="images/project_3_button.jpeg" alt="Project three">
         </a>
+
+        <!-- BUTTON 4 -->
 
         <a class="image-button" href="project_4.html">
             <img src="images/project_4_button.jpeg" alt="Project four">
@@ -219,5 +237,4 @@
 
 </body>
 </html>
-
 
