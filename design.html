@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,13 +30,10 @@
             font-size: 14px;
             color: fuchsia;
             background-color: #02010f;
-
             margin: 0;
             padding: 15px;
-
             min-height: 100vh;
             min-height: 100dvh;
-
             overflow-x: hidden;
         }
 
@@ -70,15 +69,11 @@
 
         .button-grid {
             display: grid;
-
             grid-template-columns: repeat(4, minmax(0, 1fr));
-
             column-gap: 25px;
             row-gap: 45px;
-
             width: 100%;
             max-width: 1200px;
-
             margin: 0 auto;
         }
 
@@ -87,20 +82,15 @@
         .image-button {
             display: block;
             width: 100%;
-
             text-align: center;
         }
 
         .image-button img {
             display: block;
-
             width: 100%;
             height: auto;
-
             object-fit: contain;
-
             margin: 0 auto;
-
             transition: opacity 0.2s ease;
         }
 
@@ -114,27 +104,9 @@
             opacity: 0.5;
         }
 
-        /* OPTIONAL LABEL UNDER IMAGE */
-
-        .button-label {
-            display: block;
-
-            margin-top: 10px;
-
-            font-size: 11px;
-            line-height: 1.5;
-
-            color: rgb(105, 255, 150);
-        }
-
-        .image-button:hover .button-label {
-            color: fuchsia;
-        }
-
         /* MOBILE */
 
         @media (max-width: 768px) {
-
             body {
                 padding: 10px;
             }
@@ -149,17 +121,10 @@
 
             .button-grid {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
-
                 column-gap: 12px;
                 row-gap: 30px;
             }
-
-            .button-label {
-                margin-top: 8px;
-                font-size: 10px;
-            }
         }
-
     </style>
 </head>
 
@@ -171,59 +136,39 @@
         ╾━╤デ╦︻
     </a>
 
-
     <!-- PAGE TITLE -->
 
-    <h1 class="page-title">
-    </h1>
-
+    <h1 class="page-title"></h1>
 
     <!-- IMAGE BUTTONS -->
 
     <main class="button-grid">
 
-        <!-- BUTTON 1 -->
-
         <a class="image-button" href="america.html">
             <img src="images/gun_symbol.png" alt="America project">
-            <span class="button-label">America</span>
         </a>
-
-
-        <!-- BUTTON 2 -->
 
         <a class="image-button" href="zine_1.html">
             <img src="images/zine_symbol_1.png" alt="ZINE">
-            <span class="button-label">Project two</span>
         </a>
-
-
-        <!-- BUTTON 3 -->
 
         <a class="image-button" href="project_3.html">
             <img src="images/project_3_button.jpeg" alt="Project three">
-            <span class="button-label">Project three</span>
         </a>
-
-
-        <!-- BUTTON 4 -->
 
         <a class="image-button" href="project_4.html">
             <img src="images/project_4_button.jpeg" alt="Project four">
-            <span class="button-label">Project four</span>
         </a>
-
 
         <!-- COPY THIS BLOCK TO ADD ANOTHER BUTTON -->
 
         <a class="image-button" href="project_5.html">
             <img src="images/project_5_button.jpeg" alt="Project five">
-            <span class="button-label">Project five</span>
         </a>
-
 
     </main>
 
 </body>
 </html>
+
 
