@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,9 +78,11 @@
         /* INDIVIDUAL IMAGE BUTTON */
 
         .image-button {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            text-align: center;
+            padding: 8px;
         }
 
         .image-button img {
@@ -90,8 +90,44 @@
             width: 100%;
             height: auto;
             object-fit: contain;
-            margin: 0 auto;
+            transform: rotate(0deg);
+            animation: icon-rock 2.4s ease-in-out infinite;
             transition: opacity 0.2s ease;
+            transform-origin: center center;
+        }
+
+        /* GENTLE ROTATION ANIMATION */
+
+        @keyframes icon-rock {
+            0%, 35%, 100% {
+                transform: rotate(0deg);
+            }
+
+            42% {
+                transform: rotate(-4deg);
+            }
+
+            49% {
+                transform: rotate(3deg);
+            }
+
+            56% {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* SLIGHTLY DIFFERENT TIMING FOR EACH ICON */
+
+        .image-button:nth-child(4n + 2) img {
+            animation-delay: 0.6s;
+        }
+
+        .image-button:nth-child(4n + 3) img {
+            animation-delay: 1.2s;
+        }
+
+        .image-button:nth-child(4n + 4) img {
+            animation-delay: 1.8s;
         }
 
         /* HOVER EFFECT */
@@ -120,11 +156,24 @@
             }
 
             .button-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                column-gap: 12px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                column-gap: 18px;
                 row-gap: 30px;
             }
+
+            .image-button {
+                padding: 5px;
+            }
         }
+
+        /* ACCESSIBILITY: REDUCE MOTION WHEN REQUESTED */
+
+        @media (prefers-reduced-motion: reduce) {
+            .image-button img {
+                animation: none;
+            }
+        }
+
     </style>
 </head>
 
