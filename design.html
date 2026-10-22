@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>𝔭𝔯𝔬𝔧𝔢𝔠𝔱𝔰</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
+    <style>
+        /* GLOBAL */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background-color: #02010f;
+        }
+
+        body {
+            font-family: monospace;
+            font-size: 14px;
+            color: fuchsia;
+            background-color: #02010f;
+
+            margin: 0;
+            padding: 15px;
+
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            overflow-x: hidden;
+        }
+
+        /* LINKS */
+
+        a {
+            color: rgb(105, 255, 150);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:active {
+            color: fuchsia;
+        }
+
+        /* HOME BUTTON */
+
+        .home-button {
+            display: inline-block;
+            margin-bottom: 35px;
+        }
+
+        /* PAGE TITLE */
+
+        .page-title {
+            text-align: center;
+            font-size: 13px;
+            font-weight: normal;
+            margin: 20px 0 50px;
+        }
+
+        /* IMAGE BUTTON GRID */
+
+        .button-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+
+            column-gap: 25px;
+            row-gap: 45px;
+
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+        }
+
+        /* INDIVIDUAL IMAGE BUTTON */
+
+        .image-button {
+            display: block;
+            width: 100%;
+
+            text-align: center;
+        }
+
+        .image-button img {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            object-fit: contain;
+
+            margin: 0 auto;
+
+            transition: opacity 0.2s ease;
+        }
+
+        /* HOVER EFFECT */
+
+        .image-button:hover img {
+            opacity: 0.7;
+        }
+
+        .image-button:active img {
+            opacity: 0.5;
+        }
+
+        /* OPTIONAL LABEL UNDER IMAGE */
+
+        .button-label {
+            display: block;
+
+            margin-top: 10px;
+
+            font-size: 11px;
+            line-height: 1.5;
+
+            color: rgb(105, 255, 150);
+        }
+
+        .image-button:hover .button-label {
+            color: fuchsia;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            body {
+                padding: 10px;
+            }
+
+            .home-button {
+                margin-bottom: 25px;
+            }
+
+            .page-title {
+                margin: 20px 0 35px;
+            }
+
+            .button-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+
+                column-gap: 12px;
+                row-gap: 30px;
+            }
+
+            .button-label {
+                margin-top: 8px;
+                font-size: 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HOME LINK -->
+
+    <a class="home-button" href="index.html">
+        ╾━╤デ╦︻
+    </a>
+
+
+    <!-- PAGE TITLE -->
+
+    <h1 class="page-title">
+        𝔰𝔢𝔩𝔢𝔠𝔱 𝔞 𝔭𝔯𝔬𝔧𝔢𝔠𝔱
+    </h1>
+
+
+    <!-- IMAGE BUTTONS -->
+
+    <main class="button-grid">
+
+        <!-- BUTTON 1 -->
+
+        <a class="image-button" href="america.html">
+            <img src="images/gun_symbol.png" alt="America project">
+            <span class="button-label">America</span>
+        </a>
+
+
+        <!-- BUTTON 2 -->
+
+        <a class="image-button" href="project_2.html">
+            <img src="images/project_2_button.jpeg" alt="Project two">
+            <span class="button-label">Project two</span>
+        </a>
+
+
+        <!-- BUTTON 3 -->
+
+        <a class="image-button" href="project_3.html">
+            <img src="images/project_3_button.jpeg" alt="Project three">
+            <span class="button-label">Project three</span>
+        </a>
+
+
+        <!-- BUTTON 4 -->
+
+        <a class="image-button" href="project_4.html">
+            <img src="images/project_4_button.jpeg" alt="Project four">
+            <span class="button-label">Project four</span>
+        </a>
+
+
+        <!-- COPY THIS BLOCK TO ADD ANOTHER BUTTON -->
+
+        <a class="image-button" href="project_5.html">
+            <img src="images/project_5_button.jpeg" alt="Project five">
+            <span class="button-label">Project five</span>
+        </a>
+
+
+    </main>
+
+</body>
+</html>
 
