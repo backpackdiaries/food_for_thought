@@ -1,99 +1,114 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title> food for thought </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <link rel="manifest" href="manifest.json">
-        <link rel="icon" href="images/icon.png" type="image/png">
-        <link rel="apple-touch-icon" href="images/icon.png">
-        
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>food for thought</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/icon.png">
+
     <style>
-    
-   body {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 12px;
-    color: fuchsia;
-    background-color: #02010f;
-    padding: 15px;
-    margin: 0;
-}
+        * {
+            box-sizing: border-box;
+        }
 
+        html {
+            min-height: 100%;
+            background-color: #02010f;
+        }
 
-   a {
-    color: rgb(105, 255, 150);
-}
+        body {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 12px;
+            color: fuchsia;
+            background-color: #02010f;
 
+            margin: 0;
+            padding: 15px;
 
-   .about-text {
-    max-width: 600px;
-    text-align: left;
-}
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+
+        a {
+            color: rgb(105, 255, 150);
+        }
+
+        .about-text {
+            width: 100%;
+            max-width: 600px;
+            text-align: left;
+        }
 
         .rainbow {
-    background: linear-gradient(
-        90deg,
-        red,
-        orange,
-        yellow,
-        green,
-        cyan,
-        blue,
-        violet,
-        red
-    );
+            background: linear-gradient(
+                90deg,
+                red,
+                orange,
+                yellow,
+                green,
+                cyan,
+                blue,
+                violet,
+                red
+            );
 
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
 
-    animation: rainbow-text 6s linear infinite;
-}
+            animation: rainbow-text 6s linear infinite;
+        }
 
-@keyframes rainbow-text {
-    0% {
-        background-position: 0% 50%;
-    }
+        @keyframes rainbow-text {
+            0% {
+                background-position: 0% 50%;
+            }
 
-    100% {
-        background-position: 300% 50%;
-    }
+            100% {
+                background-position: 300% 50%;
+            }
+        }
 
-  @media (max-width:768px) {
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
 
-    body {
-        padding: 5px;
-    }
-
-    .about-text {
-        width: 80%;
-        max-width: 600px;
-        padding: 10px;
-        font-size: 12px;
-    }
-
-}      
+            .about-text {
+                width: 100%;
+                max-width: 600px;
+                padding: 10px;
+                font-size: 12px;
+            }
+        }
     </style>
+</head>
 
-    
-    <body>
-<br>
-<a href="index.html">╾━╤デ╦︻ 𝖍𝖔𝖒𝖊 𝖕𝖆𝖌𝖊</a> © <br> <br> <br>
+<body>
 
+    <br>
 
-<div class="about-text">
-<pre>  
-Recent graduate from <a href="https://en.wikipedia.org/wiki/Cooper_Union">The Cooper Union</a>'²⁵<br>
+    <a href="index.html">╾━╤デ╦︻ 𝖍𝖔𝖒𝖊 𝖕𝖆𝖌𝖊</a> ©
 
-This website was built using html and css. <br>
+    <br><br><br>
 
-𝙞𝙣𝙦𝙪𝙞𝙧𝙚 𝙬𝙞𝙩𝙝𝙞𝙣 
+    <div class="about-text">
+<pre>
+Recent graduate from <a href="https://en.wikipedia.org/wiki/Cooper_Union">The Cooper Union</a>'²⁵
+
+This website was built using html and css.
+
+𝙞𝙣𝙦𝙪𝙞𝙧𝙚 𝙬𝙞𝙩𝙝𝙞𝙣
 ׂ╰┈➤ <span class="rainbow">𝔞𝔫𝔞𝔩𝔦𝔰𝔞𝔪𝔠𝔣𝔞𝔯𝔩𝔞𝔫𝔢@𝔤𝔪𝔞𝔦𝔩.𝔠𝔬𝔪</span>
-
 </pre>
-</div>
+    </div>
+
 </body>
 </html>
+
       
